@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+	<title>ART'TICK </title>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="Künstlerwebsite" content="STB" />
+	<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+  <!-- Laden einer Symbolbibliothek, um ein Hamburger-Menü (Balken) auf kleinen Bildschirmen anzuzeigen. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<div id="header">
+		<div id="logo">
+			<h1><a href="#">ART'TICK</a></h1>
+		</div>
+	</div>
+	<!-- end #header -->
+	<div class="topnav" id="menu">
+    <a href="index.html" >Home</a>
+		<a href="#">Bilder</a>
+		<a href="about.html" class="active">About</a>
+		<a href="#">Links</a>
+		<a href="#">Contact</a>
+    <a href="javascript:void(0);" class="icon" onclick="ResponsiveNav()">
+      <i class="fa fa-bars"></i>
+    </a>
+	</div>
+	<!-- end #menu -->
+	<div id="main">
+		<div id="content">
+			<h2>About</a></h2>			
+			<p>
+				Diese Website entstand im Rahmen unserer Fachschulausbildung an der Staatlichen 
+				Technikerschule in Berlin. Sie soll nachweisen, dass grundlegende Kompetenzen 
+				im Umgang mit xHTML, CSS, PHP und MySQL erlangt wurden.
+			</p>
+    </div>
+		<!-- end #content -->
+		<div style="clear: both;">&nbsp;</div>
+	</div>
+	<!-- end #main -->
+</div>
+	<div id="footer">
+		<p>			
+			<a href="nirwana">AGBs</a> &mdash; 
+			<a href="Impressum.html">Impressum</a> &mdash; 
+			<a href="nirwana">Datenschutzrichtlinien</a> &mdash; 
+			<a href="Admin.html">Admin</a>
+		</p>
+	</div>
+	<!-- end #footer -->
+	<script>
+    /* Wechseln zwischen dem Hinzufügen und Entfernen der Klasse "responsive" zu topnav, wenn der Benutzer auf das Symbol klickt. */
+		function ResponsiveNav() {
+		  var x = document.getElementById("menu");
+		  if (x.className === "topnav") {
+			x.className += " responsive";
+		  } else {
+			x.className = "topnav";
+		  }
+		}
+  </script>
+
+</body>
+</html>
