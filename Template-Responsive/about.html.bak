@@ -28,7 +28,6 @@
       <i class="fa fa-bars"></i>
     </a>
 	</div>
-	</div>
 	<!-- end #menu -->
 	<div id="main">
     <div id="content">
@@ -38,6 +37,7 @@
         Technikerschule in Berlin. Sie soll nachweisen, dass grundlegende Kompetenzen 
         im Umgang mit xHTML, CSS, PHP und MySQL erlangt wurden.
       </p>
+      <div style="clear: both;">&nbsp;</div>
     </div>
 		<!-- end #content -->
 		<div id="sidebar">
