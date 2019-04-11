@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html>
 <head>
 	<title>ART'TICK </title>
@@ -18,10 +19,10 @@
 	</div>
 	<!-- end #header -->
   <div class="topnav responsive" id="menu">
-    <a href="index.html" class="active">Home</a>
+    <a href="index.html">Home</a>
 		<a href="gallery.html">Gallery</a>
     <a href="artists.html">Artists</a>
-		<a href="about.html">About</a>
+		<a href="about.html" class="active">About</a>
 		<a href="contact.html">Contact</a>
     <a href="javascript:void(0);" class="icon" onclick="ResponsiveNav()">
       <i class="fa fa-bars"></i>
@@ -30,37 +31,14 @@
 	</div>
 	<!-- end #menu -->
 	<div id="main">
-		<div id="content">
-			<div class="preview">
-				<h2 class="title"><a href="#">STB-Logo</a></h2>
-				<p class="meta">Eingestellt von <a href="#">Someone</a> am März 8, 2019 </p>
-				<div class="image">
-					<p><img 
-            src="example-images/stb-squarelogo.jpg" 
-            width="250"		
-            height="250" 
-            alt="STB-Logo" 
-            title="STB-Logo" 
-				  /></p>
-					<p class="links"><a href="#top">Seitenanfang</a></p>
-				</div>
-			</div>
-			<div class="preview">
-				<h2 class="title"><a href="#">Roberta</a></h2>
-				<p class="meta">Eingestellt von <a href="#">Someone</a> am März 8, 2019 </p>
-				<div class="image">
-					<p><img 
-            src="example-images/755.jpg" 
-            width="700"	
-            height="700"
-            alt="Fisch"
-            title="Fisch"
-				  /></p>
-					<p class="links"><a href="#top">Seitenanfang</a></p>
-				</div>
-			</div>
-		<div style="clear: both;">&nbsp;</div>
-		</div>
+    <div id="content">
+      <h2>About</a></h2>			
+      <p>
+        Diese Website entstand im Rahmen unserer Fachschulausbildung an der Staatlichen 
+        Technikerschule in Berlin. Sie soll nachweisen, dass grundlegende Kompetenzen 
+        im Umgang mit xHTML, CSS, PHP und MySQL erlangt wurden.
+      </p>
+    </div>
 		<!-- end #content -->
 		<div id="sidebar">
 			<ul>

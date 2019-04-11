@@ -5,16 +5,14 @@ html {
 body {
 	margin: 0 auto;
 	padding: 0;
-	background: #F7F7F7 url(images/img01.jpg) repeat-x left top;
+	background: #F7F7F7 url(./style-images/img01.jpg) repeat-x left top;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 0.75em;
 	color: #787878;
-	max-width: 95em;
+	max-width: 112em;
 }
 
-* {
-  box-sizing: border-box;
-}
+
 
 h1, h2, h3 {
 	margin: 0;
@@ -55,10 +53,10 @@ a:hover {
 	height: 8.5em;
 	margin: 0 1em;
 	
-	background-image: url(./images/kisspng-red-paintbrush-gold.png);
+	background-image: url(./style-images/kisspng-red-paintbrush-gold.png);
 	background-repeat: no-repeat;
 	background-size: 30rem 6rem;
-	background-position: 30rem center; 
+	background-position: 25rem center; 
 	min-height: 6rem;
 }
 
@@ -86,7 +84,6 @@ a:hover {
 	margin: 0;
 	padding: 2.2em 0 0 0.8em;
 	font: normal 1.2em Georgia, "Times New Roman", Times, serif;
-	font-style: italic;
 } 
 
 #logo a {
@@ -102,14 +99,14 @@ a:hover {
 	float: right;
 	width: 100%;
 	height: 5em;
-	padding: 1.7em 0 0 0;
+	padding: 1.5em 0 0 0;
 	background: #E2E2E2;
 }
 
 #search form {
 	height: 3.4em;
 	margin: 0;
-	padding: 0.8em 0 0 1.7em;
+	padding: 0em 0 0 1.7em;
 }
 
 #search fieldset {
@@ -119,7 +116,8 @@ a:hover {
 }
 
 #search-text {
-	width: 14em;
+	width: 70%;
+	min-width: 5em;
 	padding: 0.5em 0.4em 0.2em 0.4em;
 	border: 0.08em solid #DEDEDE;
 	background: #FFFFFF;
@@ -154,7 +152,7 @@ a:hover {
   display: block;
   color: #FFFFFF;
   text-align: center;
-  padding: 0.5em 3em;
+  padding: 0.46em 3em;
   text-decoration: none;
   font-size: 1.4em;
   font-weight: bold;
@@ -186,7 +184,7 @@ a:hover {
 
 #content {
 	float: left;
-	width: 70%;
+	width: 75%;
 	padding: 0;
 }
 
@@ -245,7 +243,7 @@ div#content:after{
 
 #sidebar {
 	float: right;
-	width: 25%;
+	width: 20%;
 	padding: 0;
 	color: #787878;
 	background: #FFFFFF;
@@ -317,9 +315,9 @@ div#content:after{
 	border-top: 0.083em solid #DEDEDE;
 	font-family: Arial, Helvetica, sans-serif;
 	
-	background-image: url(./images/kisspng-green-paint-brush.png);
+	background-image: url(./style-images/kisspng-green-paint-brush.png);
 	background-repeat: no-repeat;
-	background-size: 25rem 4.16rem;
+	background-size: 22rem 4rem;
 	background-position: 3rem center; 
 }
 
@@ -367,9 +365,11 @@ horizontal). */
   }
 }
 
-/******************************************************************/
-
 /* Gallery Grid */
+
+.gallery {
+  box-sizing: border-box;
+}
 
   .row {
   margin: 8px -16px;

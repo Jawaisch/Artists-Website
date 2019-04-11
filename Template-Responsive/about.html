@@ -7,8 +7,9 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="Künstlerwebsite" content="STB" />
 	<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+  <script type="text/javascript" src="external_javascript.js"></script>
   <!-- Laden einer Symbolbibliothek, um ein Hamburger-Menü (Balken) auf kleinen Bildschirmen anzuzeigen. -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
 	<div id="header">
@@ -17,31 +18,77 @@
 		</div>
 	</div>
 	<!-- end #header -->
-	<div class="topnav" id="menu">
-    <a href="index.html" >Home</a>
-		<a href="#">Bilder</a>
+  <div class="topnav responsive" id="menu">
+    <a href="index.html">Home</a>
+		<a href="gallery.html">Gallery</a>
+    <a href="artists.html">Artists</a>
 		<a href="about.html" class="active">About</a>
-		<a href="#">Links</a>
-		<a href="#">Contact</a>
+		<a href="contact.html">Contact</a>
     <a href="javascript:void(0);" class="icon" onclick="ResponsiveNav()">
       <i class="fa fa-bars"></i>
     </a>
 	</div>
+	</div>
 	<!-- end #menu -->
 	<div id="main">
-		<div id="content">
-			<h2>About</a></h2>			
-			<p>
-				Diese Website entstand im Rahmen unserer Fachschulausbildung an der Staatlichen 
-				Technikerschule in Berlin. Sie soll nachweisen, dass grundlegende Kompetenzen 
-				im Umgang mit xHTML, CSS, PHP und MySQL erlangt wurden.
-			</p>
+    <div id="content">
+      <h2>About</a></h2>			
+      <p>
+        Diese Website entstand im Rahmen unserer Fachschulausbildung an der Staatlichen 
+        Technikerschule in Berlin. Sie soll nachweisen, dass grundlegende Kompetenzen 
+        im Umgang mit xHTML, CSS, PHP und MySQL erlangt wurden.
+      </p>
+      <div style="clear: both;">&nbsp;</div>
     </div>
 		<!-- end #content -->
+		<div id="sidebar">
+			<ul>
+				<li>
+					<div id="search" >
+					<form method="get" action="">
+						<div>
+							<input type="text" name="s" id="search-text" value="Bildname" />
+							<input type="submit" id="search-submit" value="Suchen" />
+						</div>
+					</form>
+					</div>
+          <!-- Das Element darf weder von nach links floatenden, noch von nach rechts floatenden Elementen verdeckt werden. --> 
+					<div style="clear: both;">&nbsp;</div> 
+				</li>
+				<li>
+					<h2>Info</h2>
+					<p>Hier können Sie Kunst kaufen und verkaufen.</p>
+				</li>
+				<li>
+					<h2>Benutzer</h2>
+					<ul>
+						<li><a href="#">A</a></li>
+						<li><a href="#">B</a></li>
+						<li><a href="#">C</a></li>
+					</ul>
+				</li>
+				<li>
+					<h2>Künstler</h2>
+					<ul>
+						<li><a href="#">D</a></li>
+						<li><a href="#">E</a></li>
+						<li><a href="#">F</a></li>
+					</ul>
+				</li>
+				<li>
+					<h2>Archiv</h2>
+					<ul>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<!-- end #sidebar -->
 		<div style="clear: both;">&nbsp;</div>
 	</div>
 	<!-- end #main -->
-</div>
 	<div id="footer">
 		<p>			
 			<a href="nirwana">AGBs</a> &mdash; 
@@ -51,17 +98,5 @@
 		</p>
 	</div>
 	<!-- end #footer -->
-	<script>
-    /* Wechseln zwischen dem Hinzufügen und Entfernen der Klasse "responsive" zu topnav, wenn der Benutzer auf das Symbol klickt. */
-		function ResponsiveNav() {
-		  var x = document.getElementById("menu");
-		  if (x.className === "topnav") {
-			x.className += " responsive";
-		  } else {
-			x.className = "topnav";
-		  }
-		}
-  </script>
-
 </body>
 </html>
