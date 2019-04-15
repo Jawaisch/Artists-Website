@@ -1,5 +1,4 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html>
 <head>
 	<title>ART'TICK </title>
@@ -7,9 +6,6 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="Künstlerwebsite" content="STB" />
 	<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
-  <script type="text/javascript" src="external_javascript.js"></script>
-  <!-- Laden einer Symbolbibliothek, um ein Hamburger-Menü (Balken) auf kleinen Bildschirmen anzuzeigen. -->
-  <link rel="stylesheet" type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
 	<div id="header">
@@ -18,17 +14,14 @@
 		</div>
 	</div>
 	<!-- end #header -->
-  <div class="topnav responsive" id="menu">
+  <div class="topnav" >
     <a href="index.html">Home</a>
 		<a href="gallery.html" class="active">Gallery</a>
     <a href="artists.html">Artists</a>
 		<a href="about.html">About</a>
 		<a href="contact.html">Contact</a>
-    <a href="javascript:void(0);" class="icon" onclick="ResponsiveNav()">
-      <i class="fa fa-bars"></i>
-    </a>
 	</div>
-	<!-- end #menu -->
+	<!-- end #topnav -->
 	<div id="main">
 		<div id="content">
 			<h2>Gallery</h2>
@@ -65,7 +58,7 @@
           </div>
         </div>
       </div>
-		<div style="clear: both;">&nbsp;</div>
+		<div class="clearBoth" >&nbsp;</div>
 		</div>
 		<!-- end #content -->
 		<div id="sidebar">
@@ -80,7 +73,7 @@
 					</form>
 					</div>
           <!-- Das Element darf weder von nach links floatenden, noch von nach rechts floatenden Elementen verdeckt werden. --> 
-					<div style="clear: both;">&nbsp;</div> 
+					<div class="clearBoth" >&nbsp;</div> 
 				</li>
 				<li>
 					<h2>Info</h2>
@@ -113,15 +106,15 @@
 			</ul>
 		</div>
 		<!-- end #sidebar -->
-		<div style="clear: both;">&nbsp;</div>
+		<div class="clearBoth" >&nbsp;</div>
 	</div>
 	<!-- end #main -->
 	<div id="footer">
 		<p>			
-			<a href="nirwana">AGBs</a> &mdash; 
-			<a href="Impressum.html">Impressum</a> &mdash; 
-			<a href="nirwana">Datenschutzrichtlinien</a> &mdash; 
-			<a href="Admin.html">Admin</a>
+			<a href="agbs.php">AGBs</a> &mdash; 
+			<a href="impressum.php">Impressum</a> &mdash; 
+			<a href="dsrl.php">Datenschutzrichtlinien</a> &mdash; 
+			<a href="admin.php">Admin</a>
 		</p>
 	</div>
 	<!-- end #footer -->

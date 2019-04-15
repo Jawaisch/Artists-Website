@@ -41,9 +41,6 @@ a {
 	color: #B21B0F;
 }
 
-a:hover {
-}
-
 /* Header */
 
 #header {
@@ -122,16 +119,12 @@ a:hover {
 
 /* Menu */
 
-#menu {
+.topnav {
 	width: 98%;
 	margin: 0 1%;
 	padding: 0;
 	background: #000000;
-}
-
-.topnav {
-  overflow: hidden;
-  background-color: #333;
+	overflow: hidden;
 }
 
 .topnav a {
@@ -200,7 +193,7 @@ a:hover {
 
 .preview .meta {
 	width: 100%;
-	padding: 0.4em 1.66em 0.4em 0.8em;
+	padding: 0.4em 0.8em 0.4em 0.8em;
 	background: #676767;
 	text-align: left;
 	font-family: Arial, Helvetica, sans-serif;
@@ -262,7 +255,6 @@ a:hover {
 #sidebar h2 {
 	height: 1em;
 	padding-left: 1.3em;
-	letter-spacing: -.0.4em;
 	font-size: 1.8em;
 	color: #000000;
 }
@@ -314,18 +306,28 @@ a:hover {
 	color: #8A8A8A;
 }
 
+@media screen and (max-width: 52em) {
 
 /* Anzeige der Links vertikal statt horizontal. */
-
-@media screen and (max-width: 50em) {
   .topnav a {
     float: none;
     display: block;
     text-align: center;
   }
+
   #header {
-	background-size: 24rem 4rem;
-	background-position: 10% center; 
+    background-size: 24rem 4rem;
+    background-position: 10% center;
+  }
+
+  #sidebar {
+    float: left;
+    width: 97%;
+  }
+
+  #content {
+	  width: 97%;
+  }
 }
 
 /* Gallery Grid ****************************************************************/
