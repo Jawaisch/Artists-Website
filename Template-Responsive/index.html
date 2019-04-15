@@ -6,9 +6,6 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="Künstlerwebsite" content="STB" />
 	<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
-  <script type="text/javascript" src="external_javascript.js"></script>
-  <!-- Laden einer Symbolbibliothek, um ein Hamburger-Menü (Balken) auf kleinen Bildschirmen anzuzeigen. -->
-  <link rel="stylesheet" type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
 	<div id="header">
@@ -17,15 +14,12 @@
 		</div>
 	</div>
 	<!-- end #header -->
-  <div class="topnav responsive" id="menu">
+  <div class="topnav" id="menu">
     <a href="index.html" class="active">Home</a>
 		<a href="gallery.html">Gallery</a>
     <a href="artists.html">Artists</a>
 		<a href="about.html">About</a>
 		<a href="contact.html">Contact</a>
-    <a href="javascript:void(0);" class="icon" onclick="ResponsiveNav()">
-      <i class="fa fa-bars"></i>
-    </a>
 	</div>
 	<!-- end #menu -->
 	<div id="main">
@@ -49,16 +43,16 @@
 				<p class="meta">Eingestellt von <a href="#">Someone</a> am März 8, 2019 </p>
 				<div class="image">
 					<p><img 
-            src="example-images/755.jpg" 
-            width="700"	
-            height="700"
-            alt="Fisch"
-            title="Fisch"
+            src="example-images/stb-squarelogo.jpg" 
+            width="250"		
+            height="250" 
+            alt="STB-Logo" 
+            title="STB-Logo" 
 				  /></p>
 					<p class="links"><a href="#top">Seitenanfang</a></p>
 				</div>
 			</div>
-		<div style="clear: both;">&nbsp;</div>
+		<div class="clearBoth" >&nbsp;</div>
 		</div>
 		<!-- end #content -->
 		<div id="sidebar">
@@ -73,7 +67,7 @@
 					</form>
 					</div>
           <!-- Das Element darf weder von nach links floatenden, noch von nach rechts floatenden Elementen verdeckt werden. --> 
-					<div style="clear: both;">&nbsp;</div> 
+					<div class="clearBoth" >&nbsp;</div> 
 				</li>
 				<li>
 					<h2>Info</h2>
@@ -106,15 +100,15 @@
 			</ul>
 		</div>
 		<!-- end #sidebar -->
-		<div style="clear: both;">&nbsp;</div>
+		<div class="clearBoth" >&nbsp;</div>
 	</div>
 	<!-- end #main -->
 	<div id="footer">
 		<p>			
-			<a href="nirwana">AGBs</a> &mdash; 
-			<a href="Impressum.html">Impressum</a> &mdash; 
-			<a href="nirwana">Datenschutzrichtlinien</a> &mdash; 
-			<a href="Admin.html">Admin</a>
+			<a href="agbs.php">AGBs</a> &mdash; 
+			<a href="impressum.php">Impressum</a> &mdash; 
+			<a href="dsrl.php">Datenschutzrichtlinien</a> &mdash; 
+			<a href="admin.php">Admin</a>
 		</p>
 	</div>
 	<!-- end #footer -->
