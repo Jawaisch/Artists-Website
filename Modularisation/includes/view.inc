@@ -1,0 +1,160 @@
+<?php
+/*
+ @file Diese Datei entählt Funktionen zur Erzeugung von HTML-Elementen.
+*/
+
+include( "./includes/content.inc" );
+
+/* ****************************************************************************************
+@funktion PrintHtmlHeader( )
+
+@brief Erzeugt den HTML-Kopf der Seite.
+    
+@param  -
+
+@return - 
+****************************************************************************************** */
+function PrintHtmlHeader( )
+{
+  echo <<<EO_HEADER
+
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  <html>
+    <head>
+      <title>ART'TICK </title>
+
+      <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+      <meta name="Künstlerwebsite" content="STB" />
+      <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    </head>
+    <body>
+      <div id="header">
+        <div id="logo">
+          <h1><a href="#">ART'TICK</a></h1>
+        </div>
+      </div>
+      <!-- end #header -->
+
+EO_HEADER;
+}
+
+
+/* ****************************************************************************************
+@funktion PrintHtmlTopnav( )
+
+@brief Erzeugt die Haupt-Navigations-Leiste.
+    
+@param  -
+
+@return - 
+****************************************************************************************** */
+function PrintHtmlTopnav( )
+{
+echo <<<EO_TOPNAV
+ 
+  <div class="topnav" >
+    <a href="index.html" class="active">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="artists.html">Artists</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <!-- end #topnav -->
+  <div id="main">
+
+EO_TOPNAV;
+}
+
+
+/* ****************************************************************************************
+@funktion PrintHtmlSidebar( $user_type )
+
+@brief Erzeugt die Sidebar.
+    
+@param  - $user_type
+
+@return - 
+****************************************************************************************** */
+function PrintHtmlSidebar( $user_type )
+{
+  echo <<<EO_SIDEBAR
+
+  <div id="sidebar">
+    <ul>
+      <li>
+        <div id="search" >
+          <form method="get" action="">
+            <div>
+              <input type="text" name="s" id="search-text" value="Bildname" />
+              <input type="submit" id="search-submit" value="Suchen" />
+            </div>
+          </form>
+        </div>
+        <!-- Das Element darf weder von nach links floatenden, noch von nach rechts floatenden Elementen verdeckt werden. --> 
+        <div class="clearBoth" >&nbsp;</div> 
+      </li>
+      <li>
+        <h2>Info</h2>
+        <p>Hier können Sie Kunst kaufen und verkaufen.</p>
+      </li>
+      <li>
+        <h2>Benutzer</h2>
+        <ul>
+          <li><a href="#">A</a></li>
+          <li><a href="#">B</a></li>
+          <li><a href="#">C</a></li>
+        </ul>
+      </li>
+      <li>
+        <h2>Künstler</h2>
+        <ul>
+          <li><a href="#">D</a></li>
+          <li><a href="#">E</a></li>
+          <li><a href="#">F</a></li>
+        </ul>
+      </li>
+      <li>
+        <h2>Archiv</h2>
+        <ul>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <!-- end #sidebar -->
+  <div class="clearBoth" >&nbsp;</div>
+</div>
+<!-- end #main -->
+
+EO_SIDEBAR;
+}
+
+
+/* ****************************************************************************************
+@funktion PrintHtmlFooter( )
+
+@brief Erzeugt den HTML-Footer der Seite
+    
+@param - 
+@return - 
+****************************************************************************************** */
+function PrintHtmlFooter( )
+{
+  echo <<<EO_FOOTER
+
+      <div id="footer">
+        <p>     
+          <a href="agbs.php">AGBs</a> &mdash; 
+          <a href="impressum.php">Impressum</a> &mdash; 
+          <a href="dsrl.php">Datenschutzrichtlinien</a> &mdash; 
+          <a href="admin.php">Admin</a>
+        </p>
+      </div>
+    <!-- end #footer -->
+    </body>
+  </html>
+
+EO_FOOTER;
+}
