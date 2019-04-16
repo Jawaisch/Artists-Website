@@ -90,7 +90,7 @@ a {
 #search form {
 	height: 3.4em;
 	margin: 0;
-	padding: 0em 0 0 1.7em;
+	padding: 0em 0 0 0.7em;
 }
 
 #search fieldset {
@@ -101,7 +101,7 @@ a {
 
 #search-text {
 	width: 70%;
-	min-width: 5em;
+	min-width: 4.5em;
 	padding: 0.5em 0.4em 0.2em 0.4em;
 	border: 0.08em solid #DEDEDE;
 	background: #FFFFFF;
@@ -111,10 +111,12 @@ a {
 
 #search-submit {
 	width: 4.2em;
-	height: 1.8em;
+	height: 2em;
+	margin: 0.5em 0.1em 0 0;
 	border: none;
 	background: #B9B9B9;
 	color: #000000;
+
 }
 
 /* Menu */
@@ -170,7 +172,7 @@ a {
 #content {
 	float: left;
 	width: 75%;
-	padding: 0;
+	padding: 0 0.7em 0 0;
 }
 
 .preview {
@@ -193,7 +195,7 @@ a {
 
 .preview .meta {
 	width: 100%;
-	padding: 0.4em 0.8em 0.4em 0.8em;
+	padding: 0.4em 0.6em 0.4em 0.6em;
 	background: #676767;
 	text-align: left;
 	font-family: Arial, Helvetica, sans-serif;
@@ -227,6 +229,7 @@ a {
 	color: #787878;
 	background: #FFFFFF;
 	border: 0.083em solid #E2E2E2;
+	font-size: 1.1em;
 }
 
 #sidebar ul {
@@ -306,7 +309,7 @@ a {
 	color: #8A8A8A;
 }
 
-@media screen and (max-width: 52em) {
+@media screen and (max-width: 54em) {
 
 /* Anzeige der Links vertikal statt horizontal. */
   .topnav a {

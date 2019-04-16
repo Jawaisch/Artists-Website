@@ -3,8 +3,6 @@
  @file Diese Datei entählt Funktionen zur Erzeugung von HTML-Elementen.
 */
 
-include( "./includes/content.inc" );
-
 /* ****************************************************************************************
 @funktion PrintHtmlHeader( )
 
@@ -18,22 +16,22 @@ function PrintHtmlHeader( )
 {
   echo <<<EO_HEADER
 
-  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-  <html>
-    <head>
-      <title>ART'TICK </title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>ART'TICK </title>
 
-      <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-      <meta name="Künstlerwebsite" content="STB" />
-      <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
-    </head>
-    <body>
-      <div id="header">
-        <div id="logo">
-          <h1><a href="#">ART'TICK</a></h1>
-        </div>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="Künstlerwebsite" content="STB" />
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+  </head>
+  <body>
+    <div id="header">
+      <div id="logo">
+        <h1><a href="#">ART'TICK</a></h1>
       </div>
-      <!-- end #header -->
+    </div>
+    <!-- end #header -->
 
 EO_HEADER;
 }
@@ -77,8 +75,7 @@ EO_TOPNAV;
 ****************************************************************************************** */
 function PrintHtmlSidebar( $user_type )
 {
-  echo <<<EO_SIDEBAR
-
+  echo <<<EO_TOP
   <div id="sidebar">
     <ul>
       <li>
@@ -90,45 +87,145 @@ function PrintHtmlSidebar( $user_type )
             </div>
           </form>
         </div>
-        <!-- Das Element darf weder von nach links floatenden, noch von nach rechts floatenden Elementen verdeckt werden. --> 
         <div class="clearBoth" >&nbsp;</div> 
       </li>
-      <li>
-        <h2>Info</h2>
-        <p>Hier können Sie Kunst kaufen und verkaufen.</p>
-      </li>
-      <li>
-        <h2>Benutzer</h2>
-        <ul>
-          <li><a href="#">A</a></li>
-          <li><a href="#">B</a></li>
-          <li><a href="#">C</a></li>
-        </ul>
-      </li>
-      <li>
-        <h2>Künstler</h2>
-        <ul>
-          <li><a href="#">D</a></li>
-          <li><a href="#">E</a></li>
-          <li><a href="#">F</a></li>
-        </ul>
-      </li>
-      <li>
-        <h2>Archiv</h2>
-        <ul>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-        </ul>
-      </li>
+
+EO_TOP;
+
+  switch($user_type)
+    {
+
+      case    "admin":
+              HtmlSidebarAdmin();
+              break;
+
+      case    "bearbeiter":
+              HtmlSidebarAdmin();
+              break;
+
+      case    "kuenstler":
+              HtmlSidebarKünstler();
+              break;
+
+      case    "kunde":
+              HtmlSidebarKunde();
+              break;
+
+      case    "login":
+              break;
+
+      case    "reg":
+              break;
+
+      default:HtmlSidebarGast();
+    }
+
+  echo <<<EO_END
+
     </ul>
   </div>
   <!-- end #sidebar -->
   <div class="clearBoth" >&nbsp;</div>
 </div>
 <!-- end #main -->
+EO_END;
 
-EO_SIDEBAR;
+}
+
+function HtmlSidebarAdmin()
+{
+  echo <<<EO_MID
+      <li>
+        <h2>Administration</h2>
+        <p>Hier könnte perspektivisch eine Umgebung zum Verwalten der Webseite implementiert werden.</p>
+      </li>
+      <li>
+        <h2>Gast</h2>
+        <ul>
+          <li><a href="#">Login</a></li>
+          <li><a href="#">Registrieren</a></li>
+        </ul>
+      </li>
+      <li>
+        <h2>Benutzer</h2>
+        <ul>
+          <li><a href="#">Mein Profil</a></li>
+          <li><a href="#">Kaufübersicht</a></li>
+          <li><a href="#">Künstler werden</a></li>
+        </ul>
+      </li>
+      <li>
+        <h2>Künstler</h2>
+        <ul>
+          <li><a href="#">Kunst verkaufen</a></li>
+          <li><a href="#">Meine Kunst</a></li>
+          <li><a href="#">Verkaufsübersicht</a></li>
+        </ul>
+      </li>
+EO_MID;
+}
+
+function HtmlSidebarKunde()
+{
+  echo <<<EO_MID
+      <li>
+        <h2>Info</h2>
+        <p>Sie müssen sich als Künstler registrieren bevor Sie Kunst verkaufen können.</p>
+      </li>
+      <li>
+        <h2>Benutzer</h2>
+        <ul>
+          <li><a href="#">Logout</a></li>
+          <li><a href="#">Mein Profil</a></li>
+          <li><a href="#">Kaufübersicht</a></li>
+          <li><a href="#">Künstler werden</a></li>
+        </ul>
+      </li>
+EO_MID;
+}
+
+function HtmlSidebarKünstler()
+{
+  echo <<<EO_MID
+      <li>
+        <h2>Info</h2>
+        <p>Laden Sie ein Bild Ihrer Kunst hoch um Interessenten zu finden.</p>
+      </li>
+      <li>
+        <h2>Benutzer</h2>
+        <ul>
+          <li><a href="#">Logout</a></li>
+          <li><a href="#">Mein Profil</a></li>
+          <li><a href="#">Kaufübersicht</a></li>
+        </ul>
+      </li>
+      <li>
+        <h2>Künstler</h2>
+        <ul>
+          <li><a href="#">Kunst verkaufen</a></li>
+          <li><a href="#">Meine Kunst</a></li>
+          <li><a href="#">Verkaufsübersicht</a></li>
+        </ul>
+      </li>
+EO_MID;
+}
+
+function HtmlSidebarGast()
+{
+  echo <<<EO_MID
+      <li>
+        <h2>Info</h2>
+        <p>Sie müssen sich einloggen bevor Sie Kunst kaufen und verkaufen können.</p>
+      </li>
+      <li>
+        <h2>Gast</h2>
+        <ul>
+          <li><a href="#">Login</a></li>
+          <li><a href="#">Als Kunde registrieren</a></li>
+          <li><a href="#">Als Künstler registrieren</a></li>
+        </ul>
+      </li>
+EO_MID;
 }
 
 
@@ -144,17 +241,17 @@ function PrintHtmlFooter( )
 {
   echo <<<EO_FOOTER
 
-      <div id="footer">
-        <p>     
-          <a href="agbs.php">AGBs</a> &mdash; 
-          <a href="impressum.php">Impressum</a> &mdash; 
-          <a href="dsrl.php">Datenschutzrichtlinien</a> &mdash; 
-          <a href="admin.php">Admin</a>
-        </p>
-      </div>
-    <!-- end #footer -->
-    </body>
-  </html>
+    <div id="footer">
+      <p>     
+        <a href="agbs.php">AGBs</a> &mdash; 
+        <a href="impressum.php">Impressum</a> &mdash; 
+        <a href="dsrl.php">Datenschutzrichtlinien</a> &mdash; 
+        <a href="admin.php">Admin</a>
+      </p>
+    </div>
+  <!-- end #footer -->
+  </body>
+</html>
 
 EO_FOOTER;
 }
