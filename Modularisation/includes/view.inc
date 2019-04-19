@@ -38,29 +38,62 @@ EO_HEADER;
 
 
 /* ****************************************************************************************
-@funktion PrintHtmlTopnav( )
+@funktion PrintHtmlTopnav( $path )
 
-@brief Erzeugt die Haupt-Navigations-Leiste.
+@brief Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
+       aufgerufenen Seitenlink, damit dieser in roter Farbe dargestellt wird.
     
-@param  -
+@param  - Den Pfad und Namen des aktuellen Dokuments
 
 @return - 
 ****************************************************************************************** */
-function PrintHtmlTopnav( )
+function PrintHtmlTopnav( $path )
 {
-echo <<<EO_TOPNAV
- 
-  <div class="topnav" >
-    <a href="index.html" class="active">Home</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="artists.html">Artists</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-  </div>
-  <!-- end #topnav -->
-  <div id="main">
+  // zerlegt die Zeichenkette an Stellen /
+  $keywords = preg_split("*/*", $path);
+  $site_name = $keywords[2];
 
-EO_TOPNAV;
+  $class1 = "";
+  $class2 = "";
+  $class3 = "";
+  $class4 = "";
+  $class5 = "";
+
+  switch( $site_name )
+    {
+      case    "index.php":
+              $class1 = "class=\"active\"";
+              break;
+
+      case    "galerie.php":
+              $class2 = "class=\"active\"";
+              break;
+
+      case    "kunstler.php":
+              $class3 = "class=\"active\"";
+              break;
+
+      case    "ueber.php":
+              $class4 = "class=\"active\"";
+              break;
+
+      case    "kontakt.php":
+              $class5 = "class=\"active\"";
+              break;
+    }
+
+  $output = ''.
+  '   <div class="topnav" >'."\n".
+  '     <a href="index.php" '.   $class1 .' >Home</a>'."\n".
+  '     <a href="galerie.php" '. $class2 .' >Galerie</a>'."\n".
+  '     <a href="kunstler.php" '.$class3 .' >Künstler</a>'."\n".
+  '     <a href="ueber.php" '.   $class4 .' >Über uns</a>'."\n".
+  '     <a href="kontakt.php" '. $class5 .' >Kontakt</a>'."\n".
+  '   </div>'."\n".
+  '   <!-- end #topnav -->'."\n".
+  '   <div id="main">'."\n";
+
+  echo $output;
 }
 
 
@@ -142,7 +175,7 @@ function HtmlSidebarAdmin()
       <li>
         <h2>Gast</h2>
         <ul>
-          <li><a href="#">Login</a></li>
+          <li><a href="#">Logout</a></li>
           <li><a href="#">Registrieren</a></li>
         </ul>
       </li>
@@ -243,7 +276,7 @@ function PrintHtmlFooter( )
 
     <div id="footer">
       <p>     
-        <a href="agbs.php">AGBs</a> &mdash; 
+        <a href="agb.php">AGBs</a> &mdash; 
         <a href="impressum.php">Impressum</a> &mdash; 
         <a href="dsrl.php">Datenschutzrichtlinien</a> &mdash; 
         <a href="admin.php">Admin</a>
