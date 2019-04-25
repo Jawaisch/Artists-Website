@@ -12,43 +12,43 @@ function KWS_DB_Connect( $user )
       // User-Parameter
       case    "admin":
               $DBUser =      "kws_admin";
-              $DBPassword =  "kwsadmin";
+              $DBPassword =  "kws_admin";
               break;
 
       case    "bearbeiter":
               $DBUser =      "kws_bearbeiter";
-              $DBPassword =  "kwsbearbeit";
+              $DBPassword =  "kws_bearbeiter";
               break;
 
       case    "kuenstler":
               $DBUser =      "kws_kuenstler";
-              $DBPassword =  "kwskunst";
+              $DBPassword =  "kws_kuenstler";
               break;
 
       case    "kunde":
               $DBUser =      "kws_kunde";
-              $DBPassword =  "kwskunde";
+              $DBPassword =  "kws_kunde";
               break;
 
       case    "login":
               $DBUser =      "kws_login";
-              $DBPassword =  "kwslogin";
+              $DBPassword =  "kws_login";
               break;
 
       case    "reg":
               $DBUser =      "kws_reg";
-              $DBPassword =  "kwsreg";
+              $DBPassword =  "kws_reg";
               break;
 
       default:
               $DBUser =      "kws_gast";
-              $DBPasswort =  "kwsgast";
+              $DBPassword =  "kws_gast";
 
 
     }
 
     // Neues Objekt der Klasse mysqli um Datenbankverbindung aufzubauen
-    $dbconn = new mysqli(DBServer,$DBUser,$DBPassword,DBName);
+    $dbconn = new mysqli(DBServer, $DBUser, $DBPassword, DBName);
 
     //Ueberpruefen ob Verbindung erfolgreich
 
@@ -63,21 +63,21 @@ function KWS_DB_Connect( $user )
          "</div>";
 
       die("Netzwerkproblem - Abbruch");
-      $_SESSION['login']['user'] = 'gast';
+      //$_SESSION['login']['user'] = 'gast';
       }
-      else
+	  }
+	  else
+	  {
+      if( MYDEBUG )
       {
-        $_SESSION['login']['user'] = $user;
-        if( MYDEBUG )
-        {
-        echo "\n <div class=\"info\">".
-           "\n <b>Verbindung zu ".$dbconn->host_info." aufgebaut</b>".
-           "</div>";
-        }
+      echo "\n <div class=\"info\">".
+         "\n <b>Verbindung zu ".$dbconn->host_info." aufgebaut</b>".
+         "</div>";
       }
-        $dbconn->query("SET NAMES utf8");
-        return $dbconn;
-      }
+	  }
+		$dbconn->query("SET NAMES utf8");
+		return $dbconn;
+}
 
 /*
 ************************************************************************************
@@ -143,6 +143,7 @@ function GetLast3Pics( $dbconn )
                         bild.Titel,
                         bild.Hoehe,
                         bild.Breite,
+						bild.Einstell_Zeitstempel,
                         Kuenstler.KName
                  FROM bild INNER JOIN Kuenstler USING (Kuenstler_ID)
                  ORDER BY bild.Einstell_Zeitstempel DESC
@@ -232,6 +233,7 @@ function GetAllPics( $dbconn )
     			@return:
 ************************************************************************************
 */
+/*
 function GetPic( $dbconn , $Session_ID['Bild_ID'] )
 {
   $SQL_String = "SELECT bild.Bild_ID,
@@ -269,6 +271,7 @@ function GetPic( $dbconn , $Session_ID['Bild_ID'] )
 
     return $Three_Pics_arr;
 }
+*/
 
 /*
 ************************************************************************************
@@ -297,5 +300,4 @@ function GetPic( $dbconn , $Session_ID['Bild_ID'] )
 ************************************************************************************
 */
 
-
- ?>
+?>

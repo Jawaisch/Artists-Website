@@ -15,7 +15,6 @@
 function PrintHtmlHeader( )
 {
   echo <<<EO_HEADER
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
   <head>
@@ -28,7 +27,7 @@ function PrintHtmlHeader( )
   <body>
     <div id="header">
       <div id="logo">
-        <h1><a href="#">ART'TICK</a></h1>
+        <h1>ART'TICK</h1>
       </div>
     </div>
     <!-- end #header -->
@@ -38,20 +37,22 @@ EO_HEADER;
 
 
 /* ****************************************************************************************
-@funktion PrintHtmlTopnav( $path )
+@funktion PrintHtmlTopnav( $path, $Session_ID )
 
 @brief Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
        aufgerufenen Seitenlink, damit dieser in roter Farbe dargestellt wird.
     
 @param  - Den Pfad und Namen des aktuellen Dokuments
+		  Session_ID
 
 @return - 
 ****************************************************************************************** */
-function PrintHtmlTopnav( $path )
+function PrintHtmlTopnav( $path, $Session_ID )
 {
-  // zerlegt die Zeichenkette an Stellen /
+  // zerlegt die Zeichenkette an Stellen mit /
   $keywords = preg_split("*/*", $path);
-  $site_name = $keywords[2];
+  // Den Wert des letzten Array Elements auslesen
+  $site_name = end($keywords);//$keywords[3];
 
   $class1 = "";
   $class2 = "";
@@ -83,45 +84,47 @@ function PrintHtmlTopnav( $path )
     }
 
   $output = ''.
-  '   <div class="topnav" >'."\n".
-  '     <a href="index.php" '.   $class1 .' >Home</a>'."\n".
-  '     <a href="galerie.php" '. $class2 .' >Galerie</a>'."\n".
-  '     <a href="kunstler.php" '.$class3 .' >Künstler</a>'."\n".
-  '     <a href="ueber.php" '.   $class4 .' >Über uns</a>'."\n".
-  '     <a href="kontakt.php" '. $class5 .' >Kontakt</a>'."\n".
-  '   </div>'."\n".
-  '   <!-- end #topnav -->'."\n".
-  '   <div id="main">'."\n";
+  '    <div class="topnav" >'."\n".
+  '      <a href="index.php?kws='.$Session_ID.'" '.   $class1 .' >Home</a>'."\n".
+  '      <a href="galerie.php?kws='.$Session_ID.'" '. $class2 .' >Galerie</a>'."\n".
+  '      <a href="kunstler.php?kws='.$Session_ID.'" '.$class3 .' >Künstler</a>'."\n".
+  '      <a href="ueber.php?kws='.$Session_ID.'" '.   $class4 .' >Über uns</a>'."\n".
+  '      <a href="kontakt.php?kws='.$Session_ID.'" '. $class5 .' >Kontakt</a>'."\n".
+  '    </div>'."\n".
+  '    <!-- end #topnav -->'."\n".
+  '    <div id="main">'."\n";
 
   echo $output;
 }
 
 
 /* ****************************************************************************************
-@funktion PrintHtmlSidebar( $user_type )
+@funktion PrintHtmlSidebar( $user_type, $Session_ID )
 
 @brief Erzeugt die Sidebar.
     
-@param  - $user_type
+@param  - user_type: ein String der die Art des Users repräsentiert z.B. kuenstler
+		  Session_ID
 
 @return - 
 ****************************************************************************************** */
-function PrintHtmlSidebar( $user_type )
+function PrintHtmlSidebar( $user_type, $Session_ID )
 {
+	//print_r($user_type);
   echo <<<EO_TOP
-  <div id="sidebar">
-    <ul>
-      <li>
-        <div id="search" >
-          <form method="get" action="">
-            <div>
-              <input type="text" name="s" id="search-text" value="Bildname" />
-              <input type="submit" id="search-submit" value="Suchen" />
-            </div>
-          </form>
-        </div>
-        <div class="clearBoth" >&nbsp;</div> 
-      </li>
+	  <div id="sidebar">
+		<ul>
+		  <li>
+			<div id="search" >
+			  <form method="get" action="">
+				<div>
+				  <input type="text" name="s" id="search-text" value="Bildname" />
+				  <input type="submit" id="search-submit" value="Suchen" />
+				</div>
+			  </form>
+			</div>
+			<div class="clearBoth" >&nbsp;</div> 
+		  </li>
 
 EO_TOP;
 
@@ -129,19 +132,19 @@ EO_TOP;
     {
 
       case    "admin":
-              HtmlSidebarAdmin();
+              HtmlSidebarAdmin( $Session_ID );
               break;
 
       case    "bearbeiter":
-              HtmlSidebarAdmin();
+              HtmlSidebarAdmin( $Session_ID );
               break;
 
       case    "kuenstler":
-              HtmlSidebarKünstler();
+              HtmlSidebarKünstler( $Session_ID );
               break;
 
       case    "kunde":
-              HtmlSidebarKunde();
+              HtmlSidebarKunde( $Session_ID );
               break;
 
       case    "login":
@@ -150,22 +153,22 @@ EO_TOP;
       case    "reg":
               break;
 
-      default:HtmlSidebarGast();
+      default:HtmlSidebarGast( $Session_ID );
     }
 
   echo <<<EO_END
 
-    </ul>
-  </div>
-  <!-- end #sidebar -->
-  <div class="clearBoth" >&nbsp;</div>
-</div>
-<!-- end #main -->
+		</ul>
+	  </div>
+	  <!-- end #sidebar -->
+	  <div class="clearBoth" >&nbsp;</div>
+	</div>
+	<!-- end #main -->
 EO_END;
 
 }
 
-function HtmlSidebarAdmin()
+function HtmlSidebarAdmin( $Session_ID )
 {
   echo <<<EO_MID
       <li>
@@ -198,91 +201,91 @@ function HtmlSidebarAdmin()
 EO_MID;
 }
 
-function HtmlSidebarKunde()
+function HtmlSidebarKunde( $Session_ID )
 {
   echo <<<EO_MID
-      <li>
-        <h2>Info</h2>
-        <p>Sie müssen sich als Künstler registrieren bevor Sie Kunst verkaufen können.</p>
-      </li>
-      <li>
-        <h2>Benutzer</h2>
-        <ul>
-          <li><a href="#">Logout</a></li>
-          <li><a href="#">Mein Profil</a></li>
-          <li><a href="#">Kaufübersicht</a></li>
-          <li><a href="#">Künstler werden</a></li>
-        </ul>
-      </li>
+		  <li>
+			<h2>Info</h2>
+			<p>Sie müssen sich als Künstler registrieren bevor Sie Kunst verkaufen können.</p>
+		  </li>
+		  <li>
+			<h2>Benutzer</h2>
+			<ul>
+			  <li><a href="#">Logout</a></li>
+			  <li><a href="#">Mein Profil</a></li>
+			  <li><a href="#">Kaufübersicht</a></li>
+			  <li><a href="#">Künstler werden</a></li>
+			</ul>
+		  </li>
 EO_MID;
 }
 
-function HtmlSidebarKünstler()
+function HtmlSidebarKünstler( $Session_ID )
 {
   echo <<<EO_MID
-      <li>
-        <h2>Info</h2>
-        <p>Laden Sie ein Bild Ihrer Kunst hoch um Interessenten zu finden.</p>
-      </li>
-      <li>
-        <h2>Benutzer</h2>
-        <ul>
-          <li><a href="#">Logout</a></li>
-          <li><a href="#">Mein Profil</a></li>
-          <li><a href="#">Kaufübersicht</a></li>
-        </ul>
-      </li>
-      <li>
-        <h2>Künstler</h2>
-        <ul>
-          <li><a href="#">Kunst verkaufen</a></li>
-          <li><a href="#">Meine Kunst</a></li>
-          <li><a href="#">Verkaufsübersicht</a></li>
-        </ul>
-      </li>
+		  <li>
+			<h2>Info</h2>
+			<p>Laden Sie ein Bild Ihrer Kunst hoch um Interessenten zu finden.</p>
+		  </li>
+		  <li>
+			<h2>Benutzer</h2>
+			<ul>
+			  <li><a href="#">Logout</a></li>
+			  <li><a href="#">Mein Profil</a></li>
+			  <li><a href="#">Kaufübersicht</a></li>
+			</ul>
+		  </li>
+		  <li>
+			<h2>Künstler</h2>
+			<ul>
+			  <li><a href="#">Kunst verkaufen</a></li>
+			  <li><a href="#">Meine Kunst</a></li>
+			  <li><a href="#">Verkaufsübersicht</a></li>
+			</ul>
+		  </li>
 EO_MID;
 }
 
-function HtmlSidebarGast()
+function HtmlSidebarGast( $Session_ID )
 {
   echo <<<EO_MID
-      <li>
-        <h2>Info</h2>
-        <p>Sie müssen sich einloggen bevor Sie Kunst kaufen und verkaufen können.</p>
-      </li>
-      <li>
-        <h2>Gast</h2>
-        <ul>
-          <li><a href="#">Login</a></li>
-          <li><a href="#">Als Kunde registrieren</a></li>
-          <li><a href="#">Als Künstler registrieren</a></li>
-        </ul>
-      </li>
+		  <li>
+			<h2>Info</h2>
+			<p>Sie müssen sich einloggen bevor Sie Kunst kaufen und verkaufen können.</p>
+		  </li>
+		  <li>
+			<h2>Gast</h2>
+			<ul>
+			  <li><a href="./login.php?kws=$Session_ID">Login</a></li>
+			  <li><a href="./kunde_reg.php?kws=$Session_ID">Als Kunde registrieren</a></li>
+			  <li><a href="./kuenstler_reg.php?kws=$Session_ID">Als Künstler registrieren</a></li>
+			</ul>
+		  </li>
 EO_MID;
 }
 
 
 /* ****************************************************************************************
-@funktion PrintHtmlFooter( )
+@funktion PrintHtmlFooter( $Session_ID )
 
 @brief Erzeugt den HTML-Footer der Seite
     
-@param - 
+@param - $Session_ID
 @return - 
 ****************************************************************************************** */
-function PrintHtmlFooter( )
+function PrintHtmlFooter( $Session_ID )
 {
   echo <<<EO_FOOTER
 
     <div id="footer">
       <p>     
-        <a href="agb.php">AGBs</a> &mdash; 
-        <a href="impressum.php">Impressum</a> &mdash; 
-        <a href="dsrl.php">Datenschutzrichtlinien</a> &mdash; 
-        <a href="admin.php">Admin</a>
+        <a href="agb.php?kws=$Session_ID">AGBs</a> &mdash; 
+        <a href="impressum.php?kws=$Session_ID">Impressum</a> &mdash; 
+        <a href="dsrl.php?kws=$Session_ID">Datenschutzrichtlinien</a> &mdash; 
+        <a href="admin.php?kws=$Session_ID">Admin</a>
       </p>
     </div>
-  <!-- end #footer -->
+	<!-- end #footer -->
   </body>
 </html>
 
