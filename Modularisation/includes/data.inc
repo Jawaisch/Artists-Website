@@ -1,6 +1,5 @@
 <?php
 
-
 function KWS_DB_Connect( $user )
 {
     define("DBServer","localhost");
@@ -63,24 +62,164 @@ function KWS_DB_Connect( $user )
          "</div>";
 
       die("Netzwerkproblem - Abbruch");
-      //$_SESSION['login']['user'] = 'gast';
+      $_SESSION['login']['user'] = 'gast';
       }
-	  }
-	  else
-	  {
-      if( MYDEBUG )
+      else
       {
-      echo "\n <div class=\"info\">".
-         "\n <b>Verbindung zu ".$dbconn->host_info." aufgebaut</b>".
-         "</div>";
+
+        if( MYDEBUG )
+        {
+        echo "\n <div class=\"info\">".
+           "\n <b>Verbindung zu ".$dbconn->host_info." aufgebaut</b>".
+           "</div>";
+        }
       }
-	  }
-		$dbconn->query("SET NAMES utf8");
-		return $dbconn;
+        
+     }
+	$dbconn->query("SET NAMES utf8");
+    return $dbconn;
 }
 
-/*
-************************************************************************************
+/* ************************************************************************************
+  @function CheckLoginFormData()
+
+		@brief: Überprüft, ob alle Formularfelder der Anmeldung ausgefüllt sind
+
+		Diese Funktion erwartet, dass die Formulardaten per POST übermittel wurden.
+		Folgende Eingabedaten werden überprüft:
+		- $_POST['login']
+		- $_POST['passwd']
+
+		@para - Keine
+
+		@return -  bool 
+************************************************************************************ */
+function CheckLoginFormData( )
+{
+	return ( !empty($_POST['login']) && !empty($_POST['passwd']) ); 
+}
+
+
+/* ************************************************************************************
+			@function GetUidByLogin( $dbconn, $login , $pwd )
+
+			@brief: Holt die User_ID über die Anmeldedaten
+
+			@para - $dbconn		   Eine Datenbankverbindung der Klasse mysqli
+				  - $login(string) Der Login des Users
+				  - &pwd(string)   Das Passwort des Users
+
+			@return -  (int)uid im Erfolgsfall
+					   sonst false
+************************************************************************************ */
+function GetUidByLogin( $dbconn , $login , $pwd )
+{
+  //1. ein Objekt der Klasse mysqli_stmt anlegen
+  $prepstmt = $dbconn->stmt_init();
+  //2.Abfrage mit Platzhalter für Daten zusammenbasteln
+  
+  $SQLstring =
+    " SELECT User_ID AS uid".
+    " FROM benutzer".
+    " WHERE Login = ?".
+    " AND Passwd = SHA2( ? ,256)";
+  // Abfrage an den DB-Server abschicken
+
+  // 3. Prepared Statement auf dem DB-Server vorbereiten
+  $OK = $prepstmt->prepare( $SQLstring );
+  
+  // Abfrage erfolgreich?
+  
+  if($OK === false)
+  {
+    echo "\n <div class=\"error\">".
+       "\n <b>Abfrage fehlgeschlagen!</b>".
+       "\n <div>".$SQLstring."</div>".
+       "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
+       "</div>";
+
+    die("DB-Problem - Abbruch");
+  }
+
+  //4. Daten an die Parameter binden
+
+  $prepstmt->bind_param( "ss" ,$login , $pwd );
+
+  //5. Diese Parameter anwenden
+
+  $prepstmt->execute();
+
+  //6. Ergebnis holen/Rückgabewerte binden
+  //a: Rückgabewert binden
+  $prepstmt->bind_result( $uid );
+
+  //b: mit dem üblichen mysqli_result
+  //$err_handle = $prepstmt->get_result();
+
+  // fetch-en Spezialfall: ein oder kein Datensatz
+
+  $prepstmt->fetch(); // rückgabewert ist schon in $uid sh. bind_result( $uid )
+
+  if($uid == NULL)
+  {
+    $uid = false;
+  }
+  
+  $prepstmt->close(); //abräumen nach getaner Arbeit
+  return $uid;
+} // end of		function GetUidByLogin( $dbconn , $login , $pwd )
+
+
+/* ************************************************************************************
+			@function GetKindOfUser( $dbconn , $uid)
+
+			@brief: Überprüft ober der anmeldende Benutzer ein Künstler ist
+
+			@para - $dbconn		   Eine Datenbankverbindung der Klasse mysqli
+				  - $uid		   Die User_ID des angemeldenden Benutzers
+
+
+			@return -  "kuenstler" im Erfolgsfall
+					   sonst "kunde" 
+************************************************************************************ */
+function GetKindOfUser( $dbconn , $uid)
+{
+  $SQL_String = "SELECT kuenstler.User_ID,
+						kuenstler.Kuenstler_ID AS KID
+           FROM kuenstler
+           WHERE kuenstler.User_ID = ".$uid;
+  
+  $result_handle = $dbconn->query($SQL_String);
+
+  // Abfrage erfolgreich?
+    
+  if($result_handle === false)
+  {
+    echo "\n <div class=\"error\">".
+       "\n <b>Abfrage fehlgeschlagen!</b>".
+       "\n <div>".$SQLstring."</div>".
+       "\n <div>". $dbconn->errno." : ".$dbconn->error."<\div>".
+       "</div>";
+
+    die("DB-Problem - Abbruch");
+  }
+  // Abfrage über UID -> 1 oder keinen Datensatz
+  $UserArr = $result_handle->fetch_assoc();
+
+  if( $UserArr == NULL)
+  {
+    $ResultArr[0] = "kunde";
+  }
+  else
+  {
+    $ResultArr[0] = "kuenstler";
+	$ResultArr[1] = $UserArr['KID'];
+  }
+  return $ResultArr; 
+}
+
+
+/*************************************************************************************
     			@function: GetAllArtists( $dbconn )
 
     			@brief: Holt alle User die als Künstler registriert sind aus der DB
@@ -90,8 +229,7 @@ function KWS_DB_Connect( $user )
 
     			@return: Im Erfolg - ein 2-dimensionales Array aller Kuenstler mit KName
                    Im Misserfolg - false Errorcode
-************************************************************************************
-*/
+*************************************************************************************/
 function GetAllArtists( $dbconn )
 {
   // Abfrage ohne Perpared_Statements
@@ -127,16 +265,14 @@ function GetAllArtists( $dbconn )
 }
 
 
-/*
-************************************************************************************
+/*************************************************************************************
     			@function: GetLast3Pics( $dbconn )
     			@brief:  Holt die letzten drei hochgeladenen kleinen Bilder aus dem
                    Ordner small zur Darstellung in der Index
     			@para: $dbconn - Eine Datenbankverbinung der Klasse myslqi
     			@return: Im Erfolg - Ein 2-dimensionales Array
                    Im Misserfolg - false
-************************************************************************************
-*/
+*************************************************************************************/
 function GetLast3Pics( $dbconn )
 {
   $SQL_String = "SELECT bild.Bild_ID,
@@ -176,25 +312,25 @@ function GetLast3Pics( $dbconn )
   return $Three_Pics_arr;
 
 }
-/*
-************************************************************************************
+
+
+/*************************************************************************************
     			@function: GetAllPics( $dbconn )
     			@brief: Hole alle Bilder aus dem Ordner Small zur Darstellung in
                   der Galerie
     			@para:
     			@return:
-************************************************************************************
-*/
+*************************************************************************************/
 function GetAllPics( $dbconn )
 {
-  $SQL_String = "SELECT bild.Bild_ID,
-                        bild.Titel,
-                        bild.Hoehe,
-                        bild.Breite,
-                        bild.VK_Preis,
-                        Kuenstler.KName
-                 FROM bild INNER JOIN Kuenstler USING (Kuenstler_ID)
-                 ORDER BY bild.Einstell_Zeitstempel DESC";
+  $SQL_String = " SELECT bild.Bild_ID,".
+                "       bild.Titel,".
+                "        bild.Hoehe,".
+                "        bild.Breite,".
+                "        bild.VK_Preis,".
+                "        Kuenstler.KName".
+                " FROM bild INNER JOIN Kuenstler USING (Kuenstler_ID)".
+                " ORDER BY bild.Einstell_Zeitstempel DESC";
 
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
@@ -223,10 +359,58 @@ function GetAllPics( $dbconn )
     return $Three_Pics_arr;
 }
 
+/*************************************************************************************
+    			@function: GetUserData( $dbconn )
+    			@brief: Hole alle Bilder aus dem Ordner Small zur Darstellung in
+                  der Galerie
+    			@para:  $dbconn - Eine Datenbankverbinung der Klasse myslqi
+    			@return:
+*************************************************************************************/
+function GetUserData( $dbconn )
+{
+  // Abfrage ohne Perpared_Statements
+  $SQL_String = "SELECT Anrede,
+                        Titel,
+                        Vorname,
+                        Nachname,
+                        PLZ,
+                        Ort,
+                        Strasse,
+                        HausNr,
+                        Email AS EmailAdresse,
+                        Telefon AS TelefonNr,
+                        Reg_Zeitstempel AS registriert_am_um
+               FROM     benutzer
+               WHERE    User_ID = ".$_SESSION['login']['UID'];
+
+  // Abfrage an DB-Server senden
+  $result_handle = $dbconn->query($SQL_String);
+
+  // Abfrage auf Erfolg Ueberpruefen
+  if($result_handle === false)
+  {
+    echo "\n <div class=\"error\">".
+         "\n  <b>Abfrage fehlgeschlagen!</b>".
+         "\n  <div>".$SQL_String."</div>".
+         "\n  <div>". $dbconn->errno." : ".$dbconn->error."<\div>".
+            "</div>";
+
+    die("DB-Problem - Abbruch");
+  }
+  else
+  {
+    $user_data_arr = array();	// ein leeres Array initialisieren!
+
+    while( $ds = $result_handle->fetch_assoc() )
+    {
+      $user_data_arr[] = $ds;
+    }
+  }
+  return $user_data_arr;
+}
 
 
-/*
-************************************************************************************
+/*************************************************************************************
     			@function: GetPic( $dbconn )
     			@brief:
     			@para:

@@ -6,7 +6,6 @@
   include_once( "./includes/php.inc" );
   include_once( "./includes/data.inc" );   
   InitSession();  // Nimmt die aktuelle Session wieder auf
-  $_SESSION['referer'] = $_SERVER['PHP_SELF'];
   // CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
 
   $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
@@ -17,17 +16,13 @@
   /*#########################################################################
         BEGINN DES CONTENTS
     #######################################################################*/
-?>
 
-  <div id="content">
-  
-    <!-- Hier kommt euer content rein! -->
+	$referer = $_SESSION['referer'];
+	session_destroy();
+	$_SESSION = array();
+	header( 'Location: '.$referer );
+		
 
-	<div class="clearBoth" >&nbsp;</div>
-  </div>
-  <!-- end #content --> 
-
-<?php
   /*#########################################################################
           ENDE DES CONTENTS
     #######################################################################*/

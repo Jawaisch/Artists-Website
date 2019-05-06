@@ -7,13 +7,12 @@
   include_once( "./includes/data.inc" );   
   InitSession();  // Nimmt die aktuelle Session wieder auf
   $_SESSION['referer'] = $_SERVER['PHP_SELF'];
-  $Session_ID = session_id();
   // CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
 
   $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
   
   PrintHtmlHeader( );
-  PrintHtmlTopnav( $_SERVER['PHP_SELF'], $Session_ID );
+  PrintHtmlTopnav( $_SERVER['PHP_SELF'], SID );
 
   /*#########################################################################
         BEGINN DES CONTENTS
@@ -290,6 +289,6 @@
           ENDE DES CONTENTS
     #######################################################################*/
 
-  PrintHtmlSidebar( $_SESSION['login']['user'], $Session_ID );
-  PrintHtmlFooter( $Session_ID ); 
+  PrintHtmlSidebar( $_SESSION['login']['user'], SID );
+  PrintHtmlFooter( SID ); 
 ?>

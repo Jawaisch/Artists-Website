@@ -85,11 +85,11 @@ function PrintHtmlTopnav( $path, $Session_ID )
 
   $output = ''.
   '    <div class="topnav" >'."\n".
-  '      <a href="index.php?kws='.$Session_ID.'" '.   $class1 .' >Home</a>'."\n".
-  '      <a href="galerie.php?kws='.$Session_ID.'" '. $class2 .' >Galerie</a>'."\n".
-  '      <a href="kunstler.php?kws='.$Session_ID.'" '.$class3 .' >Künstler</a>'."\n".
-  '      <a href="ueber.php?kws='.$Session_ID.'" '.   $class4 .' >Über uns</a>'."\n".
-  '      <a href="kontakt.php?kws='.$Session_ID.'" '. $class5 .' >Kontakt</a>'."\n".
+  '      <a href="index.php?'.$Session_ID.'" '.   $class1 .' >Home</a>'."\n".
+  '      <a href="galerie.php?'.$Session_ID.'" '. $class2 .' >Galerie</a>'."\n".
+  '      <a href="kunstler.php?'.$Session_ID.'" '.$class3 .' >Künstler</a>'."\n".
+  '      <a href="ueber.php?'.$Session_ID.'" '.   $class4 .' >Über uns</a>'."\n".
+  '      <a href="kontakt.php?'.$Session_ID.'" '. $class5 .' >Kontakt</a>'."\n".
   '    </div>'."\n".
   '    <!-- end #topnav -->'."\n".
   '    <div id="main">'."\n";
@@ -203,45 +203,61 @@ EO_MID;
 
 function HtmlSidebarKunde( $Session_ID )
 {
+  $sname=session_name();
+  $sid=session_id();
   echo <<<EO_MID
 		  <li>
-			<h2>Info</h2>
-			<p>Sie müssen sich als Künstler registrieren bevor Sie Kunst verkaufen können.</p>
+        <h2>Info</h2>
+        <p>Sie müssen sich als Künstler registrieren bevor Sie Kunst verkaufen können.</p>
 		  </li>
 		  <li>
-			<h2>Benutzer</h2>
-			<ul>
-			  <li><a href="#">Logout</a></li>
-			  <li><a href="#">Mein Profil</a></li>
-			  <li><a href="#">Kaufübersicht</a></li>
-			  <li><a href="#">Künstler werden</a></li>
-			</ul>
+        <h2>Benutzer</h2>
+        <ul>
+          <li>
+            <form action="logout.php" method="post">
+              <input type="hidden" name="$sname" value="$sid" />
+              <div class="buttonrow">
+                <input type="submit" name="submit" value="Logout" />
+              </div>
+            </form></li>
+          <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
+          <li><a href="#">Kaufübersicht</a></li>
+          <li><a href="#">Künstler werden</a></li>
+        </ul>
 		  </li>
 EO_MID;
 }
 
 function HtmlSidebarKünstler( $Session_ID )
 {
+  $sname=session_name();
+  $sid=session_id();
   echo <<<EO_MID
 		  <li>
 			<h2>Info</h2>
 			<p>Laden Sie ein Bild Ihrer Kunst hoch um Interessenten zu finden.</p>
 		  </li>
 		  <li>
-			<h2>Benutzer</h2>
-			<ul>
-			  <li><a href="#">Logout</a></li>
-			  <li><a href="#">Mein Profil</a></li>
-			  <li><a href="#">Kaufübersicht</a></li>
-			</ul>
+        <h2>Benutzer</h2>
+        <ul>
+          <li>
+            <form action="logout.php" method="post">
+              <input type="hidden" name="$sname" value="$sid" />
+              <div class="buttonrow">
+                <input type="submit" name="submit" value="Logout" />
+              </div>
+            </form></li>
+          <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
+          <li><a href="#">Kaufübersicht</a></li>
+        </ul>
 		  </li>
 		  <li>
-			<h2>Künstler</h2>
-			<ul>
-			  <li><a href="#">Kunst verkaufen</a></li>
-			  <li><a href="#">Meine Kunst</a></li>
-			  <li><a href="#">Verkaufsübersicht</a></li>
-			</ul>
+        <h2>Künstler</h2>
+        <ul>
+          <li><a href="#">Kunst verkaufen</a></li>
+          <li><a href="#">Meine Kunst</a></li>
+          <li><a href="#">Verkaufsübersicht</a></li>
+        </ul>
 		  </li>
 EO_MID;
 }
@@ -250,16 +266,16 @@ function HtmlSidebarGast( $Session_ID )
 {
   echo <<<EO_MID
 		  <li>
-			<h2>Info</h2>
-			<p>Sie müssen sich einloggen bevor Sie Kunst kaufen und verkaufen können.</p>
+        <h2>Info</h2>
+        <p>Sie müssen sich einloggen bevor Sie Kunst kaufen und verkaufen können.</p>
 		  </li>
 		  <li>
-			<h2>Gast</h2>
-			<ul>
-			  <li><a href="./login.php?kws=$Session_ID">Login</a></li>
-			  <li><a href="./kunde_reg.php?kws=$Session_ID">Als Kunde registrieren</a></li>
-			  <li><a href="./kuenstler_reg.php?kws=$Session_ID">Als Künstler registrieren</a></li>
-			</ul>
+        <h2>Gast</h2>
+        <ul>
+          <li><a href="./login.php?$Session_ID">Login</a></li>
+          <li><a href="./kunde_reg.php?$Session_ID">Als Kunde registrieren</a></li>
+          <li><a href="./kuenstler_reg.php?$Session_ID">Als Künstler registrieren</a></li>
+        </ul>
 		  </li>
 EO_MID;
 }
@@ -279,10 +295,10 @@ function PrintHtmlFooter( $Session_ID )
 
     <div id="footer">
       <p>     
-        <a href="agb.php?kws=$Session_ID">AGBs</a> &mdash; 
-        <a href="impressum.php?kws=$Session_ID">Impressum</a> &mdash; 
-        <a href="dsrl.php?kws=$Session_ID">Datenschutzrichtlinien</a> &mdash; 
-        <a href="admin.php?kws=$Session_ID">Admin</a>
+        <a href="agb.php?$Session_ID">AGBs</a> &mdash; 
+        <a href="impressum.php?$Session_ID">Impressum</a> &mdash; 
+        <a href="dsrl.php?$Session_ID">Datenschutzrichtlinien</a> &mdash; 
+        <a href="admin.php?$Session_ID">Admin</a>
       </p>
     </div>
 	<!-- end #footer -->
@@ -290,4 +306,99 @@ function PrintHtmlFooter( $Session_ID )
 </html>
 
 EO_FOOTER;
+}
+
+
+ /* ****************************************************************************************
+@funktion HtmlErrorDiv( $class, $title, $desc )
+
+@brief Erzeugt eine DIV als Fehlermeldung
+
+		
+@param - $class Die CSS-Klasse des DIVs 
+         $titel Der Fehler-Titel
+         $desc  Die Fehlerbeschreibung
+
+@return - Ein gültiges HTML-Div als String
+****************************************************************************************** */
+  function HtmlErrorDiv( $class, $title, $desc  )
+  {
+   $HtmlStr=<<<EOT
+    <div class="$class">
+      <div class="title">$title</div>
+      <div class="desc">$desc</div>
+    </div>
+EOT;
+   return $HtmlStr;
+  }
+
+
+/* ****************************************************************************************
+@funktion HtmlUserAccount( $daten )
+
+@brief - Erzeugt eine Tabelle für das User Profil
+		
+@param - User Daten
+
+@return - Ein gültiges HTML-Div als String
+****************************************************************************************** */
+  function HtmlUserAccount( $daten )
+  {
+    $table =  "   <table class =\"table\">". // Der Tabellenkopf
+              "\n		<thead>".
+              "\n			<tr>".
+              "\n       <th>Bezeichnung</th> <th>Wert</th>".
+              "\n     </tr>".
+              "\n		</thead>".
+              "\n		<tbody>";
+
+    // Wdh. solange Datensätze vorhanden
+    foreach ( $daten AS $user )
+    {
+      foreach ( $user AS $key => $value )
+      {     
+        $table .= "<tr> <td>". $key." </td>".
+                       "<td>". $value." </td> </tr> ";
+      }
+    }
+    $table .="\n </tbody>\n </table>"; // Der Tabellenfuß
+
+    return $table;
+  }
+
+
+/* ****************************************************************************************
+@funktion PrintHtmlCards( $offer, $sold, $Session_ID )
+
+@brief - Erzeugt 2 ancklikbare Karten mit den aktuellen Zahlen
+		     der angebotenen und verkauften Bilder
+    
+@param - Anzahl eingestellter Bilder, Anzahl verkaufter Bilder
+@return - Ein gültiges HTML-Div als String
+****************************************************************************************** */
+function PrintHtmlCards( $offer, $sold, $Session_ID )
+{
+  echo <<<EO_CARDS
+
+     <div>
+      <div class="column">
+        <a href="index.php?$Session_ID" >
+          <div class="card">
+            <h4>$offer</h4>
+            <p>Angeboten</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="column">
+        <a href="index.php?$Session_ID" >
+          <div class="card">
+            <h4>$sold</h4>
+            <p>Verkauft</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+EO_CARDS;
 }
