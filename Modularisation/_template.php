@@ -1,6 +1,5 @@
 <?php
   error_reporting( E_ALL );
-  define( "MYDEBUG", false );
 
   include_once( "./includes/view.inc" );
   include_once( "./includes/php.inc" );

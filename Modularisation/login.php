@@ -1,6 +1,5 @@
 <?php
   error_reporting( E_ALL );
-  define( "MYDEBUG", false );
 
   include_once( "./includes/view.inc" );
   include_once( "./includes/php.inc" );
@@ -20,6 +19,7 @@
 
   <div id="content">
 	<?php
+	DebugArr($_SESSION);
     ErrorOccurred( );
 
 		if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")

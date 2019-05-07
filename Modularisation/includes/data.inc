@@ -2,8 +2,8 @@
 
 function KWS_DB_Connect( $user )
 {
-    define("DBServer","localhost");
-    define("DBName","19ss_tedk4_kws");
+    if(!defined("DBServer")) define("DBServer","localhost");
+    if(!defined("DBName"))define("DBName","19ss_tedk4_kws");
 
     switch($user)
     {
@@ -314,21 +314,24 @@ function GetLast3Pics( $dbconn )
 }
 
 
-/*************************************************************************************
+/*
+************************************************************************************
     			@function: GetAllPics( $dbconn )
     			@brief: Hole alle Bilder aus dem Ordner Small zur Darstellung in
                   der Galerie
     			@para:
     			@return:
-*************************************************************************************/
+************************************************************************************
+*/
 function GetAllPics( $dbconn )
 {
   $SQL_String = " SELECT bild.Bild_ID,".
-                "       bild.Titel,".
+                "        bild.Titel,".
                 "        bild.Hoehe,".
                 "        bild.Breite,".
                 "        bild.VK_Preis,".
-                "        Kuenstler.KName".
+                "        Kuenstler.KName,".
+				"		 Kuenstler.Kuenstler_ID".
                 " FROM bild INNER JOIN Kuenstler USING (Kuenstler_ID)".
                 " ORDER BY bild.Einstell_Zeitstempel DESC";
 
@@ -348,15 +351,15 @@ function GetAllPics( $dbconn )
    }
    else
    {
-     $Three_Pics_arr = array();	// ein leeres Array initialisieren!
+     $Pics_arr = array();	// ein leeres Array initialisieren!
 
      while( $ds = $result_handle->fetch_assoc() )
      {
-       $Three_Pics_arr[] = $ds;
+       $Pics_arr[] = $ds;
      }
     }
 
-    return $Three_Pics_arr;
+    return $Pics_arr;
 }
 
 /*************************************************************************************
@@ -410,24 +413,29 @@ function GetUserData( $dbconn )
 }
 
 
-/*************************************************************************************
-    			@function: GetPic( $dbconn )
+/*
+************************************************************************************
+    			@function: GetMorePicInfo( $dbconn , $BID )
     			@brief:
     			@para:
     			@return:
 ************************************************************************************
 */
-/*
-function GetPic( $dbconn , $Session_ID['Bild_ID'] )
+
+function GetMorePicInfo( $dbconn , $BID )
 {
-  $SQL_String = "SELECT bild.Bild_ID,
+  $SQL_String = "SELECT Kuenstler.KName,
                         bild.Titel,
                         bild.Hoehe,
                         bild.Breite,
                         bild.VK_Preis,
-                        Kuenstler.KName
-                 FROM bild INNER JOIN Kuenstler USING (Kuenstler_ID)
-                 WHERE bild.Bild_ID = $Session_ID['Bild_ID'];
+                        bild.Mal_Technik,
+                        bild.Kauf_Zeitstempel,
+                        genre.Name
+                   FROM kuenstler INNER JOIN bild USING (Kuenstler_ID)
+                  INNER JOIN eingeordnet USING (Bild_ID)
+                  INNER JOIN genre USING (Genre_ID)
+                   WHERE bild.Bild_ID =". $BID;
 
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
@@ -449,13 +457,12 @@ function GetPic( $dbconn , $Session_ID['Bild_ID'] )
 
      while( $ds = $result_handle->fetch_assoc() )
      {
-       $Three_Pics_arr[] = $ds;
+       $Three_Pics_arr = $ds;
      }
     }
 
     return $Three_Pics_arr;
 }
-*/
 
 /*
 ************************************************************************************

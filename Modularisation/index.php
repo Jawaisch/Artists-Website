@@ -1,6 +1,5 @@
 <?php
   error_reporting( E_ALL );
-  define( "MYDEBUG", false );
 
   include_once( "./includes/view.inc" );
   include_once( "./includes/php.inc" );
@@ -20,7 +19,7 @@
   echo '      <div id="content">'."\n";
   
   // Wurde ein Fehler übergeben?
-  var_dump ($_SESSION['error']['errno']);
+  DebugArr($_SESSION);
   ErrorOccurred( );
  
   $Last3Pics = GetLast3Pics( $dbconn );

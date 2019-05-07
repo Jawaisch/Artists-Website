@@ -1,12 +1,12 @@
 <?php
   error_reporting( E_ALL );
-  define( "MYDEBUG", false );
 
   include_once( "./includes/view.inc" );
   include_once( "./includes/php.inc" );
-  include_once( "./includes/data.inc" );   
+  include_once( "./includes/data.inc" );
+  include_once( "./includes/inputCheck.inc" );
   InitSession();  // Nimmt die aktuelle Session wieder auf
-  $_SESSION['referer'] = $_SERVER['PHP_SELF'];
+  $_SESSION['referer'] = "./profil.php";
   // CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
 
   // $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
@@ -21,6 +21,45 @@
 
 <?php
 
+  $Data_Reqs = array(
+    'Login'     => array( 'mand' => True, 
+                          'type' => 'string',
+                          'fname'=> 'htmlentities',
+                          'fname_db_check' => 'login_unique'),
+    'Passwort'  => array( 'mand' => True, 
+                          'type' => 'string'),
+    'Anrede'    => array( 'mand' => True, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities'),
+    'Titel'     => array( 'mand' => False, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities'),
+    'Vorname'   => array( 'mand' => True, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities'),
+    'Nachname'  => array( 'mand' => True, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities'),
+    'PLZ'       => array( 'mand' => True, 
+                          'type' => 'int', 
+                          'fname' =>'abs'),
+    'Ort'       => array( 'mand' => True, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities'),
+    'Strasse'   => array( 'mand' => True, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities'),
+    'HausNr'    => array( 'mand' => True, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities'),
+    'Email'     => array( 'mand' => True, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities'),
+    'Telefon'   => array( 'mand' => True, 
+                          'type' => 'string', 
+                          'fname' =>'htmlentities')
+    );
+
   function CheckRegFormData( $labels_arr )
   {
     $result = True;
@@ -32,45 +71,17 @@
       return $result;
   }
 
-  function GetMaxUid( $dbconn )
-  {
-    // Abfrage ohne Perpared_Statements
-    $SQL_String1 = " SELECT    MAX(User_ID) AS MaxUid  
-                     FROM      benutzer";
-      
-    // Abfrage an DB-Server senden
-    $result_handle = $dbconn->query($SQL_String1);
-
-    // Abfrage auf Erfolg Ueberpruefen
-    if($result_handle === false)
-    {
-      echo "\n <div class=\"error\">".
-         "\n  <b>Abfrage fehlgeschlagen!</b>".
-         "\n  <div>".$SQL_String1."</div>".
-         "\n  <div>". $dbconn->errno." : ".$dbconn->error."<\div>".
-          "</div>";
-
-      die("DB-Problem - Abbruch");
-    }
-    else
-    {
-      $ds = $result_handle->fetch_assoc();
-      $MaxUid = $ds['MaxUid'];
-    }
-    return $MaxUid;
-  }
-
-  function InsertRegData( $dbconn, $max_uid )
+  function InsertRegData( $dbconn )
   {
     //1. ein Objekt der Klasse mysqli_stmt anlegen
     $prepstmt = $dbconn->stmt_init();
     //2.Abfrage mit Platzhalter für Daten zusammenbasteln
     
     $SQLstring =
-      " INSERT INTO benutzer (  User_ID, Login, Passwd, Anrede, Titel, Vorname,
+      " INSERT INTO benutzer (  Login, Passwd, Anrede, Titel, Vorname,
                                 Nachname, PLZ, Ort, Strasse, HausNr, Email, Telefon,
                                 Reg_Zeitstempel, Reg_IP ) 
-                VALUES  ( ?, ?, SHA2( ?, 256), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
+                VALUES  ( ?, SHA2( ?, 256), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
   
     // Abfrage an den DB-Server abschicken
 
@@ -91,15 +102,14 @@
     }
 
     //4. Daten an die Parameter binden
-    $type = "issssssissssss";
-    $params = array(&$User_ID, &$Login, &$Passwort, &$Anrede, &$Titel, 
+    $type = "ssssssissssss";
+    $params = array(&$Login, &$Passwort, &$Anrede, &$Titel, 
                     &$Vorname, &$Nachname, &$PLZ, &$Ort, &$Strasse, 
                     &$HausNr, &$Email, &$Telefon, &$Reg_IP );
 
     $OK1 = call_user_func_array(array($prepstmt, "bind_param"), array_merge(array($type), $params));
 
     //5. Parameter setzen
-    $User_ID = $max_uid+1;
     foreach($_POST['reg_data_arr'] as $item => $value)
     {
       ${$item} = $value;
@@ -138,23 +148,21 @@
     #######################################################################*/
     
   echo"<div id=\"content\">";
-  $labels_arr = array("Login", "Passwort", "Anrede", "Titel", 
-                      "Vorname", "Nachname", "PLZ", "Ort", "Strasse", 
-                      "HausNr", "Email", "Telefon");
 
-  $dbconn = KWS_DB_Connect("bearbeiter"); // Datenbankverbindung
-  $max_uid = GetMaxUid( $dbconn );
-
+  DebugArr( $_SESSION );
+  
   if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")
   { 
     // Überprüfen ob alle Felder ausgefüllt wurden und was eingegeben wurde
-    if( CheckRegFormData( $labels_arr ) )
+    $dbconn = KWS_DB_Connect("bearbeiter");
+    if( check_input( $_POST['reg_data_arr'], $Data_Reqs, $_SESSION['input_data'], $dbconn ) )
     {
       $dbconn = KWS_DB_Connect("reg"); // Datenbankverbindung
-      if( InsertRegData( $dbconn, $max_uid ) )
+      if( InsertRegData( $dbconn ) )
       {
         $_SESSION['error']['errno']=15;
-        header('Location: ./index.php?'.SID);
+        header('Location: ./login.php?'.SID);
+        die("header?!");
       }
       else
       {
@@ -162,16 +170,17 @@
        //header('Location: ./kunde_reg.php?'.SID);
       }
     }
-    else
+    else 
     {
       $_SESSION['error']['errno']=12;
       //header('Location: ./kunde_reg.php?'.SID);
     }
   }
+  
 
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
-  echo" <form action=\"./kunde_reg.php?'.SID\" method=\"post\">";
+  echo " <form action=\"./kunde_reg.php?".SID."\" method=\"post\">";
  
   ?>
       <div class="form_container">
@@ -179,6 +188,10 @@
         <p>Bitte füllen Sie dieses Formular aus, um ein Konto als Kunde zu erstellen.</p>
         <hr />
   <?php
+
+        $labels_arr = array("Login", "Passwort", "Anrede", "Titel", 
+                    "Vorname", "Nachname", "PLZ", "Ort", "Strasse", 
+                    "HausNr", "Email", "Telefon");
 
         foreach($labels_arr as $label)
         {

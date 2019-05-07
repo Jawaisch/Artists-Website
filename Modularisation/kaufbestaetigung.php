@@ -18,16 +18,12 @@
         BEGINN DES CONTENTS
     #######################################################################*/
 ?>
-
   <div id="content">
   <?php
-    DebugArr($_POST);
-    DebugArr($_SESSION);
-    echo $_SERVER['REMOTE_ADDR'];
-    //echo 'date= ' . date('Y\-m\-d G\:i\:s');
-
-    //$cart = array(1421,1506,1709, 1502);
-    //$cartimpl = implode("','",$cart);
+    //DebugArr($_POST);
+    //DebugArr($_SESSION);
+    //echo $_SERVER['REMOTE_ADDR'];
+    
     $con = mysqli_connect("localhost","kws_kunde","kws_kunde","19ss_tedk4_kws");
     $sql_abfrage = "UPDATE  bild
                     SET     bild.Kauf_Zeitstempel = CURRENT_TIMESTAMP(),
@@ -37,14 +33,25 @@
                     WHERE Bild_ID IN ('".$_SESSION['cartimpl']."')";
     // $_SESSION['login']['UID']
     $res = mysqli_query($con,$sql_abfrage);
-    if ($res==true)
-        echo "kauf Abgeschlossen.";
-  ?>
+    if ($res==true)    
+    ?>
+
+    <div class="success">
+      <br>Kauf abgeschlossen<br><br>
+    </div>
+
+    Bitte überweisen Sie den Betrag von <?php echo $_POST['purchase_sum'] ?>€ auf das folgende Konto:<br>
+    <pre>
+    Zahlungsempfänger: Art Tick GmbH, Musterstr. 5 in 10243 Musterhausen    
+    Bank: MusterFinance
+    IBAN: CH82 0900 0000 6035 9126 4    
+    Verwendungszweck: art_nr <?php echo $_SESSION['cart'][0] ?>
+    </pre>
+    <br>
+    <?php $_SESSION['cart'] = NULL;  $_SESSION['cartimpl'] = NULL ; ?>   
 
 	<div class="clearBoth" >&nbsp;</div>
-  </div>
-  <!-- end #content --> 
-
+  </div> 
 <?php
   /*#########################################################################
           ENDE DES CONTENTS

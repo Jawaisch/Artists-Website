@@ -17,62 +17,53 @@
   /*#########################################################################
         BEGINN DES CONTENTS
     #######################################################################*/
+		
+  $AllImages = GetAllPics( KWS_DB_Connect( 'gast' ) );
+
+  function GalleryView( $AllImages )
+  {
+	  $SID = session_id();
+	  foreach( $AllImages AS $ImageNotes )
+	  {
+		$bid = $ImageNotes['Bild_ID'];
+		$btitle =$ImageNotes['Titel'];
+		$bheight=$ImageNotes['Hoehe'];
+		$bwidth=$ImageNotes['Breite'];
+		$bprice=$ImageNotes['VK_Preis'];
+		$bartist=$ImageNotes['KName'];
+		$kid=$ImageNotes['Kuenstler_ID'];
+		
+
+echo <<<EO_TOP
+	  <div class="gallery_content">
+		<div class="image">
+			<img src="art-images/small/$bid.png" alt="$btitle" />
+		</div>
+		<div class="image_notes">
+		<h3>$btitle</h3>
+		<p><span class="description">Künstler:</span><a href="#">$bartist</a></p>
+		<p><span class="description">Größe:</span>$bheight mm x $bwidth mm</p>		
+		<p><span class="description">Kaufspreis:</span>$bprice €</p>
+		<p>
+		<a href="gross_bild.php?kws=$SID&amp;bid=$bid">Genauer betrachten</a>
+		</p>
+		</div>
+	  </div>
+
+EO_TOP;
+	  }
+
+
+  }
+
 ?>
 
   <div id="content">
   
     <h2>Gallery</h2>
-      <p>Ändern Sie die Größe des Browserfensters, um den Response-Effekt zu sehen.</p>
-
-      <!-- Gallery Grid -->
-      <div class="row">
-        <div class="column">
-          <div class="content">
-            <img src="art-images/small/1428.png" alt="Text" style="width:100%" />
-            <h3>My Work</h3>
-            <p>Lorem ipsum..</p>
-          </div>
-        </div>
-        <div class="column">
-          <div class="content">
-            <img src="art-images/small/1425.png" alt="Text" style="width:100%" />
-            <h3>My Work</h3>
-            <p>Lorem ipsum..</p>
-          </div>
-        </div>
-        <div class="column">
-          <div class="content">
-            <img src="art-images/small/1515.png" alt="Text" style="width:100%" />
-            <h3>My Work</h3>
-            <p>Lorem ipsum..</p>
-          </div>
-        </div>
-      </div>
-	  <div class="row">
-        <div class="column">
-          <div class="content">
-            <img src="art-images/small/1428.png" alt="Text" style="width:100%" />
-            <h3>My Work</h3>
-            <p>Lorem ipsum..</p>
-          </div>
-        </div>
-        <div class="column">
-          <div class="content">
-            <img src="art-images/small/1425.png" alt="Text" style="width:100%" />
-            <h3>My Work</h3>
-            <p>Lorem ipsum..</p>
-          </div>
-        </div>
-        <div class="column">
-          <div class="content">
-            <img src="art-images/small/1515.png" alt="Text" style="width:100%" />
-            <h3>My Work</h3>
-            <p>Lorem ipsum..</p>
-          </div>
-        </div>
-      </div>
-
+		<?php GalleryView($AllImages) ?>
     <div class="clearBoth" >&nbsp;</div>
+
   </div>
   <!-- end #content --> 
 
@@ -82,5 +73,4 @@
     #######################################################################*/
 
   PrintHtmlSidebar( $_SESSION['login']['user'], SID );
-  PrintHtmlFooter( SID ); 
-?>
+  PrintHtmlFooter( SID);

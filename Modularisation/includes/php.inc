@@ -1,19 +1,22 @@
 <?php
 
+// Konstanten
+ define( "MYDEBUG", true ); 
+
 /* ****************************************************************************************
 @funktion InitSession()
 
 @brief Initialidiert eine SESSION für die KWS
 
 Session-Name wird gesetzt und COOKIES deaktiviert.
-		
+    
 @param -
 
 @return - 
 ****************************************************************************************** */
   function InitSession()
   {
-    session_name( "kws" );					// den session.name in der Local Value setzten
+    session_name( "kws" );          // den session.name in der Local Value setzten
     ini_set ("session.use_cookies", 0);
     ini_set ("session.use_only_cookies", 0);
     session_start();
@@ -34,7 +37,7 @@ Session-Name wird gesetzt und COOKIES deaktiviert.
 Für diese Überprüfung wird in der SESION das Feld
 $_SESSION['login']['success'] ausgewertet. Ist diese nicht erfolgreich,
 dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
-		
+    
 @param -
 
 @return - 
@@ -55,14 +58,14 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
 
 @brief Liefere eine Fehlermeldung, zu einer Fehlernummer
 
-		
+    
 @param - Eine Fehlernummer
 
 @return - gültiges HTML-Div als String
 ****************************************************************************************** */
   function GetErrorDiv( $errno )
   {
-	  switch( $errno )
+    switch( $errno )
     {
       case 1: $class="";
               $title="";
@@ -84,8 +87,8 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
               $desc ="Diese kombination aus login und passwort ist ungültig! ".
                      "Geben Sie bitte erneut Ihre korrekten Anmeldedaten ein.";
               break;  
-			  
-	    case 14:$class="warning";
+        
+      case 14:$class="warning";
               $title="Regestrierung fehlgeschlagen";
               $desc ="";
               break;
@@ -114,7 +117,7 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
 
 @return - 
 ****************************************************************************************** */
-function ErrorOccurred( )
+  function ErrorOccurred( )
   {
     $errString = "";                        // Fehlerausgabe mit Leerstring initialisieren
 
@@ -125,7 +128,27 @@ function ErrorOccurred( )
       if ( empty($_SESSION['errno']) )
         unset($_SESSION['errno']);
 
-	  echo $errString;
+    echo $errString;
+  }
+
+
+  /* ****************************************************************************************
+@funktion DebugArr()
+
+@brief gibt formatiertes Array aus
+    
+@param -
+
+@return - 
+****************************************************************************************** */
+  function DebugArr( $arr ) 
+  {
+    if ( MYDEBUG )
+    {
+      echo "\n<pre>";
+      print_r( $arr );
+      echo "</pre>\n";
+    }
   }
 ?>
 
