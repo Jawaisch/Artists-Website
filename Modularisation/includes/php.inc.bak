@@ -89,7 +89,7 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
               break;  
         
       case 14:$class="warning";
-              $title="Regestrierung fehlgeschlagen!";
+              $title="Regestrierung fehlgeschlagen";
               $desc ="";
               break;
 

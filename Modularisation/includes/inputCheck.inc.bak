@@ -7,7 +7,7 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
   $result = True;
   /* Jetzt werden die Anforderungen abgearbeitet:
      Sobald eine geforderte Eingabe fehlt wird umgelenkt und abgebrochen
-     ansonsten werden die Eingaben ins temporÃ¤re Feld aufgenommen und 
+     ansonsten werden die Eingaben ins temporäre Feld aufgenommen und 
      bereinigt */
   foreach ($DataReqs as $name => $Req) # Gehe Alle Anforderungen durch:
   {
@@ -21,7 +21,7 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
     } 
     else
     { /* Es ist bis jetzt kein Fehler aufgetreten.
-         Also die Eingabe zum Array $clean hinzufÃ¼gen */
+         Also die Eingabe zum Array $clean hinzufügen */
       
       $clean[$name]['val'] = $input[$name];
       unset($clean[$name]['err']);
@@ -47,7 +47,7 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
        {
 			    if( !($Req['regex']($clean[$name]['val'])) )
          {
-            $clean[$name]['err'] = "Nicht zulÃ¤ssiges Format!";
+            $clean[$name]['err'] = "Nicht zulässiges Format!";
             $result = false;
          }
        }
@@ -69,9 +69,9 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
 /* ************************************************************************************
 			@function login_unique( $login, $dbconn )
 
-			@brief: PrÃ¼ft ob der Login schon vergeben ist
+			@brief: Prüft ob der Login schon vergeben ist
 
-			@para - $login       Den zu prÃ¼fenden Login
+			@para - $login       Den zu prüfenden Login
               $dbconn		   Eine Datenbankverbindung der Klasse mysqli
 
 			@return - true wenn nicht vergeben
@@ -83,7 +83,7 @@ function login_unique( $login, $dbconn )
   //1. ein Objekt der Klasse mysqli_stmt anlegen
   $prepstmt = $dbconn->stmt_init();
 
-  //2.Abfrage mit Platzhalter fÃ¼r Daten zusammenbasteln
+  //2.Abfrage mit Platzhalter für Daten zusammenbasteln
   $SQLstring =
     " SELECT Login".
     " FROM benutzer".
@@ -111,18 +111,18 @@ function login_unique( $login, $dbconn )
     //5. Diese Parameter anwenden
     $prepstmt->execute();
 
-    //6. Ergebnis holen/RÃ¼ckgabewerte binden
-    //a: RÃ¼ckgabewert binden
+    //6. Ergebnis holen/Rückgabewerte binden
+    //a: Rückgabewert binden
     $prepstmt->bind_result( $login );
     
     // fetch-en Spezialfall: ein oder kein Datensatz
-    $prepstmt->fetch(); // rÃ¼ckgabewert ist schon in $uid sh. bind_result( $uid )
+    $prepstmt->fetch(); // rückgabewert ist schon in $uid sh. bind_result( $uid )
 
     if($login == NULL)
     {
       $result = true;
     }    
-    $prepstmt->close(); //abrÃ¤umen nach getaner Arbeit
+    $prepstmt->close(); //abräumen nach getaner Arbeit
     return $result;  
 }
 
@@ -130,11 +130,11 @@ function login_unique( $login, $dbconn )
 /* ************************************************************************************
 			@function check_plz($plz)
 
-			@brief: PrÃ¼ft ob die PLZ der DomÃ¤ne entspricht
+			@brief: Prüft ob die PLZ der Domäne entspricht
 
-			@para - $plz       Die zu prÃ¼fende PLZ
+			@para - $plz       Die zu prüfende PLZ
 
-			@return - true wenn gÃ¼ltig
+			@return - true wenn gültig
 					      sonst false
 ************************************************************************************ */
 function check_plz($plz)

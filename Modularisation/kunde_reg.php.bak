@@ -45,7 +45,7 @@
                           'fname' =>'htmlentities'),
     'PLZ'       => array( 'mand' => True, 
                           'type' => 'int', 
-                          'fname' =>'abs',
+                          'fname' =>'abs'
                           'regex' => 'check_plz'),
     'Ort'       => array( 'mand' => True, 
                           'type' => 'string', 
