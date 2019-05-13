@@ -243,6 +243,7 @@ span.description{
 
 .split {
   max-width: 50%;
+  min-width: 48%;
   float: left;
   overflow: auto;
 }
@@ -266,7 +267,7 @@ span.description{
 
 a .card {
   box-shadow: 0 0.3em 0.7em 0 rgba(0, 0, 0, 0.2);
-  padding: 1.3em;
+  padding: 1em;
   text-align: center;
   background-color: #555;
   color: white;
@@ -332,6 +333,7 @@ a .card {
   border-collapse: collapse;
   border-spacing: 0;
   max-width: 100%;
+  min-width: 90%;
   border: 0.083em solid #E2E2E2;
 }
 

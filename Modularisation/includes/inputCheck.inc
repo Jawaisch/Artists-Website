@@ -2,7 +2,7 @@
 /*****************************************************************************
   Deklaration der Funktion check_input()
 *****************************************************************************/
-function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
+function check_input($input, $DataReqs, &$clean, $dbconn = null, $redirect_URL = null)
 {
   $result = True;
   /* Jetzt werden die Anforderungen abgearbeitet:
@@ -15,7 +15,7 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
     { # Eine geforderte Eingabe fehlt: 
       /* Fehler aufheben */
       $clean[$name]['val']  = null;
-      $clean[$name]['mand'] = true;
+     //$clean[$name]['mand'] = true;
       $clean[$name]['err']  = "Fehlende Eingabe!";
       $result = False;
     } 
@@ -33,19 +33,19 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
      /* Die in $DataReqs enthaltenen Funktioneb auf die Eingabe anwenden.*/
        if ( isset($Req['fname']) )  # Funktion gesetzt? - dann anwenden
        {
-			    $clean[$name]['val'] = $Req['fname']($clean[$name]['val']);
+          $clean[$name]['val'] = $Req['fname']($clean[$name]['val']);
        }
        if ( isset($Req['check_is_unique']) )  # Funktion gesetzt? - dann anwenden
        {
-			    if( !($Req['check_is_unique']($clean[$name]['val'], $dbconn)) )
+          if( !($Req['check_is_unique']($clean[$name]['val'], $dbconn)) )
          {
-            $clean[$name]['err'] = "Ist bereits vergeben!";
+            $clean[$name]['err'] = "Bitte einen anderen ".$name." wählen!";
             $result = false;
          }
        }
        if ( isset($Req['regex']) )  # Funktion gesetzt? - dann anwenden
        {
-			    if( !($Req['regex']($clean[$name]['val'])) )
+          if( !($Req['regex']($clean[$name]['val'])) )
          {
             $clean[$name]['err'] = "Nicht zulässiges Format!";
             $result = false;
@@ -54,7 +54,7 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
        /*
        foreach( $Req['fname'] as $fname )
        {
-			    $clean[$name]['val'] = $fname($clean[$name]['val']);
+          $clean[$name]['val'] = $fname($clean[$name]['val']);
        }*/
     }
   } # End of: foreach ($DataReqs as $name => $Req)
@@ -67,19 +67,20 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
 
 
 /* ************************************************************************************
-			@function login_unique( $login, $dbconn )
+      @function login_unique( $login, $dbconn )
 
-			@brief: Prüft ob der Login schon vergeben ist
+      @brief: Prüft ob der Login schon vergeben ist
 
-			@para - $login       Den zu prüfenden Login
-              $dbconn		   Eine Datenbankverbindung der Klasse mysqli
+      @para - $login       Den zu prüfenden Login
+              $dbconn      Eine Datenbankverbindung der Klasse mysqli
 
-			@return - true wenn nicht vergeben
-					      sonst false
+      @return - true wenn nicht vergeben
+                sonst false
 ************************************************************************************ */
 function login_unique( $login, $dbconn )
 {
   $result = false;
+
   //1. ein Objekt der Klasse mysqli_stmt anlegen
   $prepstmt = $dbconn->stmt_init();
 
@@ -128,14 +129,76 @@ function login_unique( $login, $dbconn )
 
 
 /* ************************************************************************************
-			@function check_plz($plz)
+      @function kname_unique( $kname, $dbconn )
 
-			@brief: Prüft ob die PLZ der Domäne entspricht
+      @brief: Prüft ob der Künstlername schon vergeben ist
 
-			@para - $plz       Die zu prüfende PLZ
+      @para - $kname       Den zu prüfenden Künstlername
+              $dbconn      Eine Datenbankverbindung der Klasse mysqli
 
-			@return - true wenn gültig
-					      sonst false
+      @return - true wenn nicht vergeben
+                sonst false
+************************************************************************************ */
+function kname_unique( $kname, $dbconn )
+{
+  $result = false;
+
+  //1. ein Objekt der Klasse mysqli_stmt anlegen
+  $prepstmt = $dbconn->stmt_init();
+
+  //2.Abfrage mit Platzhalter für Daten zusammenbasteln
+  $SQLstring =
+    " SELECT Kname".
+    " FROM kuenstler".
+    " WHERE Kname = ?";
+
+    // 3. Prepared Statement auf dem DB-Server vorbereiten
+    $OK = $prepstmt->prepare( $SQLstring );
+    
+    // Abfrage erfolgreich?
+    
+    if($OK === false)
+    {
+      echo "\n <div class=\"error\">".
+         "\n <b>Abfrage fehlgeschlagen!</b>".
+         "\n <div>".$SQLstring."</div>".
+         "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
+         "</div>";
+
+      die("DB-Problem - Abbruch");
+    }
+
+    //4. Daten an die Parameter binden
+    $prepstmt->bind_param( "s" ,$kname );
+
+    //5. Diese Parameter anwenden
+    $prepstmt->execute();
+
+    //6. Ergebnis holen/Rückgabewerte binden
+    //a: Rückgabewert binden
+    $prepstmt->bind_result( $kname );
+    
+    // fetch-en Spezialfall: ein oder kein Datensatz
+    $prepstmt->fetch(); // rückgabewert ist schon in $uid sh. bind_result( $uid )
+
+    if($kname == NULL)
+    {
+      $result = true;
+    }    
+    $prepstmt->close(); //abräumen nach getaner Arbeit
+    return $result;  
+}
+
+
+/* ************************************************************************************
+      @function check_plz($plz)
+
+      @brief: Prüft ob die PLZ der Domäne entspricht
+
+      @para - $plz       Die zu prüfende PLZ
+
+      @return - true wenn gültig
+                sonst false
 ************************************************************************************ */
 function check_plz($plz)
 {
@@ -144,4 +207,7 @@ function check_plz($plz)
   else
     return false;
 } 
+
+// IBAN: ^[A-Z]{2}[0-9]{20}$
+// BIC: ^[A-Z]{6}[0-9A-Z]{2}([0-9A-Z]{3})?$
 ?>

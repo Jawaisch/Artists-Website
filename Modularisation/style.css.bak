@@ -230,18 +230,20 @@ p.label{
   padding-left: 16em;
   position: relative;
   margin: 0;
-
+  color: #B21B0F;
 }
 
 span.description{
   position: absolute;
   left: 0;
+  color: #787878;
 }
 
 /* Profil ****************************************************************/
 
 .split {
   max-width: 50%;
+  min-width: 48%;
   float: left;
   overflow: auto;
 }
@@ -331,6 +333,7 @@ a .card {
   border-collapse: collapse;
   border-spacing: 0;
   max-width: 100%;
+  min-width: 90%;
   border: 0.083em solid #E2E2E2;
 }
 

@@ -257,7 +257,6 @@ function HtmlSidebarKünstler( $Session_ID )
           <li><a href="#">Kunst verkaufen</a></li>
           <li><a href="#">Meine Kunst</a></li>
           <li><a href="#">Verkaufsübersicht</a></li>
-          <li><a href="./kuenstler_reg.php?$Session_ID">Neues Künstlerkonto</a></li>
         </ul>
       </li>
 EO_MID;

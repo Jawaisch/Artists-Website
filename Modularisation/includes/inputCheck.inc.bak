@@ -2,12 +2,12 @@
 /*****************************************************************************
   Deklaration der Funktion check_input()
 *****************************************************************************/
-function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
+function check_input($input, $DataReqs, &$clean, $dbconn = null, $redirect_URL = null)
 {
   $result = True;
   /* Jetzt werden die Anforderungen abgearbeitet:
      Sobald eine geforderte Eingabe fehlt wird umgelenkt und abgebrochen
-     ansonsten werden die Eingaben ins tempor‰re Feld aufgenommen und 
+     ansonsten werden die Eingaben ins tempor√§re Feld aufgenommen und 
      bereinigt */
   foreach ($DataReqs as $name => $Req) # Gehe Alle Anforderungen durch:
   {
@@ -15,13 +15,13 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
     { # Eine geforderte Eingabe fehlt: 
       /* Fehler aufheben */
       $clean[$name]['val']  = null;
-      $clean[$name]['mand'] = true;
+     //$clean[$name]['mand'] = true;
       $clean[$name]['err']  = "Fehlende Eingabe!";
       $result = False;
     } 
     else
     { /* Es ist bis jetzt kein Fehler aufgetreten.
-         Also die Eingabe zum Array $clean hinzuf¸gen */
+         Also die Eingabe zum Array $clean hinzuf√ºgen */
       
       $clean[$name]['val'] = $input[$name];
       unset($clean[$name]['err']);
@@ -33,28 +33,28 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
      /* Die in $DataReqs enthaltenen Funktioneb auf die Eingabe anwenden.*/
        if ( isset($Req['fname']) )  # Funktion gesetzt? - dann anwenden
        {
-			    $clean[$name]['val'] = $Req['fname']($clean[$name]['val']);
+          $clean[$name]['val'] = $Req['fname']($clean[$name]['val']);
        }
        if ( isset($Req['check_is_unique']) )  # Funktion gesetzt? - dann anwenden
        {
-			    if( !($Req['check_is_unique']($clean[$name]['val'], $dbconn)) )
+          if( !($Req['check_is_unique']($clean[$name]['val'], $dbconn)) )
          {
-            $clean[$name]['err'] = "Ist bereits vergeben!";
+            $clean[$name]['err'] = "Bitte einen anderen ".$name." w√§hlen!";
             $result = false;
          }
        }
        if ( isset($Req['regex']) )  # Funktion gesetzt? - dann anwenden
        {
-			    if( !($Req['regex']($clean[$name]['val'])) )
+          if( !($Req['regex']($clean[$name]['val'])) )
          {
-            $clean[$name]['err'] = "Nicht zul‰ssiges Format!";
+            $clean[$name]['err'] = "Nicht zul√§ssiges Format!";
             $result = false;
          }
        }
        /*
        foreach( $Req['fname'] as $fname )
        {
-			    $clean[$name]['val'] = $fname($clean[$name]['val']);
+          $clean[$name]['val'] = $fname($clean[$name]['val']);
        }*/
     }
   } # End of: foreach ($DataReqs as $name => $Req)
@@ -67,23 +67,24 @@ function check_input($input, $DataReqs, &$clean, $dbconn, $redirect_URL = null)
 
 
 /* ************************************************************************************
-			@function login_unique( $login, $dbconn )
+      @function login_unique( $login, $dbconn )
 
-			@brief: Pr¸ft ob der Login schon vergeben ist
+      @brief: Pr√ºft ob der Login schon vergeben ist
 
-			@para - $login       Den zu pr¸fenden Login
-              $dbconn		   Eine Datenbankverbindung der Klasse mysqli
+      @para - $login       Den zu pr√ºfenden Login
+              $dbconn      Eine Datenbankverbindung der Klasse mysqli
 
-			@return - true wenn nicht vergeben
-					      sonst false
+      @return - true wenn nicht vergeben
+                sonst false
 ************************************************************************************ */
 function login_unique( $login, $dbconn )
 {
   $result = false;
+
   //1. ein Objekt der Klasse mysqli_stmt anlegen
   $prepstmt = $dbconn->stmt_init();
 
-  //2.Abfrage mit Platzhalter f¸r Daten zusammenbasteln
+  //2.Abfrage mit Platzhalter f√ºr Daten zusammenbasteln
   $SQLstring =
     " SELECT Login".
     " FROM benutzer".
@@ -111,31 +112,93 @@ function login_unique( $login, $dbconn )
     //5. Diese Parameter anwenden
     $prepstmt->execute();
 
-    //6. Ergebnis holen/R¸ckgabewerte binden
-    //a: R¸ckgabewert binden
+    //6. Ergebnis holen/R√ºckgabewerte binden
+    //a: R√ºckgabewert binden
     $prepstmt->bind_result( $login );
     
     // fetch-en Spezialfall: ein oder kein Datensatz
-    $prepstmt->fetch(); // r¸ckgabewert ist schon in $uid sh. bind_result( $uid )
+    $prepstmt->fetch(); // r√ºckgabewert ist schon in $uid sh. bind_result( $uid )
 
     if($login == NULL)
     {
       $result = true;
     }    
-    $prepstmt->close(); //abr‰umen nach getaner Arbeit
+    $prepstmt->close(); //abr√§umen nach getaner Arbeit
     return $result;  
 }
 
 
 /* ************************************************************************************
-			@function check_plz($plz)
+      @function kname_unique( $kname, $dbconn )
 
-			@brief: Pr¸ft ob die PLZ der Dom‰ne entspricht
+      @brief: Pr√ºft ob der K√ºnstlername schon vergeben ist
 
-			@para - $plz       Die zu pr¸fende PLZ
+      @para - $kname       Den zu pr√ºfenden K√ºnstlername
+              $dbconn      Eine Datenbankverbindung der Klasse mysqli
 
-			@return - true wenn g¸ltig
-					      sonst false
+      @return - true wenn nicht vergeben
+                sonst false
+************************************************************************************ */
+function kname_unique( $kname, $dbconn )
+{
+  $result = false;
+
+  //1. ein Objekt der Klasse mysqli_stmt anlegen
+  $prepstmt = $dbconn->stmt_init();
+
+  //2.Abfrage mit Platzhalter f√ºr Daten zusammenbasteln
+  $SQLstring =
+    " SELECT Kname".
+    " FROM kuenstler".
+    " WHERE Kname = ?";
+
+    // 3. Prepared Statement auf dem DB-Server vorbereiten
+    $OK = $prepstmt->prepare( $SQLstring );
+    
+    // Abfrage erfolgreich?
+    
+    if($OK === false)
+    {
+      echo "\n <div class=\"error\">".
+         "\n <b>Abfrage fehlgeschlagen!</b>".
+         "\n <div>".$SQLstring."</div>".
+         "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
+         "</div>";
+
+      die("DB-Problem - Abbruch");
+    }
+
+    //4. Daten an die Parameter binden
+    $prepstmt->bind_param( "s" ,$kname );
+
+    //5. Diese Parameter anwenden
+    $prepstmt->execute();
+
+    //6. Ergebnis holen/R√ºckgabewerte binden
+    //a: R√ºckgabewert binden
+    $prepstmt->bind_result( $kname );
+    
+    // fetch-en Spezialfall: ein oder kein Datensatz
+    $prepstmt->fetch(); // r√ºckgabewert ist schon in $uid sh. bind_result( $uid )
+
+    if($kname == NULL)
+    {
+      $result = true;
+    }    
+    $prepstmt->close(); //abr√§umen nach getaner Arbeit
+    return $result;  
+}
+
+
+/* ************************************************************************************
+      @function check_plz($plz)
+
+      @brief: Pr√ºft ob die PLZ der Dom√§ne entspricht
+
+      @para - $plz       Die zu pr√ºfende PLZ
+
+      @return - true wenn g√ºltig
+                sonst false
 ************************************************************************************ */
 function check_plz($plz)
 {

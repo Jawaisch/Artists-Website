@@ -49,12 +49,13 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
     {
       $_SESSION['error']['errno']=11;
       header('Location: ./index.php?'.SID);
+      die();
     }
   }
 
 
  /* ****************************************************************************************
-@funktion GetErrorDiv( )
+@funktion GetErrorDiv( $errno )
 
 @brief Liefere eine Fehlermeldung, zu einer Fehlernummer
 
@@ -97,6 +98,12 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
               $title="Glückwunsch!";
               $desc ="Sie haben erfolgreich ein Kundenkonto angelegt. ".
                      "Loggen Sie sich jetzt ein, um Kunst zu erwerben.";
+              break;
+
+		  case 16:$class="success";
+              $title="Glückwunsch!";
+              $desc ="Sie haben erfolgreich ein Künstlerkonto angelegt. ".
+                     "Laden Sie jetzt Bilder hoch um ihre Kunst anzubieten.";
               break;
 
       default:$class="error";
@@ -149,6 +156,25 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
       print_r( $arr );
       echo "</pre>\n";
     }
+  }
+
+
+  /* ****************************************************************************************
+@funktion logout( $location )
+
+@brief der User wird ausgeloggt
+    
+@param - Das Ziel der Umlenkung
+
+@return - 
+****************************************************************************************** */
+  function logout( $location ) 
+  {
+    // $errno = $_SESSION['error']['errno'];
+	  session_destroy();
+	  $_SESSION = array();
+    // $_SESSION['error']['errno'] = $errno;
+	  header( 'Location: '.$location );
   }
 ?>
 
