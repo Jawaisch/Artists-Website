@@ -17,43 +17,66 @@
 
   // Anforderungsliste
   $Data_Reqs = array(
-    'Login'     => array( 'mand' => True, 
+    'login'     => array( 'mand'  => True, 
+                          'type'  => 'string',
+                          'label' => 'Login', 
+                          'index' => 'login',
+                          'fname' => 'htmlentities'),
+    'pwd'       => array( 'mand'  => True, 
+                          'type'  => 'string',
+                          'label' => 'Passwort', 
+                          'index' => 'pwd',
+                          'fname' => 'htmlentities'),
+    'anrede'    => array( 'mand' => True, 
                           'type' => 'string',
-                          'fname'=> 'htmlentities',
-                          'check_is_unique' => 'login_unique'),
-    'Passwort'  => array( 'mand' => True, 
+                          'label' => 'Anrede', 
+                          'index' => 'anrede',
+                          'fname' =>'htmlentities'),
+    'titel'     => array( 'mand' => False, 
                           'type' => 'string',
+                          'label' => 'Titel (optional)', 
+                          'index' => 'titel',
                           'fname' =>'htmlentities'),
-    'Anrede'    => array( 'mand' => True, 
-                          'type' => 'string', 
+    'vname'     => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Vorname', 
+                          'index' => 'vname',
                           'fname' =>'htmlentities'),
-    'Titel'     => array( 'mand' => False, 
-                          'type' => 'string', 
+    'nname'     => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Nachname', 
+                          'index' => 'nname',
                           'fname' =>'htmlentities'),
-    'Vorname'   => array( 'mand' => True, 
-                          'type' => 'string', 
-                          'fname' =>'htmlentities'),
-    'Nachname'  => array( 'mand' => True, 
-                          'type' => 'string', 
-                          'fname' =>'htmlentities'),
-    'PLZ'       => array( 'mand' => True, 
-                          'type' => 'int', 
+    'plz'       => array( 'mand' => True, 
+                          'type' => 'int',
+                          'label' => 'Postleitzahl', 
+                          'index' => 'plz',
                           'fname' =>'abs',
                           'regex' => 'check_plz'),
-    'Ort'       => array( 'mand' => True, 
-                          'type' => 'string', 
+    'ort'       => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Ort', 
+                          'index' => 'ort',
                           'fname' =>'htmlentities'),
-    'Strasse'   => array( 'mand' => True, 
-                          'type' => 'string', 
+    'str'       => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Strasse', 
+                          'index' => 'str',
                           'fname' =>'htmlentities'),
-    'HausNr'    => array( 'mand' => True, 
-                          'type' => 'string', 
+    'hnr'       => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Hausnummer', 
+                          'index' => 'hnr',
                           'fname' =>'htmlentities'),
-    'Email'     => array( 'mand' => True, 
-                          'type' => 'string', 
+    'email'     => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Email Adresse', 
+                          'index' => 'email',
                           'fname' =>'htmlentities'),
-    'Telefon'   => array( 'mand' => True, 
-                          'type' => 'string', 
+    'tele'      => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Telefonnummer', 
+                          'index' => 'tele',
                           'fname' =>'htmlentities')
     );
   
@@ -84,19 +107,19 @@
 
   echo"    <div id=\"content\">";
 
+  DebugArr($_SESSION);
+  DebugArr($_POST);
+
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
   
   // Formular vorbereiten
-  $labels_arr = array("Login", "Passwort", "Anrede", "Titel", 
-                      "Vorname", "Nachname", "PLZ", "Ort", "Strasse", 
-                      "HausNr", "Email", "Telefon");
-	$header = "Regestrieren";
+  $header = "Regestrieren";
   $description= "Bitte füllen Sie dieses Formular aus, um ein Konto als Kunde zu erstellen.";
   $action = "./kunde_reg.php?";
 
   // Formular ausgeben
-  HtmlRegForm( $labels_arr, $header, $description, $action );
+  HtmlRegForm( $Data_Reqs, $header, $description, $action );
   
   ?>
     <div class="clearBoth" >&nbsp;</div>

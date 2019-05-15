@@ -16,20 +16,28 @@
         BEGINN DES CONTENTS
     #######################################################################*/
 
-  // Anforderungsliste
+  // Anforderungsliste und Labels fürs Formular
   $Data_Reqs = array(
-             'Login'            => array( 'mand' => True, 
-                                          'type' => 'string',
-                                          'fname' =>'htmlentities'),
-            'Passwort'          => array( 'mand' => True, 
-                                          'type' => 'string',
-                                          'fname' =>'htmlentities'),
-      'Neues Passwort'          => array( 'mand' => True, 
-                                          'type' => 'string', 
-                                          'fname' =>'htmlentities'),
-    'Neues Passwort wiederholen'=> array( 'mand' => True, 
-                                          'type' => 'string', 
-                                          'fname' =>'htmlentities'),
+           'login'              => array( 'mand'  => True, 
+                                          'type'  => 'string',
+                                          'label' => 'Login', 
+                                          'index' => 'login',
+                                          'fname' => 'htmlentities'),
+            'pwd'               => array( 'mand'  => True, 
+                                          'type'  => 'string',
+                                          'label' => 'Passwort', 
+                                          'index' => 'pwd',
+                                          'fname' => 'htmlentities'),
+       'new_pwd'                => array( 'mand'  => True, 
+                                          'type'  => 'string',
+                                          'label' => 'Neues Passwort', 
+                                          'index' => 'new_pwd',
+                                          'fname' => 'htmlentities'),
+    'new_pwd_re'                => array( 'mand'  => True, 
+                                          'type'  => 'string',
+                                          'label' => 'Neues Passwort wiederholen', 
+                                          'index' => 'new_pwd_re',
+                                          'fname' => 'htmlentities'),
     );
 
   if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")
@@ -39,9 +47,9 @@
     if( check_input( $_POST['reg_data_arr'], $Data_Reqs, $_SESSION['input_data'], $dbconn ) )
     {
       $dbconn = KWS_DB_Connect("login"); // Datenbankverbindung
-      $uid = GetUidByLogin( $dbconn , $_SESSION['input_data']['Login']['val'], $_SESSION['input_data']['Passwort']['val']);
-      $new_pwd    = $_SESSION['input_data']['Neues Passwort']['val'];
-      $new_pwd_re = $_SESSION['input_data']['Neues Passwort wiederholen']['val'];
+      $uid = GetUidByLogin( $dbconn , $_SESSION['input_data']['login']['val'], $_SESSION['input_data']['pwd']['val']);
+      $new_pwd    = $_SESSION['input_data']['new_pwd']['val'];
+      $new_pwd_re = $_SESSION['input_data']['new_pwd_re']['val'];
 
       // Überprüfen ob die richtigen Anmeldedaten eingegeben wurden
       if( $_SESSION['login']['UID'] == $uid  )
@@ -87,13 +95,13 @@
   ErrorOccurred( );
   
   // Formular vorbereiten
-  $labels_arr = array("Login", "Passwort", "Neues Passwort", "Neues Passwort wiederholen");
+  //$labels_arr = array("Login", "Passwort", "Neues Passwort", "Neues Passwort wiederholen");
   $header = "Passwort ändern";
   $description= "Bitte geben Sie Ihr gewünschtes Passwort ein.";
   $action = "./neues_passwort.php?";
 
   // Formular ausgeben
-  HtmlRegForm( $labels_arr, $header, $description, $action );
+  HtmlRegForm( $Data_Reqs, $header, $description, $action );
   
   ?>
     <div class="clearBoth" >&nbsp;</div>

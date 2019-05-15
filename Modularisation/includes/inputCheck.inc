@@ -209,8 +209,44 @@ function check_plz($plz)
     return true;
   else
     return false;
+}
+
+
+/* ************************************************************************************
+      @function check_iban($iban)
+
+      @brief: Prüft ob die IBAN der Domäne entspricht
+
+      @para - $iban       Die zu prüfende IBAN
+
+      @return - true wenn gültig
+                sonst false
+************************************************************************************ */
+function check_iban($iban)
+{
+  if(preg_match('/^[A-Z]{2}[0-9]{20}$/',$iban)) 
+    return true;
+  else
+    return false;
+}
+
+
+/* ************************************************************************************
+      @function check_bic($bic)
+
+      @brief: Prüft ob die BIC der Domäne entspricht
+
+      @para - $bic       Die zu prüfende BIC
+
+      @return - true wenn gültig
+                sonst false
+************************************************************************************ */
+function check_bic($bic)
+{
+  if(preg_match('/^[A-Z]{6}[0-9A-Z]{2}([0-9A-Z]{3})?$/',$bic)) 
+    return true;
+  else
+    return false;
 } 
 
-// IBAN: ^[A-Z]{2}[0-9]{20}$
-// BIC: ^[A-Z]{6}[0-9A-Z]{2}([0-9A-Z]{3})?$
 ?>

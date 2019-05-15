@@ -416,7 +416,7 @@ EO_CARDS;
 
 @return - Ein gültiges HTML-Div als String
 ****************************************************************************************** */
-function HtmlRegForm( $labels_arr, $header, $description, $action, $user_data_arr=null )
+function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr=null )
 {
   echo "\n    <form action=\"".$action.SID."\" method=\"post\">\n";
   echo "\n    <div class=\"form_container\">";
@@ -424,33 +424,33 @@ function HtmlRegForm( $labels_arr, $header, $description, $action, $user_data_ar
   echo "\n       <p>".$description."</p>";
   echo "\n       <hr />";
 
-  foreach($labels_arr as $label)
+  foreach($Data_Reqs as $data)
   {
-    echo "\n        <p class=\"label\"><span class=\"description\"><label ><b>".$label."</b></label>";
-    if(isset( $_SESSION['input_data'][$label]['err'] )) // TODO
+    echo "\n        <p class=\"label\"><span class=\"description\"><label ><b>".$data['label']."</b></label>";
+    if(isset( $_SESSION['input_data'][$data['index']]['err'] )) // TODO
     {
-      echo"</span>".$_SESSION['input_data'][$label]['err']."</p>";
+      echo"</span>".$_SESSION['input_data'][$data['index']]['err']."</p>";
     }
     else
     {
       echo"</span>&nbsp;</p>";
     }
-    if(strpos($label, 'Passwort') !== false)
+    if(strpos($data['label'], 'Passwort') !== false)
     {
-      echo "\n        <input type=\"password\" name=\"reg_data_arr[$label]\" value=\"";
+      echo "\n        <input type=\"password\" name=\"reg_data_arr[".$data['index']."]\" value=\"";
     }
     else
     {
-      echo "\n        <input type=\"text\" name=\"reg_data_arr[$label]\" value=\"";
+      echo "\n        <input type=\"text\" name=\"reg_data_arr[".$data['index']."]\" value=\"";
     }
-    if(isset( $_POST['reg_data_arr'][$label] )) 
+    if(isset( $_POST['reg_data_arr'][$data['index']] )) 
     { 
-      echo $_POST['reg_data_arr'][$label]; 
+      echo $_POST['reg_data_arr'][$data['index']]; 
     }
-    elseif(isset( $user_data_arr[$label] )) 
+    elseif(isset( $user_data_arr[$data['label']] )) 
     { 
       //DebugArr($user_data_arr[0][$label]);
-      echo $user_data_arr[$label]; 
+      echo $user_data_arr[$data['label']]; 
     }
     echo "\" />\n";      
   }

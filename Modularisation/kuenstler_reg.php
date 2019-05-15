@@ -18,18 +18,28 @@
 
   // Anforderungsliste
   $Data_Reqs = array(
-    'Kuenstlername'=> array(  'mand' => True, 
+		'kname'		=> array( 'mand' => True, 
                               'type' => 'string',
+							  'label' => 'Künstlername', 
+                              'index' => 'kname',
                               'fname'=> 'htmlentities',
                               'check_is_unique' => 'kname_unique'),
-      'IBAN'       => array(  'mand' => True, 
-                              'type' => 'int',
-                              'fname' =>'abs'),
-      'BIC'        => array(  'mand' => True, 
-                              'type' => 'int', 
-                              'fname' =>'abs'),
-      'Vita'       => array(  'mand' => False, 
-                              'type' => 'string', 
+      'iban'       => array(  'mand' => True, 
+                              'type' => 'string',
+							  'label' => 'IBAN', 
+                              'index' => 'iban',					  
+                              'fname' =>'htmlentities',
+							  'regex' => 'check_iban'),
+      'bic'        => array(  'mand' => True, 
+                              'type' => 'string',
+							  'label' => 'BIC', 
+                              'index' => 'bic',
+                              'fname' =>'htmlentities',
+							  'regex' => 'check_bic'),
+      'vita'       => array(  'mand' => False, 
+                              'type' => 'string',
+							  'label' => 'Vita (Werdegang)', 
+                              'index' => 'vita',
                               'fname' =>'htmlentities'),
     );
   
@@ -61,17 +71,19 @@
 
   echo"    <div id=\"content\">";
 
+  DebugArr($_SESSION);
+  DebugArr($_POST);
+
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
   
   // Formular vorbereiten
-  $labels_arr = array("Kuenstlername", "IBAN", "BIC", "Vita");
   $header = "Künstlerkonto anlegen";
   $description= "Bitte füllen Sie dieses Formular aus, um Ihrem Konto ein Künstlerkonto hinzuzufügen.";
   $action = "./kuenstler_reg.php?";
 
   // Formular ausgeben
-  HtmlRegForm( $labels_arr, $header, $description, $action );
+  HtmlRegForm( $Data_Reqs, $header, $description, $action );
   
   ?>
     <div class="clearBoth" >&nbsp;</div>

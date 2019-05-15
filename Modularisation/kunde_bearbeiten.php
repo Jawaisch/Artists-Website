@@ -18,39 +18,56 @@
 
   // Anforderungsliste
   $Data_Reqs = array(
-    'Passwort'  => array( 'mand' => False, 
+    'anrede'    => array( 'mand' => True, 
                           'type' => 'string',
+                          'label' => 'Anrede', 
+                          'index' => 'anrede',
                           'fname' =>'htmlentities'),
-    'Anrede'    => array( 'mand' => True, 
-                          'type' => 'string', 
+    'titel'     => array( 'mand' => False, 
+                          'type' => 'string',
+                          'label' => 'Titel', 
+                          'index' => 'titel',
                           'fname' =>'htmlentities'),
-    'Titel'     => array( 'mand' => False, 
-                          'type' => 'string', 
+    'vname'     => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Vorname', 
+                          'index' => 'vname',
                           'fname' =>'htmlentities'),
-    'Vorname'   => array( 'mand' => True, 
-                          'type' => 'string', 
+    'nname'     => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Nachname', 
+                          'index' => 'nname',
                           'fname' =>'htmlentities'),
-    'Nachname'  => array( 'mand' => True, 
-                          'type' => 'string', 
-                          'fname' =>'htmlentities'),
-    'PLZ'       => array( 'mand' => True, 
-                          'type' => 'int', 
+    'plz'       => array( 'mand' => True, 
+                          'type' => 'int',
+                          'label' => 'PLZ', 
+                          'index' => 'plz',
                           'fname' =>'abs',
                           'regex' => 'check_plz'),
-    'Ort'       => array( 'mand' => True, 
-                          'type' => 'string', 
+    'ort'       => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Ort', 
+                          'index' => 'ort',
                           'fname' =>'htmlentities'),
-    'Strasse'   => array( 'mand' => True, 
-                          'type' => 'string', 
+    'str'       => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Strasse', 
+                          'index' => 'str',
                           'fname' =>'htmlentities'),
-    'HausNr'    => array( 'mand' => True, 
-                          'type' => 'string', 
+    'hnr'       => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'HausNr', 
+                          'index' => 'hnr',
                           'fname' =>'htmlentities'),
-    'Email'     => array( 'mand' => True, 
-                          'type' => 'string', 
+    'email'     => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Email', 
+                          'index' => 'email',
                           'fname' =>'htmlentities'),
-    'Telefon'   => array( 'mand' => True, 
-                          'type' => 'string', 
+    'tele'      => array( 'mand' => True, 
+                          'type' => 'string',
+                          'label' => 'Telefon', 
+                          'index' => 'tele',
                           'fname' =>'htmlentities')
     );
   
@@ -92,19 +109,16 @@
   ErrorOccurred( );
   
   // Formular vorbereiten
-  $labels_arr = array("Passwort", "Anrede", "Titel", 
-                      "Vorname", "Nachname", "PLZ", "Ort", "Strasse", 
-                      "HausNr", "Email", "Telefon");
-	$header = "Profil bearbeiten";
+  $header = "Profil bearbeiten";
   $description= "Bitte ändern Sie hier Ihre gewünschten Profildaten.";
   $action = "./kunde_bearbeiten.php?";
 
   // Formular ausgeben
   $dbconn = KWS_DB_Connect("kunde"); // Datenbankverbindung
   $userData = GetUserData( $dbconn);
-  HtmlRegForm( $labels_arr, $header, $description, $action, GetUserData( $dbconn ) );
+  HtmlRegForm( $Data_Reqs, $header, $description, $action, GetUserData( $dbconn ) );
 
-  echo "	<p class=\"links\"><a href=\"./neues_passwort.php?".SID."\">Passwort ändern</a></p>"."\n";
+  echo "  <p class=\"links\"><a href=\"./neues_passwort.php?".SID."\">Passwort ändern</a></p>"."\n";
   
   ?>
     <div class="clearBoth" >&nbsp;</div>
