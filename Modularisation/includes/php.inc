@@ -73,6 +73,11 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
               $desc ="";
               break;
 
+	    case 10:$class="warning";
+              $title="Passwort Wiederholung fehlgeschlagen!";
+              $desc ="Bitte wiederholen Sie Ihr neues Passwort.";
+              break;
+
       case 11:$class="warning";
               $title="Sie sind nicht eingeloggt!";
               $desc ="Um userbezogene Seiten aufrufen zu können, müssen Sie sich vorher einloggen.";
@@ -80,12 +85,12 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
 
       case 12:$class="warning";
               $title="Es fehlen Pflichteingaben";
-              $desc ="Bitte füllen Sie im Anmeldeformular alle Felder aus";
+              $desc ="Bitte füllen Sie im Formular alle Felder aus";
               break;      
               
       case 13:$class="warning";
               $title="Falsche Anmeldedaten";
-              $desc ="Diese kombination aus login und passwort ist ungültig! ".
+              $desc ="Diese kombination aus Login und Passwort ist ungültig! ".
                      "Geben Sie bitte erneut Ihre korrekten Anmeldedaten ein.";
               break;  
         
@@ -100,10 +105,15 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
                      "Loggen Sie sich jetzt ein, um Kunst zu erwerben.";
               break;
 
-		  case 16:$class="success";
+      case 16:$class="success";
               $title="Glückwunsch!";
               $desc ="Sie haben erfolgreich ein Künstlerkonto angelegt. ".
                      "Laden Sie jetzt Bilder hoch um ihre Kunst anzubieten.";
+              break;
+
+      case 17:$class="success";
+              $title="Bestätigung!";
+              $desc ="Ihre Daten wurden erfolgreich angepasst.";
               break;
 
       default:$class="error";
@@ -171,10 +181,10 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
   function logout( $location ) 
   {
     // $errno = $_SESSION['error']['errno'];
-	  session_destroy();
-	  $_SESSION = array();
+    session_destroy();
+    $_SESSION = array();
     // $_SESSION['error']['errno'] = $errno;
-	  header( 'Location: '.$location );
+    header( 'Location: '.$location );
   }
 ?>
 

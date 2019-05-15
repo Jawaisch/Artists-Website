@@ -7,6 +7,7 @@
   include_once( "./includes/inputCheck.inc" );
   InitSession();  // Nimmt die aktuelle Session wieder auf
   $_SESSION['referer'] = "./profil.php";
+  CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung
   
   PrintHtmlHeader( );
   PrintHtmlTopnav( $_SERVER['PHP_SELF'], SID );
@@ -14,17 +15,10 @@
   /*#########################################################################
         BEGINN DES CONTENTS
     #######################################################################*/
-?>
-
-<?php
 
   // Anforderungsliste
   $Data_Reqs = array(
-    'Login'     => array( 'mand' => True, 
-                          'type' => 'string',
-                          'fname'=> 'htmlentities',
-                          'check_is_unique' => 'login_unique'),
-    'Passwort'  => array( 'mand' => True, 
+    'Passwort'  => array( 'mand' => False, 
                           'type' => 'string',
                           'fname' =>'htmlentities'),
     'Anrede'    => array( 'mand' => True, 
@@ -59,22 +53,27 @@
                           'type' => 'string', 
                           'fname' =>'htmlentities')
     );
-    
-  echo"    <div id=\"content\">";
   
   if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")
   { 
     // Überprüfen ob alle Felder ausgefüllt wurden und was eingegeben wurde
-    $dbconn = KWS_DB_Connect("bearbeiter"); // Datenbankverbindung
+    $dbconn = KWS_DB_Connect("kunde"); // Datenbankverbindung
     if( check_input( $_POST['reg_data_arr'], $Data_Reqs, $_SESSION['input_data'], $dbconn ) )
     {
-      $dbconn = KWS_DB_Connect("reg"); // Datenbankverbindung
-      if( InsertNewUser( $dbconn ) )
+      $dbconn = KWS_DB_Connect("kunde"); // Datenbankverbindung
+
+      // wurde ein neues Passwort eingegeben?
+      if( !empty($_SESSION['input_data']['Passwort']['val']) )
+      { 
+        UpdateUserPasswd( $dbconn ); // TODO Passwort wiederholen
+        unset($_SESSION['input_data']['Passwort']);
+      }
+      if( UpdateUserData( $dbconn ) )
       { // Erfolgsfall
-        $_SESSION['error']['errno']=15;
+        $_SESSION['error']['errno']=17;
         unset( $_SESSION['input_data'] );
-        header('Location: ./login.php?'.SID);
-        die("header?!");
+        header('Location: ./kunde_bearbeiten.php?'.SID);
+        die();
       }
       else
       { // Insert fehlgeschlagen
@@ -87,20 +86,28 @@
     }
   }
 
+  echo"    <div id=\"content\">";
+
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
-
-  $labels_arr = array("Login", "Passwort", "Anrede", "Titel", 
+  
+  // Formular vorbereiten
+  $labels_arr = array("Passwort", "Anrede", "Titel", 
                       "Vorname", "Nachname", "PLZ", "Ort", "Strasse", 
                       "HausNr", "Email", "Telefon");
-	$description= "Bitte füllen Sie dieses Formular aus, um ein Konto als Kunde zu erstellen.";
-	$action = "./kunde_reg.php?";
+	$header = "Profil bearbeiten";
+  $description= "Bitte ändern Sie hier Ihre gewünschten Profildaten.";
+  $action = "./kunde_bearbeiten.php?";
 
   // Formular ausgeben
-  HtmlRegForm( $labels_arr, $description, $action );
+  $dbconn = KWS_DB_Connect("kunde"); // Datenbankverbindung
+  $userData = GetUserData( $dbconn);
+  HtmlRegForm( $labels_arr, $header, $description, $action, GetUserData( $dbconn ) );
+
+  echo "	<p class=\"links\"><a href=\"./neues_passwort.php?".SID."\">Passwort ändern</a></p>"."\n";
   
   ?>
-  <div class="clearBoth" >&nbsp;</div>
+    <div class="clearBoth" >&nbsp;</div>
   </div>
 
   <!-- end #content --> 

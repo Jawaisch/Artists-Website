@@ -247,6 +247,7 @@ function HtmlSidebarKünstler( $Session_ID )
                 <input type="submit" name="submit" value="Logout" />
               </div>
             </form></li>
+		      <li><a href="./kauf.php?$Session_ID">Einkaufswagen</a></li>
           <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
           <li><a href="#">Kaufübersicht</a></li>
         </ul>
@@ -353,14 +354,13 @@ EOT;
               "\n   <tbody>";
 
     // Wdh. solange Datensätze vorhanden
-    foreach ( $daten AS $user )
-    {
-      foreach ( $user AS $key => $value )
-      {     
-        $table .= "<tr> <td>". $key." </td>".
-                       "<td>". $value." </td> </tr> ";
-      }
+    
+    foreach ( $daten AS $key => $value )
+    {     
+      $table .= "<tr> <td>". $key." </td>".
+                     "<td>". $value." </td> </tr> ";
     }
+    
     $table .="\n </tbody>\n </table>"; // Der Tabellenfuß
 
     return $table;
@@ -405,26 +405,29 @@ EO_CARDS;
 
 
 /* ****************************************************************************************
-@funktion HtmlRegForm( $labels_arr )
+@funktion HtmlRegForm( $labels_arr, $description, $action, [$user_data_arr] )
 
-@brief - Erzeugt ein Formular für den Regestriervorgang
+@brief - Erzeugt ein Formular für den Regestriervorgang oder Profil bearbeiten
     
-@param - Ein Array welches die Labels für das Formular enthält
+@param - $labels_arr:   Ein Array welches die Labels für das Formular enthält
+         $description:  Eine Beschreibung für das Formular als String
+         $action:       Die Zielseite der Formulardaten
+         $user_data_arr:Ein Arry mit Userdaten für die Seite Profil bearbeiten
 
 @return - Ein gültiges HTML-Div als String
 ****************************************************************************************** */
-function HtmlRegForm( $labels_arr, $description, $action )
+function HtmlRegForm( $labels_arr, $header, $description, $action, $user_data_arr=null )
 {
   echo "\n    <form action=\"".$action.SID."\" method=\"post\">\n";
   echo "\n    <div class=\"form_container\">";
-  echo "\n       <h1>Regestrieren</h1>";
+  echo "\n       <h1>".$header."</h1>";
   echo "\n       <p>".$description."</p>";
   echo "\n       <hr />";
 
   foreach($labels_arr as $label)
   {
     echo "\n        <p class=\"label\"><span class=\"description\"><label ><b>".$label."</b></label>";
-    if(isset( $_SESSION['input_data'][$label]['err'] ))
+    if(isset( $_SESSION['input_data'][$label]['err'] )) // TODO
     {
       echo"</span>".$_SESSION['input_data'][$label]['err']."</p>";
     }
@@ -443,6 +446,11 @@ function HtmlRegForm( $labels_arr, $description, $action )
     if(isset( $_POST['reg_data_arr'][$label] )) 
     { 
       echo $_POST['reg_data_arr'][$label]; 
+    }
+    elseif(isset( $user_data_arr[$label] )) 
+    { 
+      //DebugArr($user_data_arr[0][$label]);
+      echo $user_data_arr[$label]; 
     }
     echo "\" />\n";      
   }

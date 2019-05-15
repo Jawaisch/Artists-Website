@@ -15,25 +15,22 @@
   /*#########################################################################
         BEGINN DES CONTENTS
     #######################################################################*/
-?>
-
-<?php
 
   // Anforderungsliste
   $Data_Reqs = array(
-	'Kuenstlername'=> array(	'mand' => True, 
-								            'type' => 'string',
-                            'fname'=> 'htmlentities',
-                            'check_is_unique' => 'kname_unique'),
-    'IBAN'			 => array(  'mand' => True, 
-                            'type' => 'int',
-                            'fname' =>'abs'),
-    'BIC'			   => array(  'mand' => True, 
-                            'type' => 'int', 
-                            'fname' =>'abs'),
-    'Vita'			 => array(  'mand' => False, 
-                            'type' => 'string', 
-                            'fname' =>'htmlentities'),
+    'Kuenstlername'=> array(  'mand' => True, 
+                              'type' => 'string',
+                              'fname'=> 'htmlentities',
+                              'check_is_unique' => 'kname_unique'),
+      'IBAN'       => array(  'mand' => True, 
+                              'type' => 'int',
+                              'fname' =>'abs'),
+      'BIC'        => array(  'mand' => True, 
+                              'type' => 'int', 
+                              'fname' =>'abs'),
+      'Vita'       => array(  'mand' => False, 
+                              'type' => 'string', 
+                              'fname' =>'htmlentities'),
     );
   
   if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")
@@ -66,16 +63,18 @@
 
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
-
+  
+  // Formular vorbereiten
   $labels_arr = array("Kuenstlername", "IBAN", "BIC", "Vita");
+  $header = "Künstlerkonto anlegen";
   $description= "Bitte füllen Sie dieses Formular aus, um Ihrem Konto ein Künstlerkonto hinzuzufügen.";
   $action = "./kuenstler_reg.php?";
 
   // Formular ausgeben
-  HtmlRegForm( $labels_arr, $description, $action );
+  HtmlRegForm( $labels_arr, $header, $description, $action );
   
   ?>
-  <div class="clearBoth" >&nbsp;</div>
+    <div class="clearBoth" >&nbsp;</div>
   </div>
 
   <!-- end #content --> 

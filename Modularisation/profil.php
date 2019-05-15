@@ -24,23 +24,24 @@
       // Wurde ein Fehler übergeben?
       ErrorOccurred( );
 
-    echo "<div class=\"split left\">";
-    echo "  <h3>Ihr User Profil</h3>";
+    echo "<div class=\"split left\">"."\n";
+    echo "  <h3>Ihr User Profil</h3>"."\n";
     echo    HtmlUserAccount( GetUserData( $dbconn ) );  
-    echo "</div>";
+    echo "</div>"."\n";
 
     if ( $_SESSION['login']['user'] == "kuenstler" )
     {
       $ArtCounts = GetArtCounts( $dbconn );
       $offer = $ArtCounts[0];
       $sold  = $ArtCounts[1];
-      echo "<div class=\"split right\">";
-      echo "  <h3>Ihr Künstler Profil</h3>";
+      echo "<div class=\"split right\">"."\n";
+      echo "  <h3>Ihr Künstler Profil</h3>"."\n";
       echo    HtmlUserAccount( GetArtistData( $dbconn ) );
       echo    PrintHtmlCards( $offer, $sold, SID );
-      echo "</div>";
+      echo "</div>"."\n";
     }
-    echo "<div class=\"clearBoth\" >&nbsp;</div>";
+    echo "<div class=\"clearBoth\" >&nbsp;</div>"."\n";
+	echo "	<p class=\"links\"><a href=\"./kunde_bearbeiten.php?".SID."\">Profil bearbeiten</a></p>"."\n";
 
     echo "<h2>Ihre Einkäufe</h2>";
     echo HtmlUserAccount( GetUserBuys( $dbconn ) );

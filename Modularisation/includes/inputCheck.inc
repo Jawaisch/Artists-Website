@@ -2,7 +2,7 @@
 /*****************************************************************************
   Deklaration der Funktion check_input()
 *****************************************************************************/
-function check_input($input, $DataReqs, &$clean, $dbconn = null, $redirect_URL = null)
+function check_input($input, $DataReqs, &$clean, $dbconn = null)
 {
   $result = True;
   /* Jetzt werden die Anforderungen abgearbeitet:
@@ -15,7 +15,6 @@ function check_input($input, $DataReqs, &$clean, $dbconn = null, $redirect_URL =
     { # Eine geforderte Eingabe fehlt: 
       /* Fehler aufheben */
       $clean[$name]['val']  = null;
-     //$clean[$name]['mand'] = true;
       $clean[$name]['err']  = "Fehlende Eingabe!";
       $result = False;
     } 
@@ -35,6 +34,8 @@ function check_input($input, $DataReqs, &$clean, $dbconn = null, $redirect_URL =
        {
           $clean[$name]['val'] = $Req['fname']($clean[$name]['val']);
        }
+
+	   // Funktion für Eindeutigkeit gesetzt? - dann anwenden
        if ( isset($Req['check_is_unique']) )  # Funktion gesetzt? - dann anwenden
        {
           if( !($Req['check_is_unique']($clean[$name]['val'], $dbconn)) )
@@ -43,7 +44,9 @@ function check_input($input, $DataReqs, &$clean, $dbconn = null, $redirect_URL =
             $result = false;
          }
        }
-       if ( isset($Req['regex']) )  # Funktion gesetzt? - dann anwenden
+
+	   // Funktion für Formatprüfung gesetzt? - dann anwenden
+       if ( isset($Req['regex']) )
        {
           if( !($Req['regex']($clean[$name]['val'])) )
          {

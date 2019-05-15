@@ -14,9 +14,6 @@
   /*#########################################################################
         BEGINN DES CONTENTS
     #######################################################################*/
-?>
-
-<?php
 
   // Anforderungsliste
   $Data_Reqs = array(
@@ -59,8 +56,6 @@
                           'type' => 'string', 
                           'fname' =>'htmlentities')
     );
-    
-  echo"    <div id=\"content\">";
   
   if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")
   { 
@@ -87,20 +82,24 @@
     }
   }
 
+  echo"    <div id=\"content\">";
+
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
-
+  
+  // Formular vorbereiten
   $labels_arr = array("Login", "Passwort", "Anrede", "Titel", 
                       "Vorname", "Nachname", "PLZ", "Ort", "Strasse", 
                       "HausNr", "Email", "Telefon");
-	$description= "Bitte füllen Sie dieses Formular aus, um ein Konto als Kunde zu erstellen.";
-	$action = "./kunde_reg.php?";
+	$header = "Regestrieren";
+  $description= "Bitte füllen Sie dieses Formular aus, um ein Konto als Kunde zu erstellen.";
+  $action = "./kunde_reg.php?";
 
   // Formular ausgeben
-  HtmlRegForm( $labels_arr, $description, $action );
+  HtmlRegForm( $labels_arr, $header, $description, $action );
   
   ?>
-  <div class="clearBoth" >&nbsp;</div>
+    <div class="clearBoth" >&nbsp;</div>
   </div>
 
   <!-- end #content --> 

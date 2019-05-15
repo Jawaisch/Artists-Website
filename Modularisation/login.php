@@ -23,9 +23,9 @@
     'login'     => array( 'mand' => True, 
                           'type' => 'string',
                           'fname'=> 'htmlentities'),
-    'passwd'  => array(   'mand' => True, 
+    'passwd'    => array( 'mand' => True, 
                           'type' => 'string',
-              'fname'=> 'htmlentities')
+                          'fname'=> 'htmlentities')
   );
 
 ?>
@@ -39,7 +39,7 @@
     if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")
     { 
       // Überprüfen ob alle Felder ausgefüllt wurden und was eingegeben wurde
-      if( check_input( $_POST['login_data_arr'], $Data_Reqs, $_SESSION['input_data'] ) )//CheckLoginFormData() )
+      if( check_input( $_POST['login_data_arr'], $Data_Reqs, $_SESSION['input_data'] ) )
       {
         $dbconn = KWS_DB_Connect("login"); // Datenbankverbindung
         $uid = GetUidByLogin( $dbconn , $_SESSION['input_data']['login']['val'] , $_SESSION['input_data']['passwd']['val'] );

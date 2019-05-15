@@ -380,8 +380,8 @@ function GetUserData( $dbconn )
                         Ort,
                         Strasse,
                         HausNr,
-                        Email AS EmailAdresse,
-                        Telefon AS TelefonNr,
+                        Email,
+                        Telefon,
                         Reg_Zeitstempel AS registriert_am_um
                FROM     benutzer
                WHERE    User_ID = ".$_SESSION['login']['UID'];
@@ -406,7 +406,7 @@ function GetUserData( $dbconn )
 
     while( $ds = $result_handle->fetch_assoc() )
     {
-      $user_data_arr[] = $ds;
+      $user_data_arr = $ds;
     }
   }
   return $user_data_arr;
@@ -480,13 +480,12 @@ function InsertNewUser( $dbconn )
   //1. ein Objekt der Klasse mysqli_stmt anlegen
   $prepstmt = $dbconn->stmt_init();
   //2.Abfrage mit Platzhalter für Daten zusammenbasteln
-  
   $SQLstring =
     " INSERT INTO benutzer (  Login, Passwd, Anrede, Titel, Vorname,
                               Nachname, PLZ, Ort, Strasse, HausNr, Email, Telefon,
                               Reg_Zeitstempel, Reg_IP ) 
               VALUES  ( ?, SHA2( ?, 256), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
-
+	
   // Abfrage an den DB-Server abschicken
 
   // 3. Prepared Statement auf dem DB-Server vorbereiten
@@ -530,7 +529,142 @@ function InsertNewUser( $dbconn )
     $Reg_IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
   }
 
-  //5. Diese Parameter anwenden
+  //6. Diese Parameter anwenden
+  $OK2 = $prepstmt->execute();
+  if($OK2 === false)
+  {
+    echo "\n <div class=\"error\">".
+       "\n <b>Abfrage fehlgeschlagen!</b>".
+       "\n <div>".$SQLstring."</div>".
+       "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
+       "</div>";
+
+    die("DB-Problem - Abbruch");
+  }
+
+  $prepstmt->close(); //abräumen nach getaner Arbeit
+  return $OK2;
+} 
+
+
+/* ************************************************************************************
+      @function UpdateUserData( $dbconn )
+
+      @brief: Ändert die Benutzer Daten in der DB
+
+      @para - $dbconn      Eine Datenbankverbindung der Klasse mysqli
+
+      @return - true im Erfolgsfall
+                sonst false
+************************************************************************************ */
+function UpdateUserData( $dbconn )
+{
+  //1. ein Objekt der Klasse mysqli_stmt anlegen
+  $prepstmt = $dbconn->stmt_init();
+  //2.Abfrage mit Platzhalter für Daten zusammenbasteln
+  $SQLstring =
+    " UPDATE benutzer SET Anrede = ?, Titel = ?, Vorname = ?,
+                          Nachname = ?, PLZ = ?, Ort = ?, Strasse = ?, 
+                          HausNr = ?, Email = ?, Telefon = ?
+                   WHERE User_ID = ?";
+
+  // Abfrage an den DB-Server abschicken
+
+  // 3. Prepared Statement auf dem DB-Server vorbereiten
+  $OK = $prepstmt->prepare( $SQLstring );
+  
+  // Abfrage erfolgreich?
+  if($OK === false)
+  {
+    echo "\n <div class=\"error\">".
+       "\n <b>Abfrage fehlgeschlagen!</b>".
+       "\n <div>".$SQLstring."</div>".
+       "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
+       "</div>";
+
+    die("DB-Problem - Abbruch");
+  }
+
+  //4. Daten an die Parameter binden
+  $type = "ssssisssssi";
+  $params = array(&$Anrede, &$Titel, 
+                  &$Vorname, &$Nachname, &$PLZ, &$Ort, &$Strasse, 
+                  &$HausNr, &$Email, &$Telefon, &$User_ID );
+
+  call_user_func_array(array($prepstmt, "bind_param"), array_merge(array($type), $params));
+  
+  //5. Parameter setzen
+  foreach($_SESSION['input_data'] as $item => $value)
+  {
+    ${$item} = $value[val];
+  }
+  $User_ID = $_SESSION['login']['UID'];
+
+  //6. Diese Parameter anwenden
+  $OK2 = $prepstmt->execute();
+  if($OK2 === false)
+  {
+    echo "\n <div class=\"error\">".
+       "\n <b>Abfrage fehlgeschlagen!</b>".
+       "\n <div>".$SQLstring."</div>".
+       "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
+       "</div>";
+
+    die("DB-Problem - Abbruch");
+  }
+
+  $prepstmt->close(); //abräumen nach getaner Arbeit
+  return $OK2;
+}
+
+
+/* ************************************************************************************
+      @function UpdateUserPasswd( $dbconn )
+
+      @brief: Ändert die Benutzer Daten in der DB
+
+      @para - $dbconn      Eine Datenbankverbindung der Klasse mysqli
+
+      @return - true im Erfolgsfall
+                sonst false
+************************************************************************************ */
+function UpdateUserPasswd( $dbconn, $uid, $passwd  )
+{
+  //1. ein Objekt der Klasse mysqli_stmt anlegen
+  $prepstmt = $dbconn->stmt_init();
+  //2.Abfrage mit Platzhalter für Daten zusammenbasteln
+  $SQLstring =
+    " UPDATE benutzer SET Passwd = SHA2( ?, 256)
+                   WHERE User_ID = ?";
+
+  // Abfrage an den DB-Server abschicken
+
+  // 3. Prepared Statement auf dem DB-Server vorbereiten
+  $OK = $prepstmt->prepare( $SQLstring );
+  
+  // Abfrage erfolgreich? 
+  if($OK === false)
+  {
+    echo "\n <div class=\"error\">".
+       "\n <b>Abfrage fehlgeschlagen!</b>".
+       "\n <div>".$SQLstring."</div>".
+       "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
+       "</div>";
+
+    die("DB-Problem - Abbruch");
+  }
+
+  //4. Daten an die Parameter binden
+  $type = "si";
+  $params = array(&$Passwort, &$User_ID);
+
+  call_user_func_array(array($prepstmt, "bind_param"), array_merge(array($type), $params));
+  //5. Parameter setzen
+
+  $Passwort = $passwd; // $_SESSION['input_data']['Passwort']['val'];
+  $User_ID = $uid; //$_SESSION['login']['UID'];
+
+  //6. Diese Parameter anwenden
   $OK2 = $prepstmt->execute();
   if($OK2 === false)
   {
@@ -600,7 +734,7 @@ function InsertNewArtist( $dbconn )
   
   $User_ID = $_SESSION['login']['UID'];
 
-  //5. Diese Parameter anwenden
+  //6. Diese Parameter anwenden
   $OK2 = $prepstmt->execute();
   if($OK2 === false)
   {
@@ -762,7 +896,7 @@ function GetUserBuys( $dbconn )
 
     while( $ds = $result_handle->fetch_assoc() )
     {
-      $user_buys_arr[] = $ds;
+      $user_buys_arr = $ds;
     }
   }
   return $user_buys_arr;
@@ -808,7 +942,7 @@ function GetArtistData( $dbconn )
 
     while( $ds = $result_handle->fetch_assoc() )
     {
-      $artist_data_arr[] = $ds;
+      $artist_data_arr = $ds;
     }
   }
   return $artist_data_arr;
