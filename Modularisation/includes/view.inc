@@ -435,7 +435,7 @@ function HtmlRegForm( $labels_arr, $header, $description, $action, $user_data_ar
     {
       echo"</span>&nbsp;</p>";
     }
-    if($label == "Passwort" )
+    if(strpos($label, 'Passwort') !== false)
     {
       echo "\n        <input type=\"password\" name=\"reg_data_arr[$label]\" value=\"";
     }
