@@ -55,8 +55,23 @@
 
           // Überprüfen ob der User auch ein Künstler ist
           if($User_Handle[0] == "kuenstler")
+          {
             $_SESSION['login']['KID'] = $User_Handle[1];
-            header( 'Location: '.$_SESSION['referer'].'?'.SID );
+            // Enthält der Referer ein ? 
+            // Dann: Verbinder = &
+            // Sonst: Verbinder = ?
+            
+            if ( !strpos($_SESSION['referer'],'?') === false ) 
+            {
+              $str_connect = '&';
+            }
+            else
+            {
+              $str_connect = '?';
+            }
+            header( 'Location: '.$_SESSION['referer'].$str_connect.SID);
+          }
+			    header( 'Location: '.$_SESSION['referer'].'?'.SID);
         }
         else
         {

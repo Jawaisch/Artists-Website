@@ -215,11 +215,13 @@ function HtmlSidebarKunde( $Session_ID )
         <ul>
           <li>
             <form action="logout.php" method="post">
-              <input type="hidden" name="$sname" value="$sid" />
+              <div><input type="hidden" name="$sname" value="$sid" /></div>
               <div class="buttonrow">
                 <input type="submit" name="submit" value="Logout" />
               </div>
-            </form></li>
+            </form>
+          </li>
+          <li><a href="./kauf.php?$Session_ID">Einkaufswagen</a></li>
           <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
           <li><a href="#">Kaufübersicht</a></li>
           <li><a href="./kuenstler_reg.php?$Session_ID">Künstler werden</a></li>
@@ -242,12 +244,13 @@ function HtmlSidebarKünstler( $Session_ID )
         <ul>
           <li>
             <form action="logout.php" method="post">
-              <input type="hidden" name="$sname" value="$sid" />
+              <div><input type="hidden" name="$sname" value="$sid" /></div>
               <div class="buttonrow">
                 <input type="submit" name="submit" value="Logout" />
               </div>
-            </form></li>
-		      <li><a href="./kauf.php?$Session_ID">Einkaufswagen</a></li>
+            </form>
+          </li>
+          <li><a href="./kauf.php?$Session_ID">Einkaufswagen</a></li>
           <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
           <li><a href="#">Kaufübersicht</a></li>
         </ul>
@@ -255,7 +258,7 @@ function HtmlSidebarKünstler( $Session_ID )
       <li>
         <h2>Künstler</h2>
         <ul>
-          <li><a href="#">Kunst verkaufen</a></li>
+          <li><a href="./upload.php?$Session_ID">Kunst verkaufen</a></li>
           <li><a href="#">Meine Kunst</a></li>
           <li><a href="#">Verkaufsübersicht</a></li>
           <li><a href="./kuenstler_reg.php?$Session_ID">Neues Künstlerkonto</a></li>
@@ -381,23 +384,34 @@ function PrintHtmlCards( $offer, $sold, $Session_ID )
   echo <<<EO_CARDS
 
      <div>
+
       <div class="column">
-        <a href="index.php?$Session_ID" >
-          <div class="card">
-            <h4>$offer</h4>
-            <p>Angeboten</p>
-          </div>
+        <a href="index.php?$Session_ID" class="card" >
+          &nbsp;<br />
+          $offer<br />
+          &nbsp;<br />
+          Angeboten
         </a>
       </div>
 
       <div class="column">
-        <a href="index.php?$Session_ID" >
-          <div class="card">
-            <h4>$sold</h4>
-            <p>Verkauft</p>
-          </div>
-        </div>
-      </a>
+        <a href="index.php?$Session_ID" class="card">
+          &nbsp;<br />  
+          $sold<br />
+          &nbsp;<br />
+          Verkauft
+        </a>
+      </div>
+      
+      <div class="column">
+        <a href="upload.php?$Session_ID" class="card">
+          &nbsp;<br />    
+          neu<br />
+          &nbsp;<br />
+          Anbieten<br />
+        </a>
+      </div>
+    
     </div>
 
 EO_CARDS;
@@ -405,29 +419,44 @@ EO_CARDS;
 
 
 /* ****************************************************************************************
-@funktion HtmlRegForm( $labels_arr, $description, $action, [$user_data_arr] )
+@funktion HtmlRegForm( $Data_Reqs, $header, $description, $action, [$user_data_arr=null], [$agbs=false] )
 
 @brief - Erzeugt ein Formular für den Regestriervorgang oder Profil bearbeiten
     
-@param - $labels_arr:   Ein Array welches die Labels für das Formular enthält
+@param - $Data_Reqs:    Ein Array welches die Labels für das Formular enthält
          $description:  Eine Beschreibung für das Formular als String
          $action:       Die Zielseite der Formulardaten
-         $user_data_arr:Ein Arry mit Userdaten für die Seite Profil bearbeiten
+         $user_data_arr:Ein Arry mit Userdaten für die Seite: Profil bearbeiten
+         $agbs:         Ein bool der angibt ob der AGB Hinweis ausgegeben werden muss
+         $upload:       Ein bool der angibt ob ein Upload Button ausgegeben werden muss
 
 @return - Ein gültiges HTML-Div als String
 ****************************************************************************************** */
-function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr=null )
+function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr=null, $agbs=false, $upload=false )
 {
-  echo "\n    <form action=\"".$action.SID."\" method=\"post\">\n";
+  if($upload)
+    echo "\n    <form  action=\"".$action.SID."\" method=\"post\" enctype=\"multipart/form-data\" >\n";
+  else
+    echo "\n    <form action=\"".$action.SID."\" method=\"post\">\n";
+  
   echo "\n    <div class=\"form_container\">";
   echo "\n       <h1>".$header."</h1>";
   echo "\n       <p>".$description."</p>";
   echo "\n       <hr />";
-
+  
+  // Wird ein upload button benötigt?
+  if($upload)
+  {
+    echo "\n       <p class=\"label\"><span class=\"description\"><label ><b>Bild</b></label></span>&nbsp;</p>";
+    echo "\n       <input type=\"file\" name=\"bild\" id=\"bild\" accept=\"image/*\" size=\"80\" />";
+  }
+  
+  // Eingabe Felder Erzeugen
   foreach($Data_Reqs as $data)
   {
     echo "\n        <p class=\"label\"><span class=\"description\"><label ><b>".$data['label']."</b></label>";
-    if(isset( $_SESSION['input_data'][$data['index']]['err'] )) // TODO
+    // Wurde beim input check ein Fehler eingetragen?
+    if(isset( $_SESSION['input_data'][$data['index']]['err'] ))
     {
       echo"</span>".$_SESSION['input_data'][$data['index']]['err']."</p>";
     }
@@ -435,28 +464,64 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
     {
       echo"</span>&nbsp;</p>";
     }
+    // Handelt es sich um ein Passwort-Feld?
     if(strpos($data['label'], 'Passwort') !== false)
     {
       echo "\n        <input type=\"password\" name=\"reg_data_arr[".$data['index']."]\" value=\"";
     }
+    // Handelt es sich um ein Textarea-Feld?
+    elseif( isset($data['textarea']) )
+    {
+      echo "\n        <textarea name=\"reg_data_arr[".$data['index']."]\" rows=\"5\" cols=\"80\" id=\"vita\">";
+    }
+    // Handelt es sich um ein Select-Feld?
+    elseif( isset($data['is_select']) )
+    {
+      HtmlFormSelect( );
+    }
+    // Dann ist es ein Text-Feld
     else
     {
       echo "\n        <input type=\"text\" name=\"reg_data_arr[".$data['index']."]\" value=\"";
     }
-    if(isset( $_POST['reg_data_arr'][$data['index']] )) 
-    { 
-      echo $_POST['reg_data_arr'][$data['index']]; 
+    
+    // Nur für nicht Select-Felder
+    if( !isset($data['is_select']) )
+    {
+      // Wurden in dieses Feld bereits Daten eingegeben?
+      if(isset( $_POST['reg_data_arr'][$data['index']] )) 
+      { 
+        echo $_POST['reg_data_arr'][$data['index']]; 
+      }
+      // Wurden dem Funktionsaufruf Daten für dieses Feld übergeben?
+      elseif(isset( $user_data_arr[$data['label']] )) 
+      { 
+        echo $user_data_arr[$data['label']]; 
+      }
     }
-    elseif(isset( $user_data_arr[$data['label']] )) 
-    { 
-      //DebugArr($user_data_arr[0][$label]);
-      echo $user_data_arr[$data['label']]; 
+    
+    // geöffneten Tag schließen
+    // Handelt es sich um ein Textarea-Feld?
+    if( isset($data['textarea']) )
+    {
+      echo " </textarea>\n"; 
     }
-    echo "\" />\n";      
+    // Handelt es sich um ein Select-Feld?
+    elseif( isset($data['is_select']) )
+    {
+      // nichts zum schließen
+    }
+    else
+    { 
+      echo "\" />\n";
+    }
   }
 
   echo "\n       <hr />";
-  echo "\n       <p>Mit der Erstellung eines Kontos erklären Sie sich mit unseren <a href=\"agb.php?".session_id()."\">AGBs </a>einverstanden.</p>";  
+  if( $agbs )
+  {
+    echo "\n       <p>Mit der Erstellung eines Kontos erklären Sie sich mit unseren <a href=\"agb.php?".session_id()."\">AGBs </a>einverstanden.</p>"; 
+  }
   echo "\n        <input type=\"hidden\" name=\"".session_name()."\" value=\"".session_id()."\" />";
   echo "\n        <div class=\"buttonrow\">";
   echo "\n          <input type=\"submit\" name=\"submit\" value=\"Absenden\" />";
@@ -464,4 +529,53 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
   echo "\n        </div>";
   echo "\n      </div>";
   echo "\n    </form>";
+}
+
+
+/* ****************************************************************************************
+@funktion HtmlFormSelect( )
+
+@brief - 
+    
+@param - 
+
+@return - 
+****************************************************************************************** */
+function HtmlFormSelect( )
+{
+ echo "\n <select id=\"genre\" name=\"reg_data_arr[genre_id]\">";
+ echo "\n   <option value=\"\" selected=\"selected\">bitte wählen</option>";
+    
+  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung  
+  if(mysqli_connect_errno($dbconn))
+  {
+    DebugArr($dbconn);
+    DebugArr($_POST);
+    DebugArr($_SESSION);
+  }
+  $sql_abfrage = "SELECT  genre.Genre_ID,
+                          genre.Name
+                  FROM    genre
+                  ORDER BY genre.Name";
+  mysqli_query($dbconn, $sql_abfrage );
+  if(mysqli_error($dbconn))
+  {
+    ErrorHandling($sql_abfrage, $dbconn);
+
+    if( MYDEBUG == FALSE)
+    {
+      GetErrorDiv();      //stummer Fehler
+    }          
+    //header('Location: ./error.php?'.SID); 
+  }
+  else
+  {
+    $res = mysqli_query($dbconn,$sql_abfrage);
+    while ($dsatz = mysqli_fetch_assoc($res))
+    {
+      echo "<option value=\"".$dsatz['Genre_ID']."\">".$dsatz['Name']."</option>";
+    }
+  }
+  mysqli_close($dbconn);
+ echo "\n         </select>";
 }

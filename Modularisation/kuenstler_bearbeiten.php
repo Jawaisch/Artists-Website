@@ -6,8 +6,8 @@
   include_once( "./includes/data.inc" );
   include_once( "./includes/inputCheck.inc" );
   InitSession();  // Nimmt die aktuelle Session wieder auf
-  $_SESSION['referer'] = $_SERVER['PHP_SELF'];
-  CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
+  $_SESSION['referer'] = "./profil.php";
+  CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung
   
   PrintHtmlHeader( );
   PrintHtmlTopnav( $_SERVER['PHP_SELF'], SID );
@@ -22,8 +22,7 @@
                               'type' => 'string',
 							  'label' => 'Künstlername', 
                               'index' => 'kname',
-                              'fname'=> 'htmlentities',
-                              'check_is_unique' => 'kname_unique'),
+                              'fname'=> 'htmlentities'),
       'iban'       => array(  'mand' => True, 
                               'type' => 'string',
 							  'label' => 'IBAN', 
@@ -41,23 +40,22 @@
 							  'label' => 'Vita', 
                               'index' => 'vita',
                               'fname' =>'htmlentities',
-							  'textarea' => True),
+							  'textarea' => True ),
     );
-  
+
+  $dbconn = KWS_DB_Connect("kuenstler"); // Datenbankverbindung
+
   if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")
   { 
     // Überprüfen ob alle Felder ausgefüllt wurden und was eingegeben wurde
-    $dbconn = KWS_DB_Connect("bearbeiter"); // Datenbankverbindung
     if( check_input( $_POST['reg_data_arr'], $Data_Reqs, $_SESSION['input_data'], $dbconn ) )
     {
-      $dbconn = KWS_DB_Connect("reg"); // Datenbankverbindung
-      if( InsertNewArtist( $dbconn ) )
+      if( UpdateArtistData( $dbconn ) )
       { // Erfolgsfall
-        $_SESSION['error']['errno'] = 16;
-        $_SESSION['login']['user'] = "kuenstler";
-        $_SESSION['login']['KID'] = getKidByUid( $_SESSION['login']['UID'], KWS_DB_Connect("bearbeiter") );
-        header('Location: ./profil.php?'.SID);
-        die("header?!");
+        $_SESSION['error']['errno']=17;
+        unset( $_SESSION['input_data'] );
+        header('Location: ./kuenstler_bearbeiten.php?'.SID);
+        die();
       }
       else
       { // Insert fehlgeschlagen
@@ -72,19 +70,21 @@
 
   echo"    <div id=\"content\">";
 
-  DebugArr($_SESSION);
-  DebugArr($_POST);
-
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
   
   // Formular vorbereiten
-  $header = "Künstlerkonto anlegen";
-  $description= "Bitte füllen Sie dieses Formular aus, um Ihrem Konto ein Künstlerkonto hinzuzufügen.";
-  $action = "./kuenstler_reg.php?";
+  $header = "Künstlerprofil bearbeiten";
+  $description= "Bitte ändern Sie hier Ihre gewünschten Profildaten.";
+  $action = "./kuenstler_bearbeiten.php?";
 
   // Formular ausgeben
-  HtmlRegForm( $Data_Reqs, $header, $description, $action, null, $agbs=True );
+  $artistData = GetArtistData( $dbconn );
+  DebugArr($artistData);
+  //DebugArr($_POST);
+  HtmlRegForm( $Data_Reqs, $header, $description, $action, GetArtistData( $dbconn ) );
+
+  echo "  <p class=\"links\"><a href=\"./neues_passwort.php?".SID."\">Passwort ändern</a></p>"."\n";
   
   ?>
     <div class="clearBoth" >&nbsp;</div>

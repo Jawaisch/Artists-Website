@@ -40,7 +40,7 @@ echo <<<EO_TOP
 		</div>
 		<div class="image_notes">
 		<h3>$btitle</h3>
-		<p><span class="description">Künstler:</span><a href="#">$bartist</a></p>
+		<p><span class="description">Künstler:</span><a href="kuenstler.php?kws=$SID&amp;artist=$bartist">$bartist</a></p>
 		<p><span class="description">Größe:</span>$bheight mm x $bwidth mm</p>		
 		<p><span class="description">Kaufspreis:</span>$bprice €</p>
 		<p>

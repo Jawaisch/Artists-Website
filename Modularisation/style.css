@@ -226,6 +226,16 @@ a {
   opacity: 1;
 }
 
+.form_container textarea {
+  width: 97%;
+  height: 12.5em;
+  padding: 0.9em 1.6em;
+  box-sizing: border-box;
+  border: 0.16em solid #ccc;
+  background-color: #f1f1f1;
+  resize: none;
+}
+
 p.label{
   padding-left: 16em;
   position: relative;
@@ -260,20 +270,21 @@ span.description{
 
 .column {
   float: left;
-  max-width: 30%;
-  width: 30%;
+  max-width: 29%;
+  width: 29%;
   padding: 0.5em 0.5em 0.5em 0;
 }
 
-a .card {
+.card {
+	display: block;
   box-shadow: 0 0.3em 0.7em 0 rgba(0, 0, 0, 0.2);
-  padding: 1em;
+  padding: 0.9em;
   text-align: center;
   background-color: #555;
   color: white;
 }
 
-.column a:hover .card {
+.column a.card:hover  {
   background:#ddd;
 }
 
@@ -483,6 +494,39 @@ span.description{
 
 div.single_content form{
   padding-left: 32em;
+}
+
+/* Public User Profil *************************************************** */
+
+div.PublicArtistInfo
+{
+  border: thin solid #C2C2C2;
+  background-color: #F9F9F9;
+  margin: 0.5em auto;
+  display: flex;
+  padding: 5px;
+
+}
+
+div.PublicArtistInfo div.PublicProfilPic
+{
+	
+  width: 300px;
+  height: 300px;
+  border: thin solid #C2C2C2;
+  background-color: #F9F9F9;
+  margin: 0.5em auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  float: left;
+
+}
+
+div.PublicArtistInfo div.PublicArtistVita
+{
+
 }
 
 /* Sidebar ****************************************************************/

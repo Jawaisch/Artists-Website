@@ -1,7 +1,7 @@
 <?php
 
 // Konstanten
- define( "MYDEBUG", true ); 
+ define( "MYDEBUG", false ); 
 
 /* ****************************************************************************************
 @funktion InitSession()
@@ -73,7 +73,7 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
               $desc ="";
               break;
 
-	    case 10:$class="warning";
+      case 10:$class="warning";
               $title="Passwort Wiederholung fehlgeschlagen!";
               $desc ="Bitte wiederholen Sie Ihr neues Passwort.";
               break;
@@ -114,6 +114,28 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
       case 17:$class="success";
               $title="Bestätigung!";
               $desc ="Ihre Daten wurden erfolgreich angepasst.";
+              break;
+
+    // UPLOAD
+              
+      case 18:$class="success";
+              $title="Upload";
+              $desc ="Das Bild wurde erfolgreich in unsere Datenbank eingetragen";
+              break;
+              
+      case 19:$class="warning";
+              $title="Upload";
+              $desc ="Das Bild konnte aus technischen Gründen nicht hochgeladen werden.";
+              break;      
+              
+      case 20:$class="warning";
+              $title="falsches Dateiformat";
+              $desc ="Fehler: Sie haben eine Bilddatei hochgeladen, jedoch hat es kein zulässiges Dateiformat<br />Zulässige Dateiformate: .jpg; .png; .gif";
+              break;
+              
+      case 21:$class="warning";
+              $title="falsches Dateiformat";
+              $desc ="Fehler: Bitte wählen Sie ein zulässiges Dateiformat<br />Zulässige Dateiformate: .jpg; .png; .gif";
               break;
 
       default:$class="error";
@@ -186,5 +208,34 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
     // $_SESSION['error']['errno'] = $errno;
     header( 'Location: '.$location );
   }
+
+
+/* ************************************************************************************
+      @function ErrorHandling()
+
+      @brief: Gibt eine Fehlermeldung aus wenn MYDEBUG = True sonst wird
+              auf Fehlerseite umgelenkt.
+
+      @para - 
+
+      @return - 
+************************************************************************************ */
+function ErrorHandling($SQL_String, $dbconn)
+{
+  if( MYDEBUG )
+  {
+    echo "\n <div class=\"error\">".
+         "\n  <b>Abfrage fehlgeschlagen!</b>".
+         "\n  <div>".$SQL_String."</div>".
+         "\n  <div>". $dbconn->errno." : ".$dbconn->error."<\div>".
+            "</div>";
+    die("DB-Problem - Abbruch");
+  }
+  else
+  {
+    header('Location: ./error.php?'.SID);
+    die();
+  }
+}
 ?>
 

@@ -100,13 +100,7 @@ function login_unique( $login, $dbconn )
     
     if($OK === false)
     {
-      echo "\n <div class=\"error\">".
-         "\n <b>Abfrage fehlgeschlagen!</b>".
-         "\n <div>".$SQLstring."</div>".
-         "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
-         "</div>";
-
-      die("DB-Problem - Abbruch");
+		  ErrorHandling($SQL_String, $dbconn);
     }
 
     //4. Daten an die Parameter binden
@@ -162,13 +156,7 @@ function kname_unique( $kname, $dbconn )
     
     if($OK === false)
     {
-      echo "\n <div class=\"error\">".
-         "\n <b>Abfrage fehlgeschlagen!</b>".
-         "\n <div>".$SQLstring."</div>".
-         "\n <div>". $prepstmt->errno." : ".$prepstmt->error."<\div>".
-         "</div>";
-
-      die("DB-Problem - Abbruch");
+      ErrorHandling($SQL_String, $dbconn);
     }
 
     //4. Daten an die Parameter binden

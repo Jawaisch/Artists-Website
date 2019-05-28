@@ -21,7 +21,8 @@
                           'type'  => 'string',
                           'label' => 'Login', 
                           'index' => 'login',
-                          'fname' => 'htmlentities'),
+                          'fname' => 'htmlentities',
+						  'check_is_unique' => 'login_unique'),
     'pwd'       => array( 'mand'  => True, 
                           'type'  => 'string',
                           'label' => 'Passwort', 
@@ -119,7 +120,7 @@
   $action = "./kunde_reg.php?";
 
   // Formular ausgeben
-  HtmlRegForm( $Data_Reqs, $header, $description, $action );
+  HtmlRegForm( $Data_Reqs, $header, $description, $action, null, $agbs=True );
   
   ?>
     <div class="clearBoth" >&nbsp;</div>

@@ -18,8 +18,9 @@
     #######################################################################*/
   echo '      <div id="content">'."\n";
   
-  // Wurde ein Fehler übergeben?
   DebugArr($_SESSION);
+
+  // Wurde ein Fehler übergeben?
   ErrorOccurred( );
  
   $Last3Pics = GetLast3Pics( $dbconn );
@@ -32,7 +33,7 @@
   '       <div class="preview">'."\n".
   '         <h2 class="title">'.$Pic['Titel'].'</h2>'."\n".
   '         <p class="meta">Eingestellt von <a href="#">'.$Pic['KName'].'</a> am '.$date[0].' um '.$date[1].' </p>'."\n".
-	'		      <a href="gross_bild.php?'.SID.'&amp;bid='.$Pic['Bild_ID'].'">'."\n".
+  '         <a href="gross_bild.php?'.SID.'&amp;bid='.$Pic['Bild_ID'].'">'."\n".
   '         <div class="image">'."\n".
   '           <p><img '."\n".
   '             src="art-images/small/'.$Pic['Bild_ID'].'.png"'."\n".
@@ -40,9 +41,9 @@
   '             alt="'.$Pic['Titel'].'"'."\n".
   '             title="'.$Pic['Titel'].'"'."\n".
   '           /></p>'."\n".
-  '           <p class="links"><a href="#top">Seitenanfang</a></p>'."\n".
   '         </div>'."\n".
   '         </a>'."\n".
+  '         <p class="links"><a href="#top">Seitenanfang</a></p>'."\n".
   '       </div>'."\n";
 
   echo $output;
