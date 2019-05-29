@@ -44,6 +44,7 @@
 	$bprice		= $SingleInfo['VK_Preis'];
 	$bpaint		= $SingleInfo['Mal_Technik'];
 	$bgenre		= $SingleInfo['Name'];
+	$genid		= $SingleInfo['Genre_ID'];
 
 	if($SingleInfo['Kauf_Zeitstempel'] === NULL) // Überprüft ob das Bild bereits verkauft wurde 
 		$bsold = "Verfügbar";
@@ -67,7 +68,7 @@ echo <<<EO_SinglePic
 			<p><span class="description">Breite:</span>$bwidth mm</p>
 			<p><span class="description">Verkaufspreis:</span>$bprice&euro;</p>
 			<p><span class="description">Maltechnik:</span>$bpaint</p>
-			<p><span class="description">Genre:</span><a href="./genre.php?kws=$SID&amp;gen=$bgenre">$bgenre</a></p>
+			<p><span class="description">Genre:</span><a href="./genre.php?kws=$SID&amp;gen=$genid">$bgenre</a></p>
 			<p><span class="description">Verfügbarkeit:</span>$bsold</p>
 		</div>
 
@@ -113,7 +114,7 @@ EO_Cart_Form;
 
   <div id="content">
 		<?php
-			DebugArr($_SESSION);
+			
 			if(isset($_POST['warenkorb']) && $_POST['warenkorb'] === "Submit")
 			{
 				$_SESSION['Max_Cart'] = sizeof($_SESSION['cart']); 
@@ -134,7 +135,6 @@ EO_Cart_Form;
 			{
 				$Cart = implode(',',$_SESSION['cart']);
 				$Cart_arr = Clean_Current_Cart( $dbconn , $Cart );
-				DebugArr($Cart_arr);
 				$_SESSION['cart'] = $Cart_arr;
 				
 			}
