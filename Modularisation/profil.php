@@ -27,7 +27,7 @@
     echo "<div class=\"split left\">"."\n";
     echo "  <h3>Ihr User Profil</h3>"."\n";
     echo    HtmlUserAccount( GetUserData( $dbconn ) ); 
-    echo "	<p class=\"links\"><a href=\"./kunde_bearbeiten.php?".SID."\">Profil bearbeiten</a></p>"."\n";
+    echo "  <p class=\"links\"><a href=\"./kunde_bearbeiten.php?".SID."\">Profil bearbeiten</a></p>"."\n";
     echo "</div>"."\n";
 
     if ( $_SESSION['login']['user'] == "kuenstler" )
@@ -39,7 +39,7 @@
       echo "  <h3>Ihr Künstlerprofil</h3>"."\n";
       echo    HtmlUserAccount( GetArtistData( $dbconn ) );
       echo    PrintHtmlCards( $offer, $sold, SID );
-	    echo "	<p class=\"links\"><a href=\"./kuenstler_bearbeiten.php?".SID."\">Künstlerprofil bearbeiten</a></p>"."\n";
+      echo "  <p class=\"links\"><a href=\"./kuenstler_bearbeiten.php?".SID."\">Künstlerprofil bearbeiten</a></p>"."\n";
       echo "</div>"."\n";
     }
     echo "<div class=\"clearBoth\" >&nbsp;</div>"."\n";

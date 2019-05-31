@@ -7,7 +7,7 @@
   include_once( "./includes/inputCheck.inc" );
   InitSession();  // Nimmt die aktuelle Session wieder auf
   $_SESSION['referer'] = $_SERVER['PHP_SELF'];
-  // CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
+  CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
 
   $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
   
@@ -38,7 +38,7 @@
                                 'fname' =>'htmlentities'),
                                 //'regex' => 'check_breite'),
                   
-        'mal_technik' => array(  'mand' => True, 
+        'mal_technik' => array( 'mand' => True, 
                                 'type' => 'string',
                                 'label' => 'Maltechnik', 
                                 'index' => 'mal_technik',
@@ -90,8 +90,7 @@
 
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
-  
-  
+   
   // Formular vorbereiten
   $header = "Bild hochladen";
   $description= "Bitte wählen Sie eine Bilddatei im Format: jpg, png oder gif aus.";

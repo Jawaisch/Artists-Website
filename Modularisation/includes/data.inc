@@ -219,9 +219,10 @@ function GetKindOfUser( $dbconn , $uid)
 function GetAllArtists( $dbconn )
 {
   // Abfrage ohne Perpared_Statements
-  $SQL_String = "SELECT KName
-                 FROM Kuenstler
-                 ORDER BY KName";
+  $SQL_String = "SELECT Kuenstler_ID,
+                        KName
+                 FROM   Kuenstler
+                 ORDER  BY KName";
 
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
@@ -387,15 +388,16 @@ function GetUserData( $dbconn )
 function GetMorePicInfo( $dbconn , $BID )
 {
   $SQL_String = "SELECT Kuenstler.KName,".
-        "   kuenstler.Kuenstler_ID, ".
+                "       kuenstler.Kuenstler_ID, ".
                 "       bild.Titel, ".
                 "       bild.Hoehe, ".
                 "       bild.Breite, ".
                 "       bild.VK_Preis, ".
                 "       bild.Mal_Technik, ".
                 "       bild.Kauf_Zeitstempel, ".
-        "   bild.Resv_Zeitstempel, ".
-                "       genre.Name ".
+                "       bild.Resv_Zeitstempel, ".
+                "       genre.Name, ".
+                "       genre.Genre_ID ".
                 " FROM kuenstler INNER JOIN bild USING (Kuenstler_ID) ".
                 " INNER JOIN eingeordnet USING (Bild_ID)".
                 " INNER JOIN genre USING (Genre_ID) ".

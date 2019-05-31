@@ -16,31 +16,15 @@
   /*#########################################################################
         BEGINN DES CONTENTS
     #######################################################################*/
-  function DisplayAllArtists($Artist_Arr)
-  {
-    echo "<div class=\"table\">". 
-         "\n      <table>".
-         "\n        <tr><th>Unsere K&uuml;nstler</th></tr>\n";
-        
-    foreach ( $Artist_Arr AS $Artists )
-      {  
-      
-       echo "         <tr><td><a href=\"public_artist.php?".SID."&amp;kid=".$Artists['Kuenstler_ID']."\">".$Artists['KName']."</a></td></tr>\n";   
-      }
-    
-    echo  "       </table></div>";
-  }
-
 ?>
 
   <div id="content">
-  
-    <?php
-    $Artists = GetAllArtists($dbconn);
-    DebugArr($Artists);
-    DisplayAllArtists($Artists);
-  ?>
-
+    <h3>Über uns</h3>
+    <p>
+      Diese Website entstand im Rahmen unserer Fachschulausbildung an der Staatlichen 
+      Technikerschule in Berlin. Sie soll nachweisen, dass fundierte Kompetenzen 
+      im Umgang mit PHP, xHTML und CSS erlangt wurden. 
+    </p>
   <div class="clearBoth" >&nbsp;</div>
   </div>
   <!-- end #content --> 

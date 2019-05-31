@@ -85,11 +85,11 @@ function PrintHtmlTopnav( $path, $Session_ID )
 
   $output = ''.
   '    <div class="topnav" >'."\n".
-  '      <a href="index.php?'.$Session_ID.'" '.   $class1 .' >Home</a>'."\n".
-  '      <a href="galerie.php?'.$Session_ID.'" '. $class2 .' >Galerie</a>'."\n".
-  '      <a href="kunstler.php?'.$Session_ID.'" '.$class3 .' >Künstler</a>'."\n".
-  '      <a href="ueber.php?'.$Session_ID.'" '.   $class4 .' >Über uns</a>'."\n".
-  '      <a href="kontakt.php?'.$Session_ID.'" '. $class5 .' >Kontakt</a>'."\n".
+  '      <a href="index.php?'.$Session_ID.'" '.       $class1 .' >Home</a>'."\n".
+  '      <a href="galerie.php?'.$Session_ID.'" '.     $class2 .' >Galerie</a>'."\n".
+  '      <a href="All_Artists.php?'.$Session_ID.'" '. $class3 .' >Künstler</a>'."\n".
+  '      <a href="ueber_uns.php?'.$Session_ID.'" '.   $class4 .' >Über uns</a>'."\n".
+  '      <a href="kontakt.php?'.$Session_ID.'" '.     $class5 .' >Kontakt</a>'."\n".
   '    </div>'."\n".
   '    <!-- end #topnav -->'."\n".
   '    <div id="main">'."\n";
@@ -168,6 +168,7 @@ EO_END;
 
 }
 
+// findet aktuell keine Verwendung könnte aber für administrative Zwecke angepasst werden
 function HtmlSidebarAdmin( $Session_ID )
 {
   echo <<<EO_MID
@@ -348,23 +349,23 @@ EOT;
 ****************************************************************************************** */
   function HtmlUserAccount( $daten )
   {
-    $table =  "   <table class =\"table\">". // Der Tabellenkopf
-              "\n   <thead>".
-              "\n     <tr>".
-              "\n       <th>Bezeichnung</th> <th>Wert</th>".
-              "\n     </tr>".
-              "\n   </thead>".
-              "\n   <tbody>";
+    $table =  "\n     <table class =\"table\">". // Der Tabellenkopf
+              "\n     <thead>".
+              "\n       <tr>".
+              "\n         <th>Bezeichnung</th> <th>Wert</th>".
+              "\n       </tr>".
+              "\n     </thead>".
+              "\n     <tbody>";
 
     // Wdh. solange Datensätze vorhanden
     
     foreach ( $daten AS $key => $value )
     {     
-      $table .= "<tr> <td>". $key." </td>".
-                     "<td>". $value." </td> </tr> ";
+      $table .= "\n       <tr> <td>". $key."</td>".
+                " <td>". $value."</td> </tr> ";
     }
     
-    $table .="\n </tbody>\n </table>"; // Der Tabellenfuß
+    $table .="\n    </tbody>\n </table>\n"; // Der Tabellenfuß
 
     return $table;
   }
@@ -381,12 +382,13 @@ EOT;
 ****************************************************************************************** */
 function PrintHtmlCards( $offer, $sold, $Session_ID )
 {
+  $kid=$_SESSION['login']['KID'];
   echo <<<EO_CARDS
 
      <div>
 
       <div class="column">
-        <a href="index.php?$Session_ID" class="card" >
+        <a href="public_artist.php?$Session_ID&amp;kid=$kid" class="card" >
           &nbsp;<br />
           $offer<br />
           &nbsp;<br />
