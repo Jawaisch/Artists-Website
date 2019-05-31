@@ -260,6 +260,7 @@ function GetLast3Pics( $dbconn )
                         bild.Titel,
                         bild.Hoehe,
                         bild.Breite,
+                        bild.Kuenstler_ID,
             bild.Einstell_Zeitstempel,
                         Kuenstler.KName
                  FROM bild INNER JOIN Kuenstler USING (Kuenstler_ID)
@@ -814,15 +815,18 @@ function GetArtCounts( $dbconn )
 function GetUserBuys( $dbconn )
 {
   // Abfrage ohne Perpared_Statements
-  $SQL_String = " SELECT    COUNT(bild.Bild_ID) AS Anzahl,  
+  $SQL_String = " SELECT    bild.Bild_ID,
                             bild.Titel,
-                            bild.Kauf_Zeitstempel AS `gekauft am`,
-                            bild.VK_Preis AS Preis,
-                            bild.Hoehe AS Höhe,
-                            bild.Breite
-                  FROM      bild JOIN benutzer using (User_ID)
+                            bild.Kauf_Zeitstempel,
+                            bild.VK_Preis,
+                            bild.Hoehe,
+                            bild.Breite,
+                            Kuenstler.KName,
+                            Kuenstler.Kuenstler_ID
+                  FROM      bild INNER JOIN Kuenstler USING (Kuenstler_ID)
+                            INNER JOIN benutzer ON bild.User_ID = benutzer.User_ID
                   WHERE     bild.User_ID = ".$_SESSION['login']['UID']."
-                  ORDER BY  bild.Titel";
+                  ORDER BY  bild.Kauf_Zeitstempel DESC";
     
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
@@ -838,7 +842,7 @@ function GetUserBuys( $dbconn )
 
     while( $ds = $result_handle->fetch_assoc() )
     {
-      $user_buys_arr = $ds;
+      $user_buys_arr[] = $ds;
     }
   }
   return $user_buys_arr;

@@ -46,6 +46,11 @@ a {
   color: #B21B0F;
 }
 
+a:hover {
+  text-decoration: underline;
+  color: #8A8A8A;
+}
+
 /*#########################################################################
         Header
     #######################################################################*/
@@ -396,12 +401,18 @@ span.description{
   color: #FFFFFF;
 }
 
-.preview .meta a {
-  color: #FFFFFF;
-}
-
 .preview .image {
   padding: 0 0 1em 0;
+}
+
+.preview .meta a {
+  text-decoration: none;
+  color: #f1655b;
+}
+
+.preview .meta a:hover {
+  text-decoration: underline;
+  color: #8A8A8A;
 }
 
 .preview img {

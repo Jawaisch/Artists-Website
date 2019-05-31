@@ -6,7 +6,7 @@
 /* ****************************************************************************************
 @funktion PrintHtmlHeader( )
 
-@brief Erzeugt den HTML-Kopf der Seite.
+@brief - Erzeugt den HTML-Kopf der Seite.
     
 @param  -
 
@@ -39,7 +39,7 @@ EO_HEADER;
 /* ****************************************************************************************
 @funktion PrintHtmlTopnav( $path, $Session_ID )
 
-@brief Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
+@brief - Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
        aufgerufenen Seitenlink, damit dieser in roter Farbe dargestellt wird.
     
 @param  - Den Pfad und Namen des aktuellen Dokuments
@@ -101,10 +101,9 @@ function PrintHtmlTopnav( $path, $Session_ID )
 /* ****************************************************************************************
 @funktion PrintHtmlSidebar( $user_type, $Session_ID )
 
-@brief Erzeugt die Sidebar.
+@brief - Erzeugt die Sidebar.
     
-@param  - user_type: ein String der die Art des Users repräsentiert z.B. kuenstler
-      Session_ID
+@param  - $user_type: ein String der die Art des Users repräsentiert z.B. kuenstler
 
 @return - 
 ****************************************************************************************** */
@@ -224,7 +223,7 @@ function HtmlSidebarKunde( $Session_ID )
           </li>
           <li><a href="./kauf.php?$Session_ID">Einkaufswagen</a></li>
           <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
-          <li><a href="#">Kaufübersicht</a></li>
+          <li><a href="./kaufuebersicht.php?$Session_ID">Kaufübersicht</a></li>
           <li><a href="./kuenstler_reg.php?$Session_ID">Künstler werden</a></li>
         </ul>
       </li>
@@ -235,6 +234,7 @@ function HtmlSidebarKünstler( $Session_ID )
 {
   $sname=session_name();
   $sid=session_id();
+  $kid=$_SESSION['login']['KID'];
   echo <<<EO_MID
       <li>
       <h2>Info</h2>
@@ -253,14 +253,14 @@ function HtmlSidebarKünstler( $Session_ID )
           </li>
           <li><a href="./kauf.php?$Session_ID">Einkaufswagen</a></li>
           <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
-          <li><a href="#">Kaufübersicht</a></li>
+          <li><a href="./kaufuebersicht.php?$Session_ID">Kaufübersicht</a></li>
         </ul>
       </li>
       <li>
         <h2>Künstler</h2>
         <ul>
           <li><a href="./upload.php?$Session_ID">Kunst verkaufen</a></li>
-          <li><a href="#">Meine Kunst</a></li>
+          <li><a href="./public_artist.php?$Session_ID&amp;kid=$kid">Meine Kunst</a></li>
           <li><a href="#">Verkaufsübersicht</a></li>
           <li><a href="./kuenstler_reg.php?$Session_ID">Neues Künstlerkonto</a></li>
         </ul>
@@ -289,7 +289,7 @@ EO_MID;
 /* ****************************************************************************************
 @funktion PrintHtmlFooter( $Session_ID )
 
-@brief Erzeugt den HTML-Footer der Seite
+@brief - Erzeugt den HTML-Footer der Seite
     
 @param - $Session_ID
 @return - 
@@ -317,7 +317,7 @@ EO_FOOTER;
  /* ****************************************************************************************
 @funktion HtmlErrorDiv( $class, $title, $desc )
 
-@brief Erzeugt eine DIV als Fehlermeldung
+@brief - Erzeugt eine DIV als Fehlermeldung
 
     
 @param - $class Die CSS-Klasse des DIVs 
@@ -378,7 +378,7 @@ EOT;
          der angebotenen und verkauften Bilder
     
 @param - Anzahl eingestellter Bilder, Anzahl verkaufter Bilder
-@return - Ein gültiges HTML-Div als String
+@return - 
 ****************************************************************************************** */
 function PrintHtmlCards( $offer, $sold, $Session_ID )
 {
@@ -421,18 +421,18 @@ EO_CARDS;
 
 
 /* ****************************************************************************************
-@funktion HtmlRegForm( $Data_Reqs, $header, $description, $action, [$user_data_arr=null], [$agbs=false] )
+@funktion HtmlRegForm( $Data_Reqs, $header, $description, $action, [$user_data_arr=null], [$agbs=false], [$upload=false] )
 
-@brief - Erzeugt ein Formular für den Regestriervorgang oder Profil bearbeiten
+@brief - Erzeugt ein Formular für z.B.: den Regestriervorgang oder die Profil bearbeiten Seite
     
-@param - $Data_Reqs:    Ein Array welches die Labels für das Formular enthält
+@param - $Data_Reqs:    Ein Array welches unter anderem die Labels für das Formular enthält
          $description:  Eine Beschreibung für das Formular als String
          $action:       Die Zielseite der Formulardaten
          $user_data_arr:Ein Arry mit Userdaten für die Seite: Profil bearbeiten
          $agbs:         Ein bool der angibt ob der AGB Hinweis ausgegeben werden muss
          $upload:       Ein bool der angibt ob ein Upload Button ausgegeben werden muss
 
-@return - Ein gültiges HTML-Div als String
+@return - 
 ****************************************************************************************** */
 function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr=null, $agbs=false, $upload=false )
 {
@@ -580,4 +580,83 @@ function HtmlFormSelect( )
   }
   mysqli_close($dbconn);
  echo "\n         </select>";
+}
+
+/* ****************************************************************************************
+@funktion PrintHtmlGallery( $AllImages )
+
+@brief - 
+    
+@param - 
+
+@return - 
+****************************************************************************************** */
+function PrintHtmlGallery( $AllImages )
+{
+  $SID = session_id();
+  foreach( $AllImages AS $ImageNotes )
+  {
+  $bid = $ImageNotes['Bild_ID'];
+  $btitle =$ImageNotes['Titel'];
+  $bheight=$ImageNotes['Hoehe'];
+  $bwidth=$ImageNotes['Breite'];
+  $bprice=$ImageNotes['VK_Preis'];
+  $bartist=$ImageNotes['KName'];
+  $kid=$ImageNotes['Kuenstler_ID'];
+    
+
+echo <<<EO_TOP
+    <div class="gallery_content">
+    <div class="image">
+      <img src="art-images/small/$bid.png" alt="$btitle" />
+    </div>
+    <div class="image_notes">
+    <h3>$btitle</h3>
+    <p><span class="description">Künstler:</span><a href="public_artist.php?kws=$SID&amp;kid=$kid">$bartist</a></p>
+    <p><span class="description">Größe:</span>$bheight mm x $bwidth mm</p>    
+    <p><span class="description">Kaufspreis:</span>$bprice €</p>
+    <p>
+    <a href="gross_bild.php?kws=$SID&amp;bid=$bid">Genauer betrachten</a>
+    </p>
+    </div>
+    </div>
+
+EO_TOP;
+    }
+
+  }
+
+/* ****************************************************************************************
+@funktion PrintHtmlIndex($Pics)
+
+@brief - Erzeugt ein gültiges HTML-Div für den Index
+    
+@param - $Pics ein Arry mit Bildern und Informationen zu diesen
+
+@return - 
+****************************************************************************************** */
+function PrintHtmlIndex($Pics)
+{
+  foreach ($Pics as $Pic)
+  {
+    list($width, $height, $type, $attr) = getimagesize("art-images/small/".$Pic['Bild_ID'].".png");
+    $date = preg_split("* *", $Pic['Einstell_Zeitstempel']);
+
+    $output = ''.
+  '       <div class="preview">'."\n".
+  '         <h2 class="title">'.$Pic['Titel'].'</h2>'."\n".
+  '         <p class="meta">Eingestellt von <a href="public_artist.php?'.SID.'&amp;kid='.$Pic['Kuenstler_ID'].'">'.$Pic['KName'].'</a> am '.$date[0].' um '.$date[1].' </p>'."\n".
+  '         <a href="gross_bild.php?'.SID.'&amp;bid='.$Pic['Bild_ID'].'">'."\n".
+  '          <img '."\n".
+  '             src="art-images/small/'.$Pic['Bild_ID'].'.png"'."\n".
+  '             ' .$attr."\n".
+  '             alt="'.$Pic['Titel'].'"'."\n".
+  '             title="'.$Pic['Titel'].'"'."\n".
+  '           />'."\n".
+  '         </a>'."\n".
+  '         <p class="links"><a href="#top">Seitenanfang</a></p>'."\n".
+  '       </div>'."\n";
+
+  echo $output;
+  }
 }

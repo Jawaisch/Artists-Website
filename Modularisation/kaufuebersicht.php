@@ -6,7 +6,7 @@
   include_once( "./includes/data.inc" );   
   InitSession();  // Nimmt die aktuelle Session wieder auf
   $_SESSION['referer'] = $_SERVER['PHP_SELF'];
-  // CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
+  CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
 
   $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
   
@@ -16,17 +16,15 @@
   /*#########################################################################
         BEGINN DES CONTENTS
     #######################################################################*/
-		
-  $AllImages = GetAllPics( KWS_DB_Connect( 'gast' ) );
-
+	$Images = GetUserBuys($dbconn)
 ?>
 
   <div id="content">
   
-    <h2>Gallery</h2>
-		<?php PrintHtmlGallery($AllImages) ?>
-    <div class="clearBoth" >&nbsp;</div>
+	<h3>Kaufübersicht</h3>
+    <?php PrintHtmlGallery($Images) ?>
 
+	<div class="clearBoth" >&nbsp;</div>
   </div>
   <!-- end #content --> 
 
@@ -36,4 +34,5 @@
     #######################################################################*/
 
   PrintHtmlSidebar( $_SESSION['login']['user'], SID );
-  PrintHtmlFooter( SID);
+  PrintHtmlFooter( SID ); 
+?>
