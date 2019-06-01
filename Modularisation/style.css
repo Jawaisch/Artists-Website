@@ -57,7 +57,7 @@ a {
   background-image: url(./style-images/kisspng-red-paintbrush-gold.png);
   background-repeat: no-repeat;
   background-size: 30rem 6rem;
-  background-position: 30% center; 
+  background-position: 30% center;
   min-height: 6rem;
 }
 
@@ -340,7 +340,7 @@ span.description{
 
 /* Table ****************************************************************/
 
-.table {  
+.table {
   border-collapse: collapse;
   border-spacing: 0;
   max-width: 100%;
@@ -406,7 +406,7 @@ span.description{
 
 .preview img {
   border: 0.08em solid #ddd;
-  border-radius: 0.33em;  
+  border-radius: 0.33em;
   padding: 0.5em;
 }
 
@@ -423,7 +423,7 @@ span.description{
 /* Gallery ****************************************************************/
 
 div.gallery_content{
-   margin: 0.5em; 
+   margin: 0.5em;
    width: 322px;
    height: 500px;
    background-color: white;
@@ -500,32 +500,38 @@ div.single_content form{
 
 div.PublicArtistInfo
 {
-  border: thin solid #C2C2C2;
-  background-color: #F9F9F9;
-  margin: 0.5em auto;
-  display: flex;
-  padding: 5px;
-
+  border: thin solid black;
+  background-color: white;
+  margin: 0.5em;
+  padding: 10px;
+  min-height: 300px;
 }
 
 div.PublicArtistInfo div.PublicProfilPic
 {
-	
+  border: thin solid black;
+  background-color: #F9F9F9;
   width: 300px;
   height: 300px;
-  border: thin solid #C2C2C2;
-  background-color: #F9F9F9;
-  margin: 0.5em auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px;
   float: left;
-
 }
 
 div.PublicArtistInfo div.PublicArtistVita
 {
+	margin-left: 310px;
+	color: black;
+
+}
+
+/* Genre Design ******************************************************* */
+div.Genre_Info{
+	margin: 1em;
+	padding: 1em;
+	border: thin solid black;
+	background-color: white;
 
 }
 
@@ -534,7 +540,7 @@ div.PublicArtistInfo div.PublicArtistVita
 #sidebar {
   float: right;
   width: 20%;
-  min-width: 15em; 
+  min-width: 15em;
   padding: 0;
   color: #787878;
   background: #FFFFFF;
@@ -600,11 +606,11 @@ div.PublicArtistInfo div.PublicArtistVita
   background: #ECECEC;
   border-top: 0.083em solid #DEDEDE;
   font-family: Arial, Helvetica, sans-serif;
-  
+
   background-image: url(./style-images/kisspng-green-paint-brush.png);
   background-repeat: no-repeat;
   background-size: 20rem 4rem;
-  background-position: 3rem center; 
+  background-position: 3rem center;
 }
 
 #footer p {
@@ -622,7 +628,7 @@ div.PublicArtistInfo div.PublicArtistVita
 }
 
 /*#########################################################################
-        Responsive 
+        Responsive
     #######################################################################*/
 
 @media screen and (max-width: 54em) {
