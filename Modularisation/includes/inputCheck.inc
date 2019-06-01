@@ -29,13 +29,13 @@ function check_input($input, $DataReqs, &$clean, $dbconn = null)
       if ( isset($Req['type']) )    # ist ein Typ gesetzt? - dann anwenden
         settype( $clean[$name]['val'], $Req['type'] );
 
-     /* Die in $DataReqs enthaltenen Funktioneb auf die Eingabe anwenden.*/
+     /* Die in $DataReqs enthaltene Funktion auf die Eingabe anwenden.*/
        if ( isset($Req['fname']) )  # Funktion gesetzt? - dann anwenden
        {
           $clean[$name]['val'] = $Req['fname']($clean[$name]['val']);
        }
 
-	   // Funktion für Eindeutigkeit gesetzt? - dann anwenden
+       // Funktion für Eindeutigkeit gesetzt? - dann anwenden
        if ( isset($Req['check_is_unique']) )  # Funktion gesetzt? - dann anwenden
        {
           if( !($Req['check_is_unique']($clean[$name]['val'], $dbconn)) )
@@ -45,7 +45,7 @@ function check_input($input, $DataReqs, &$clean, $dbconn = null)
          }
        }
 
-	   // Funktion für Formatprüfung gesetzt? - dann anwenden
+       // Funktion für Formatprüfung gesetzt? - dann anwenden
        if ( isset($Req['regex']) )
        {
           if( !($Req['regex']($clean[$name]['val'])) )
@@ -100,7 +100,7 @@ function login_unique( $login, $dbconn )
     
     if($OK === false)
     {
-		  ErrorHandling($SQL_String, $dbconn);
+          ErrorHandling($SQL_String, $dbconn);
     }
 
     //4. Daten an die Parameter binden

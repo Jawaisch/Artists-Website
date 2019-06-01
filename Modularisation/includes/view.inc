@@ -446,7 +446,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
   echo "\n       <p>".$description."</p>";
   echo "\n       <hr />";
   
-  // Wird ein upload button benötigt?
+  // Wird ein Upload-Button benötigt?
   if($upload)
   {
     echo "\n       <p class=\"label\"><span class=\"description\"><label ><b>Bild</b></label></span>&nbsp;</p>";
@@ -477,9 +477,9 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
       echo "\n        <textarea name=\"reg_data_arr[".$data['index']."]\" rows=\"5\" cols=\"80\" id=\"vita\">";
     }
     // Handelt es sich um ein Select-Feld?
-    elseif( isset($data['is_select']) )
+    elseif( isset($data['select_list']) )
     {
-      HtmlFormSelect( );
+      HtmlFormSelect( $data['select_list'](), $data['index'] );
     }
     // Dann ist es ein Text-Feld
     else
@@ -488,7 +488,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
     }
     
     // Nur für nicht Select-Felder
-    if( !isset($data['is_select']) )
+    if( !isset($data['select_list']) )
     {
       // Wurden in dieses Feld bereits Daten eingegeben?
       if(isset( $_POST['reg_data_arr'][$data['index']] )) 
@@ -509,7 +509,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
       echo " </textarea>\n"; 
     }
     // Handelt es sich um ein Select-Feld?
-    elseif( isset($data['is_select']) )
+    elseif( isset($data['select_list']) )
     {
       // nichts zum schließen
     }
@@ -535,59 +535,34 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
 
 
 /* ****************************************************************************************
-@funktion HtmlFormSelect( )
+@funktion HtmlFormSelect( $select_list , $name )
 
-@brief - 
+@brief - Erzeugt ein gültiges HTML-Div für eine Dropdown-Liste
     
-@param - 
+@param - $select_list: Liste der Auswahlmöglichkeiten
+         $name: der Name des Auswahlfeldes
 
 @return - 
 ****************************************************************************************** */
-function HtmlFormSelect( )
+function HtmlFormSelect( $select_list, $name )
 {
- echo "\n <select id=\"genre\" name=\"reg_data_arr[genre_id]\">";
- echo "\n   <option value=\"\" selected=\"selected\">bitte wählen</option>";
+ echo "\n         <select id=\"genre\" name=\"reg_data_arr[$name]\">";
+ echo "\n           <option value=\"\" selected=\"selected\">bitte wählen</option>";
     
-  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung  
-  if(mysqli_connect_errno($dbconn))
+  foreach ( $select_list as $item )
   {
-    DebugArr($dbconn);
-    DebugArr($_POST);
-    DebugArr($_SESSION);
+    echo "\n           <option value=\"".$item['Value']."\">".$item['Name']."</option>";
   }
-  $sql_abfrage = "SELECT  genre.Genre_ID,
-                          genre.Name
-                  FROM    genre
-                  ORDER BY genre.Name";
-  mysqli_query($dbconn, $sql_abfrage );
-  if(mysqli_error($dbconn))
-  {
-    ErrorHandling($sql_abfrage, $dbconn);
-
-    if( MYDEBUG == FALSE)
-    {
-      GetErrorDiv();      //stummer Fehler
-    }          
-    //header('Location: ./error.php?'.SID); 
-  }
-  else
-  {
-    $res = mysqli_query($dbconn,$sql_abfrage);
-    while ($dsatz = mysqli_fetch_assoc($res))
-    {
-      echo "<option value=\"".$dsatz['Genre_ID']."\">".$dsatz['Name']."</option>";
-    }
-  }
-  mysqli_close($dbconn);
  echo "\n         </select>";
 }
+
 
 /* ****************************************************************************************
 @funktion PrintHtmlGallery( $AllImages )
 
-@brief - 
+@brief - Erzeugt ein gültiges HTML-Div für die Bilder-Galerie
     
-@param - 
+@param - Ein Array mit den auszugebenden Bilder + Informationen
 
 @return - 
 ****************************************************************************************** */
@@ -625,6 +600,37 @@ EO_TOP;
     }
 
   }
+
+
+/* ****************************************************************************************
+@funktion PrintPicPreview( $pic_id )
+
+@brief - Erzeugt ein gültiges HTML-Div für ein hochgeladenen Bild
+    
+@param - $pic_id die Bild_ID des gerade hochgeladenen Bildes
+
+@return - 
+****************************************************************************************** */
+function PrintPicPreview( $pic_id )
+{
+  $SID = session_id();
+  list($width, $height, $type, $attr) = getimagesize("art-images/small/".$pic_id.".png");
+
+  echo <<<EO_PIC
+           <div>
+             <h3>Bildvorschau</h3>
+             <a href="gross_bild.php?kws=$SID&amp;bid=$pic_id">
+              <img 
+                 src="art-images/small/$pic_id.png"
+                 $attr
+                 alt="Bildvorschau"
+                 title="Bildvorschau"
+               />
+             </a>
+           </div>
+EO_PIC;
+}
+
 
 /* ****************************************************************************************
 @funktion PrintHtmlIndex($Pics)

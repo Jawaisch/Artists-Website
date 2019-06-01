@@ -49,7 +49,7 @@
                                 'label' => 'Genre', 
                                 'index' => 'genre_id',
                                 'fname'=> 'abs',                              
-                                'is_select' => True),
+                                'select_list' => 'GetGenreArr'),
                                 //'regex' => 'check_genre'),
                                 
         'preis'      => array(  'mand' => True, 
@@ -70,12 +70,7 @@
       if( $upload_error == 0 )
       { // Upload erfolgreich
         $_SESSION['error']['errno'] = 18;
-        ?>
-          <div>
-            <h2>Bildvorschau</h2>
-            <img src="<?php echo "./art-images/big/".$_SESSION['bild']['id'].".png";?>" alt="grosses bild" />
-          </div>
-        <?php
+		PrintPicPreview( $_SESSION['bild']['id'] );
       }
     }
     else 
@@ -83,10 +78,6 @@
       $_SESSION['error']['errno']=12;
     }
   }
-
-  
-  DebugArr($_SESSION);
-  DebugArr($_POST);
 
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );

@@ -1,7 +1,7 @@
 <?php
 
 // Debug-Konstante
- define( "MYDEBUG", false ); 
+ define( "MYDEBUG", true ); 
 
 /* ****************************************************************************************
 @funktion InitSession()

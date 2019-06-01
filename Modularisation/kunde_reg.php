@@ -22,7 +22,7 @@
                           'label' => 'Login', 
                           'index' => 'login',
                           'fname' => 'htmlentities',
-						  'check_is_unique' => 'login_unique'),
+                          'check_is_unique' => 'login_unique'),
     'pwd'       => array( 'mand'  => True, 
                           'type'  => 'string',
                           'label' => 'Passwort', 
@@ -32,7 +32,8 @@
                           'type' => 'string',
                           'label' => 'Anrede', 
                           'index' => 'anrede',
-                          'fname' =>'htmlentities'),
+                          'fname' =>'htmlentities',
+                          'select_list' => 'GetAnredeEnum'),
     'titel'     => array( 'mand' => False, 
                           'type' => 'string',
                           'label' => 'Titel (optional)', 
@@ -107,9 +108,6 @@
   }
 
   echo"    <div id=\"content\">";
-
-  DebugArr($_SESSION);
-  DebugArr($_POST);
 
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );

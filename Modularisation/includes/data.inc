@@ -806,7 +806,7 @@ function GetArtCounts( $dbconn )
 /* ************************************************************************************
       @function GetUserBuys( $dbconn )
 
-      @brief: Gibt die gekauften Bilder zurück
+      @brief: Gibt die gekauften Bilder des eingeloggten Users zurück
 
       @para - $dbconn    Eine Datenbankverbindung der Klasse mysqli
 
@@ -856,7 +856,7 @@ function GetUserBuys( $dbconn )
 
       @para - $dbconn    Eine Datenbankverbindung der Klasse mysqli
 
-      @return - die Daten
+      @return - Ein Arry mit den Profildaten
 ************************************************************************************ */
 function GetArtistData( $dbconn )
 {
@@ -886,6 +886,93 @@ function GetArtistData( $dbconn )
     }
   }
   return $artist_data_arr;
+}
+
+
+/* ************************************************************************************
+      @function GetAnredeEnum( $dbconn )
+
+      @brief -  Gibt alle zulässigen Werte für die ENUM-Spalte, 
+                aufbereitet für die Verwendung in einer Dropdown-Liste, zurück
+
+      @para - $dbconn: Eine Datenbankverbindung der Klasse mysqli
+
+      @return - ein Array in der Form:
+                'Value' => der an die DB übergebene Wert des Dropdown-Feldes
+                'Name'  => der angezeigte Name des Dropdown-Feldes
+************************************************************************************ */
+function GetAnredeEnum( )
+{
+  $dbconn = KWS_DB_Connect( 'bearbeiter' ); // Datenbankverbindung
+
+  // alle zulässigen Werte für die ENUM-Spalte ermitteln
+  $sql = "SHOW COLUMNS FROM benutzer LIKE 'Anrede'";
+  $result_handle = $dbconn->query($sql);
+
+  // Abfrage auf Erfolg Ueberpruefen
+  if($result_handle === false)
+  {
+    ErrorHandling($sql, $dbconn);
+  }
+  else
+  {
+    $row = $result_handle->fetch_assoc();
+    $type = $row['Type'];
+    preg_match('/enum\((.*)\)$/', $type, $matches);
+    $vals = explode(',', $matches[1]);
+    
+    // Entfernen der quotes und befüllen des mehrdimensionalen Arrays
+    $enum_values = array();
+    foreach($vals as $key => $value) 
+    {
+      $value=trim($value, "'");
+      $enum_values[] = array( 'Value' => $value,
+                              'Name'  => $value);
+    }
+  }
+  return $enum_values;
+}
+
+
+/* ************************************************************************************
+      @function GetGenreArr( )
+
+      @brief: Gibt alle Genre die in der DB eingepflegt sind, 
+              aufbereitet für die Verwendung in einer Dropdown-Liste, zurück
+
+      @para -
+
+      @return - ein Array mit den Genre in der Form:
+                'Value' => der an die DB übergebene Wert des Dropdown-Feldes
+                'Name'  => der angezeigte Name des Dropdown-Feldes
+************************************************************************************ */
+function GetGenreArr( )
+{
+  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
+  // Abfrage ohne Perpared_Statements
+  $SQL_String = "SELECT   genre.Genre_ID as Value,
+                          genre.Name
+                 FROM     genre
+                 ORDER BY genre.Name";
+    
+  // Abfrage an DB-Server senden
+  $result_handle = $dbconn->query($SQL_String);
+
+  // Abfrage auf Erfolg Ueberpruefen
+  if($result_handle === false)
+  {
+    ErrorHandling($SQL_String, $dbconn);
+  }
+  else
+  {
+    $genre_data_arr = array(); // ein leeres Array initialisieren!
+
+    while( $ds = $result_handle->fetch_assoc() )
+    {
+      $genre_data_arr[] = $ds;
+    }
+  }
+  return $genre_data_arr;
 }
 
 
