@@ -6,11 +6,12 @@
   include_once( "./includes/data.inc" );
   include_once( "./includes/inputCheck.inc" );
   InitSession();  // Nimmt die aktuelle Session wieder auf
+  DebugArr($_SESSION);
   $_SESSION['referer'] = $_SERVER['PHP_SELF'];
   CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
-  if( $_SESSION['login']['user'] === "kws_kunde")
+  if( $_SESSION['login']['user'] === "kunde")
   {
-    header( 'Location: '.$_SESSION['referer'].'?'.SID);
+    header( 'Location: index.php?'.SID);
   }
   $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
 
@@ -26,7 +27,7 @@
 
     <?php
       $SoldPics = GetAllSoldPics($dbconn, $_SESSION['login']['KID']);
-      DisplaySoldPics($SoldPics)
+      DisplaySoldPics($SoldPics);
     ?>
 
 	<div class="clearBoth" >&nbsp;</div>
