@@ -18,30 +18,30 @@
 
   // Anforderungsliste
   $Data_Reqs = array(
-		'kname'		=> array( 'mand' => True, 
+    'kname'   => array( 'mand' => True, 
                               'type' => 'string',
-							  'label' => 'Künstlername', 
+                              'label' => 'Künstlername', 
                               'index' => 'kname',
                               'fname'=> 'htmlentities',
                               'check_is_unique' => 'kname_unique'),
       'iban'       => array(  'mand' => True, 
                               'type' => 'string',
-							  'label' => 'IBAN', 
-                              'index' => 'iban',					  
+                              'label' => 'IBAN', 
+                              'index' => 'iban',            
                               'fname' =>'htmlentities',
-							  'regex' => 'check_iban'),
+                              'regex' => 'check_iban'),
       'bic'        => array(  'mand' => True, 
                               'type' => 'string',
-							  'label' => 'BIC', 
+                              'label' => 'BIC', 
                               'index' => 'bic',
                               'fname' =>'htmlentities',
-							  'regex' => 'check_bic'),
+                              'regex' => 'check_bic'),
       'vita'       => array(  'mand' => False, 
                               'type' => 'string',
-							  'label' => 'Vita', 
+                              'label' => 'Vita', 
                               'index' => 'vita',
                               'fname' =>'htmlentities',
-							  'textarea' => True),
+                              'textarea' => True),
     );
   
   if(isset($_POST['submit']) && $_POST['submit'] == "Absenden")
@@ -71,9 +71,6 @@
   }
 
   echo"    <div id=\"content\">";
-
-  DebugArr($_SESSION);
-  DebugArr($_POST);
 
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
