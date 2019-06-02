@@ -72,7 +72,7 @@ function KWS_DB_Connect( $user )
              "\n <b>Verbindung zu ".$dbconn->host_info." aufgebaut</b>".
              "</div>";
         }
-      }    
+      }
     }
   $dbconn->query("SET NAMES utf8");
     return $dbconn;
@@ -90,11 +90,11 @@ function KWS_DB_Connect( $user )
 
     @para - Keine
 
-    @return -  bool 
+    @return -  bool
 ************************************************************************************ */
 function CheckLoginFormData( )
 {
-  return ( !empty($_POST['login']) && !empty($_POST['passwd']) ); 
+  return ( !empty($_POST['login']) && !empty($_POST['passwd']) );
 }
 
 
@@ -115,7 +115,7 @@ function GetUidByLogin( $dbconn , $login , $pwd )
   //1. ein Objekt der Klasse mysqli_stmt anlegen
   $prepstmt = $dbconn->stmt_init();
   //2.Abfrage mit Platzhalter für Daten zusammenbasteln
-  
+
   $SQLstring =
     " SELECT User_ID AS uid".
     " FROM benutzer".
@@ -125,9 +125,9 @@ function GetUidByLogin( $dbconn , $login , $pwd )
 
   // 3. Prepared Statement auf dem DB-Server vorbereiten
   $OK = $prepstmt->prepare( $SQLstring );
-  
+
   // Abfrage erfolgreich?
-  
+
   if($OK === false)
   {
     ErrorHandling($SQL_String, $dbconn);
@@ -156,7 +156,7 @@ function GetUidByLogin( $dbconn , $login , $pwd )
   {
     $uid = false;
   }
-  
+
   $prepstmt->close(); //abräumen nach getaner Arbeit
   return $uid;
 } // end of   function GetUidByLogin( $dbconn , $login , $pwd )
@@ -172,7 +172,7 @@ function GetUidByLogin( $dbconn , $login , $pwd )
 
 
       @return -  "kuenstler" im Erfolgsfall
-             sonst "kunde" 
+             sonst "kunde"
 ************************************************************************************ */
 function GetKindOfUser( $dbconn , $uid)
 {
@@ -180,11 +180,11 @@ function GetKindOfUser( $dbconn , $uid)
                         kuenstler.Kuenstler_ID AS KID
                   FROM  kuenstler
                  WHERE  kuenstler.User_ID = ".$uid;
-  
+
   $result_handle = $dbconn->query($SQL_String);
 
   // Abfrage erfolgreich?
-    
+
   if($result_handle === false)
   {
     ErrorHandling($SQL_String, $dbconn);
@@ -201,7 +201,7 @@ function GetKindOfUser( $dbconn , $uid)
     $ResultArr[0] = "kuenstler";
   $ResultArr[1] = $UserArr['KID'];
   }
-  return $ResultArr; 
+  return $ResultArr;
 }
 
 
@@ -402,7 +402,7 @@ function GetMorePicInfo( $dbconn , $BID )
                 " FROM kuenstler INNER JOIN bild USING (Kuenstler_ID) ".
                 " INNER JOIN eingeordnet USING (Bild_ID)".
                 " INNER JOIN genre USING (Genre_ID) ".
-                " WHERE bild.Bild_ID =". $BID; 
+                " WHERE bild.Bild_ID =". $BID;
 
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
@@ -444,16 +444,16 @@ function InsertNewUser( $dbconn )
   $SQLstring =
     " INSERT INTO benutzer (  Login, Passwd, Anrede, Titel, Vorname,
                               Nachname, PLZ, Ort, Strasse, HausNr, Email, Telefon,
-                              Reg_Zeitstempel, Reg_IP ) 
+                              Reg_Zeitstempel, Reg_IP )
               VALUES  ( ?, SHA2( ?, 256), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
-  
+
   // Abfrage an den DB-Server abschicken
 
   // 3. Prepared Statement auf dem DB-Server vorbereiten
   $OK = $prepstmt->prepare( $SQLstring );
-  
+
   // Abfrage erfolgreich?
-  
+
   if($OK === false)
   {
     ErrorHandling($SQL_String, $dbconn);
@@ -461,8 +461,8 @@ function InsertNewUser( $dbconn )
 
   //4. Daten an die Parameter binden
   $type = "ssssssissssss";
-  $params = array(&$login, &$pwd, &$anrede, &$titel,  
-                  &$vname, &$nname, &$plz,  &$ort, &$str, 
+  $params = array(&$login, &$pwd, &$anrede, &$titel,
+                  &$vname, &$nname, &$plz,  &$ort, &$str,
                   &$hnr,  &$email, &$tele,  &$reg_ip );
 
   call_user_func_array(array($prepstmt, "bind_param"), array_merge(array($type), $params));
@@ -472,14 +472,14 @@ function InsertNewUser( $dbconn )
   {
     ${$item} = $value[val];
   }
-  
+
   // IP-Adresse ermitteln
   // Verwendet der Benutzer einen Proxy-Server
-  if ( !isset($_SERVER['HTTP_X_FORWARDED_FOR']) ) 
+  if ( !isset($_SERVER['HTTP_X_FORWARDED_FOR']) )
   {
     $reg_ip = $_SERVER['REMOTE_ADDR'];
   }
-  else 
+  else
   {
     $reg_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
   }
@@ -493,7 +493,7 @@ function InsertNewUser( $dbconn )
 
   $prepstmt->close(); //abräumen nach getaner Arbeit
   return $OK2;
-} 
+}
 
 
 /* ************************************************************************************
@@ -513,7 +513,7 @@ function UpdateUserData( $dbconn )
   //2.Abfrage mit Platzhalter für Daten zusammenbasteln
   $SQLstring =
     " UPDATE benutzer SET Anrede = ?, Titel = ?, Vorname = ?,
-                          Nachname = ?, PLZ = ?, Ort = ?, Strasse = ?, 
+                          Nachname = ?, PLZ = ?, Ort = ?, Strasse = ?,
                           HausNr = ?, Email = ?, Telefon = ?
                    WHERE User_ID = ?";
 
@@ -521,7 +521,7 @@ function UpdateUserData( $dbconn )
 
   // 3. Prepared Statement auf dem DB-Server vorbereiten
   $OK = $prepstmt->prepare( $SQLstring );
-  
+
   // Abfrage erfolgreich?
   if($OK === false)
   {
@@ -530,11 +530,11 @@ function UpdateUserData( $dbconn )
 
   //4. Daten an die Parameter binden
   $type = "ssssisssssi";
-  $params = array(&$anrede, &$titel, &$vname, &$nname, &$plz, &$ort, &$str, 
+  $params = array(&$anrede, &$titel, &$vname, &$nname, &$plz, &$ort, &$str,
                   &$hnr,  &$email, &$tele,  &$uid );
-  
+
   call_user_func_array(array($prepstmt, "bind_param"), array_merge(array($type), $params));
-  
+
   //5. Parameter setzen
   foreach($_SESSION['input_data'] as $item => $value)
   {
@@ -577,7 +577,7 @@ function UpdateArtistData( $dbconn )
 
   // 3. Prepared Statement auf dem DB-Server vorbereiten
   $OK = $prepstmt->prepare( $SQLstring );
-  
+
   // Abfrage erfolgreich?
   if($OK === false)
   {
@@ -587,9 +587,9 @@ function UpdateArtistData( $dbconn )
   //4. Daten an die Parameter binden
   $type = "ssssi";
   $params = array(&$kname, &$iban, &$bic, &$vita, &$kid );
-  
+
   call_user_func_array(array($prepstmt, "bind_param"), array_merge(array($type), $params));
-  
+
   //5. Parameter setzen
   foreach($_SESSION['input_data'] as $item => $value)
   {
@@ -632,8 +632,8 @@ function UpdateUserPasswd( $dbconn, $uid, $passwd  )
 
   // 3. Prepared Statement auf dem DB-Server vorbereiten
   $OK = $prepstmt->prepare( $SQLstring );
-  
-  // Abfrage erfolgreich? 
+
+  // Abfrage erfolgreich?
   if($OK === false)
   {
     ErrorHandling($SQL_String, $dbconn);
@@ -658,7 +658,7 @@ function UpdateUserPasswd( $dbconn, $uid, $passwd  )
 
   $prepstmt->close(); //abräumen nach getaner Arbeit
   return $OK2;
-} 
+}
 
 
 /* ************************************************************************************
@@ -676,18 +676,18 @@ function InsertNewArtist( $dbconn )
   //1. ein Objekt der Klasse mysqli_stmt anlegen
   $prepstmt = $dbconn->stmt_init();
   //2.Abfrage mit Platzhalter für Daten zusammenbasteln
-  
+
   $SQLstring =
-    " INSERT INTO kuenstler (  Kname, IBAN, BIC, Vita, User_ID ) 
+    " INSERT INTO kuenstler (  Kname, IBAN, BIC, Vita, User_ID )
           VALUES  ( ?, ?, ?, ?, ?)";
 
   // Abfrage an den DB-Server abschicken
 
   // 3. Prepared Statement auf dem DB-Server vorbereiten
   $OK = $prepstmt->prepare( $SQLstring );
-  
+
   // Abfrage erfolgreich?
-  
+
   if($OK === false)
   {
     ErrorHandling($SQL_String, $dbconn);
@@ -704,7 +704,7 @@ function InsertNewArtist( $dbconn )
   {
     ${$item} = $value[val];
   }
-  
+
   $User_ID = $_SESSION['login']['UID'];
 
   //6. Diese Parameter anwenden
@@ -734,10 +734,10 @@ function getKidByUid( $uid, $dbconn )
   $SQL_String = "SELECT kuenstler.Kuenstler_ID AS kid
                    FROM kuenstler
                   WHERE kuenstler.User_ID = ".$uid;
-  
+
   $result_handle = $dbconn->query($SQL_String);
 
-  // Abfrage erfolgreich? 
+  // Abfrage erfolgreich?
   if($result_handle === false)
   {
     ErrorHandling($SQL_String, $dbconn);
@@ -745,7 +745,7 @@ function getKidByUid( $uid, $dbconn )
 
   // Abfrage über UID -> 1 oder keinen Datensatz
   $ds = $result_handle->fetch_assoc();
-  return $ds['kid']; 
+  return $ds['kid'];
 }
 
 
@@ -761,15 +761,15 @@ function getKidByUid( $uid, $dbconn )
 function GetArtCounts( $dbconn )
 {
   // Abfrage ohne Perpared_Statements
-  $SQL_String1 = " SELECT    COUNT(bild.Bild_ID) AS offers  
+  $SQL_String1 = " SELECT    COUNT(bild.Bild_ID) AS offers
                    FROM      bild JOIN kuenstler using (Kuenstler_ID)
                    WHERE     bild.Kuenstler_ID = ".$_SESSION['login']['KID'];
 
-  $SQL_String2= "  SELECT    COUNT(bild.Bild_ID) AS sold  
+  $SQL_String2= "  SELECT    COUNT(bild.Bild_ID) AS sold
                    FROM      bild JOIN kuenstler using (Kuenstler_ID)
                    WHERE     bild.Kuenstler_ID = ".$_SESSION['login']['KID']."
                              AND bild.User_ID IS NOT NULL";
-    
+
   // 1. Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String1);
 
@@ -827,7 +827,7 @@ function GetUserBuys( $dbconn )
                             INNER JOIN benutzer ON bild.User_ID = benutzer.User_ID
                   WHERE     bild.User_ID = ".$_SESSION['login']['UID']."
                   ORDER BY  bild.Kauf_Zeitstempel DESC";
-    
+
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
 
@@ -867,7 +867,7 @@ function GetArtistData( $dbconn )
                             kuenstler.Vita
                   FROM      kuenstler
                   WHERE     kuenstler.User_ID = ".$_SESSION['login']['UID'];
-    
+
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
 
@@ -892,7 +892,7 @@ function GetArtistData( $dbconn )
 /* ************************************************************************************
       @function GetAnredeEnum( $dbconn )
 
-      @brief -  Gibt alle zulässigen Werte für die ENUM-Spalte, 
+      @brief -  Gibt alle zulässigen Werte für die ENUM-Spalte,
                 aufbereitet für die Verwendung in einer Dropdown-Liste, zurück
 
       @para - $dbconn: Eine Datenbankverbindung der Klasse mysqli
@@ -920,10 +920,10 @@ function GetAnredeEnum( )
     $type = $row['Type'];
     preg_match('/enum\((.*)\)$/', $type, $matches);
     $vals = explode(',', $matches[1]);
-    
+
     // Entfernen der quotes und befüllen des mehrdimensionalen Arrays
     $enum_values = array();
-    foreach($vals as $key => $value) 
+    foreach($vals as $key => $value)
     {
       $value=trim($value, "'");
       $enum_values[] = array( 'Value' => $value,
@@ -937,7 +937,7 @@ function GetAnredeEnum( )
 /* ************************************************************************************
       @function GetGenreArr( )
 
-      @brief: Gibt alle Genre die in der DB eingepflegt sind, 
+      @brief: Gibt alle Genre die in der DB eingepflegt sind,
               aufbereitet für die Verwendung in einer Dropdown-Liste, zurück
 
       @para -
@@ -954,7 +954,7 @@ function GetGenreArr( )
                           genre.Name
                  FROM     genre
                  ORDER BY genre.Name";
-    
+
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
 
@@ -979,24 +979,24 @@ function GetGenreArr( )
 /*
 ************************************************************************************
           @function:  Clean_Current_Cart( $dbconn , $Cart )
-          @brief:   Leert den Warenkorb, wenn 
+          @brief:   Leert den Warenkorb, wenn
                     1.Fall innerhalb der reservierten Zeit bezahlt wurde
                     2.Fall noch nicht gezahlt wurde und die reservierte Zeitabgelaufen ist
             @para:  $dbconn - Eine Datenbankverbindung
                     $Cart - Inhalt des Warenkorbs (1-dimensionales Array)
-          @return:  Ein Mehrdimensionales Array[Bild_ID][ int ] 
+          @return:  Ein Mehrdimensionales Array[Bild_ID][ int ]
                     int = 0 - 2
                     0 = Reservierte Zeit ist noch nicht abgelaufen
                     1 = Es wurde innerhalb der reservierten Zeit gezahlt
                     2 = Es wurde zu lange gewartet und es wurde noch nicht gezahlt
-             
+
 ************************************************************************************
 */
   function Clean_Current_Cart( $dbconn , $Cart )
-  {       
+  {
       $SQL_String = "SELECT bild.Bild_ID ".
-                    "FROM bild ". 
-                    "WHERE bild.Bild_ID IN (".$Cart.") AND bild.Resv_Zeitstempel IS NOT NULL"; 
+                    "FROM bild ".
+                    "WHERE bild.Bild_ID IN (".$Cart.") AND bild.Resv_Zeitstempel IS NOT NULL";
 
       // Abfrage an DB-Server senden
       $result_handle = $dbconn->query($SQL_String);
@@ -1007,15 +1007,15 @@ function GetGenreArr( )
         ErrorHandling($SQL_String, $dbconn);
       }
       else
-      {         
+      {
         $Cart_arr = array(); // ein leeres Array initialisieren!
 
         while( $ds = $result_handle->fetch_assoc() )
         {
           $Cart_arr[] = $ds['Bild_ID'];
-        } 
+        }
       }
-      return $Cart_arr;                  
+      return $Cart_arr;
   }
 
 
@@ -1024,13 +1024,13 @@ function GetGenreArr( )
 
       @brief:
 
-      @para - 
+      @para -
 
       @return -
 ************************************************************************************ */
 function image_upload()
 {
-  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung  
+  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
   $sql_abfrage = "START TRANSACTION";
   mysqli_query($dbconn, $sql_abfrage );
 
@@ -1047,17 +1047,17 @@ function image_upload()
   DebugArr($dbconn);
 
   $_SESSION['bild']['id']=$last_insert_id;
-  
+
   // echo 'last insert id ='. $last_insert_id  ;
 
   /* ersteinmal eine Testausgabe, was kommt an ... */
-  
+
   //echo "<br>POST";
   DebugArr($_POST);
   //echo "FILES";
   DebugArr($_FILES);
   //echo "SESSION";
-  DebugArr($_SESSION); 
+  DebugArr($_SESSION);
 
   // Datei merken
   $orig_file = $_FILES['bild']['tmp_name'];
@@ -1073,15 +1073,15 @@ function image_upload()
 
   $file_info = getimagesize($orig_file);
   if ( !empty($file_info) )
-  {      
+  {
     DebugArr($file_info);
-  } 
+  }
   else
   {
     //header("Location: ./upload.php?'.SID.'&err=10");
     //die("Fehler: Bitte wählen Sie ein zulässiges Dateiformat<br>Zulässige Dateiformate: .jpg; .png; .gif");
     // besser: Umlenkung auf eine Fehlerseite
-    $_SESSION['error']['errno'] = 20; 
+    $_SESSION['error']['errno'] = 20;
     return 1;
   }
 
@@ -1091,7 +1091,7 @@ function image_upload()
 
   //haben wir ein akzeptables format?
   // das wäre: jpg, gif oder png
-  
+
   switch ( $file_info[2] )
   {
     // abhängig vom Dateityp ein image (rohdaten) erstellen
@@ -1108,14 +1108,14 @@ function image_upload()
             $file_ok = TRUE;
             break;
     default: $file_ok = FALSE;
-            //header("Location: ./upload.php?'.SID.'&err=11"); 
+            //header("Location: ./upload.php?'.SID.'&err=11");
             // falsches Format
             $_SESSION['error']['errno'] = 20;
             return 1;
   }
   if($file_ok === TRUE)  {
     $sql_abfrage = "COMMIT";
-    mysqli_query($dbconn, $sql_abfrage ); 
+    mysqli_query($dbconn, $sql_abfrage );
     // Jetzt gibt es ein image in den originalgrößen
     // echo 'Upload erfolgreich';
 
@@ -1174,7 +1174,7 @@ function image_upload()
     <?php
   */
     mysqli_close($dbconn);
-    $_SESSION['error']['errno'] = 18;               
+    $_SESSION['error']['errno'] = 18;
     return 0;
   }
   else
@@ -1182,9 +1182,168 @@ function image_upload()
     $sql_abfrage = "ROLLBACK";
     mysqli_query($dbconn, $sql_abfrage );
     mysqli_close($dbconn);
-    $_SESSION['error']['errno'] = 19; 
+    $_SESSION['error']['errno'] = 19;
     return 1;
-  }  
+  }
+}
+
+function GetPublicArtistData($dbconn, $kid)
+{
+   //1. ein Objekt der Klasse mysqli_stmt anlegen
+  $prepstmt = $dbconn->stmt_init();
+
+  $SQL_String = "SELECT kuenstler.Kuenstler_ID, ".
+                "       kuenstler.Kname, ".
+                "       kuenstler.Vita ".
+                "FROM   kuenstler ".
+                "WHERE  kuenstler.Kuenstler_ID = ?";
+
+// Abfrage an DB-Server senden
+  $result_handle = $prepstmt->prepare( $SQL_String );
+
+// Abfrage auf Erfolg Ueberpruefen
+  if($result_handle === false)
+  {
+    ErrorHandling($SQL_String, $dbconn);
+  }
+  else
+  {
+    //4. Daten an die Parameter binden
+    $prepstmt->bind_param( "i" ,$kid);
+
+     //5. Diese Parameter anwenden
+    $prepstmt->execute();
+
+    $Public_Artist_Arr = array();  // ein leeres Array initialisieren!
+
+    $result_handle = $prepstmt->get_result( );
+
+    // fetch-en Spezialfall: ein oder kein Datensatz
+
+    $Public_Artist_Arr = $result_handle->fetch_all( MYSQLI_ASSOC );
+
+    if($Public_Artist_Arr == NULL)
+    {
+      $Public_Artist_Arr = false;
+    }
+  }
+
+  $prepstmt->close(); //abräumen nach getaner Arbeit
+
+  return $Public_Artist_Arr;
+}
+
+function GetAllArtistPics( $dbconn, $kid )
+{
+  $prepstmt = $dbconn->stmt_init();
+
+  $SQL_String = " SELECT  bild.Bild_ID,".
+                "         bild.Titel".
+                " FROM    bild INNER JOIN Kuenstler USING (Kuenstler_ID)".
+                " WHERE   bild.Kuenstler_ID = ? ".
+                " ORDER BY bild.Einstell_Zeitstempel DESC";
+
+  // Abfrage an DB-Server senden
+  $result_handle = $prepstmt->prepare( $SQL_String );
+
+  // Abfrage auf Erfolg Ueberpruefen
+  if($result_handle === false)
+  {
+    ErrorHandling($SQL_String, $dbconn);
+  }
+  else
+  {
+    //4. Daten an die Parameter binden
+    $prepstmt->bind_param( "i" ,$kid);
+
+     //5. Diese Parameter anwenden
+    $prepstmt->execute();
+
+    $Public_Artist_Arr = array();  // ein leeres Array initialisieren!
+
+    $result_handle = $prepstmt->get_result( );
+
+    // fetch-en Spezialfall: ein oder kein Datensatz
+
+    $Public_Artist_Arr = $result_handle->fetch_all( MYSQLI_ASSOC );
+
+    if($Public_Artist_Arr == NULL)
+    {
+      $Public_Artist_Arr = false;
+    }
+  }
+
+  $prepstmt->close(); //abräumen nach getaner Arbeit
+
+  return $Public_Artist_Arr;
+}
+
+function PicReserve( $dbconn,$bid )
+{
+  $SQL_String = "UPDATE bild SET Resv_Zeitstempel = NOW() WHERE bild.Bild_ID=".$bid;
+
+  $result_handle = $dbconn->query($SQL_String);
+
+  // Abfrage erfolgreich?
+
+  if($result_handle === false)
+  {
+   echo "\n <div class=\"error\">".
+      "\n <b>Abfrage fehlgeschlagen!</b>".
+      "\n <div>".$SQL_String."</div>".
+      "\n <div>". $dbconn->errno." : ".$dbconn->error."<\div>".
+      "</div>";
+
+   die("DB-Problem - Abbruch");
+   }
+}
+
+function GetGenreInfo( $dbconn, $gen )
+{
+  $prepstmt = $dbconn->stmt_init();
+
+  $SQL_String = " SELECT  genre.Name,".
+                "         genre.Beschreibung".
+                " FROM    genre ".
+                " WHERE   genre.Genre_ID = ? ";
+
+  // Abfrage an DB-Server senden
+  $result_handle = $prepstmt->prepare( $SQL_String );
+
+  // Abfrage auf Erfolg Ueberpruefen
+  if($result_handle === false)
+  {
+    ErrorHandling($SQL_String, $dbconn);
+  }
+  else
+  {
+    //4. Daten an die Parameter binden
+    $prepstmt->bind_param( "i" ,$gen);
+
+     //5. Diese Parameter anwenden
+    $prepstmt->execute();
+
+    $Genre_Note = array();  // ein leeres Array initialisieren!
+
+    $result_handle = $prepstmt->get_result( );
+
+    // fetch-en Spezialfall: ein oder kein Datensatz
+
+    $Genre_Note = $result_handle->fetch_all( MYSQLI_ASSOC );
+
+    if($Genre_Note == NULL)
+    {
+      $Genre = false;
+    }
+    else
+    {
+      $Genre = $Genre_Note;
+    }
+  }
+
+  $prepstmt->close(); //abräumen nach getaner Arbeit
+
+  return $Genre;
 }
 
 ?>
