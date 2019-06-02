@@ -396,7 +396,7 @@ function PrintHtmlCards( $offer, $sold, $Session_ID )
       </div>
 
       <div class="column">
-        <a href="index.php?$Session_ID" class="card">
+        <a href="Verkaufsuebersicht.php?$Session_ID" class="card">
           &nbsp;<br />
           $sold<br />
           &nbsp;<br />
