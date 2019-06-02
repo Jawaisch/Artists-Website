@@ -80,7 +80,7 @@
 
   // Formular ausgeben
   $artistData = GetArtistData( $dbconn );
-  DebugArr($artistData);
+
   //DebugArr($_POST);
   HtmlRegForm( $Data_Reqs, $header, $description, $action, GetArtistData( $dbconn ) );
 
