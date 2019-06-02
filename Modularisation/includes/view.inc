@@ -7,10 +7,10 @@
 @funktion PrintHtmlHeader( )
 
 @brief Erzeugt den HTML-Kopf der Seite.
-
+    
 @param  -
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlHeader( )
 {
@@ -41,11 +41,11 @@ EO_HEADER;
 
 @brief Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
        aufgerufenen Seitenlink, damit dieser in roter Farbe dargestellt wird.
-
+    
 @param  - Den Pfad und Namen des aktuellen Dokuments
       Session_ID
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlTopnav( $path, $Session_ID )
 {
@@ -87,7 +87,7 @@ function PrintHtmlTopnav( $path, $Session_ID )
   '    <div class="topnav" >'."\n".
   '      <a href="index.php?'.$Session_ID.'" '.   $class1 .' >Home</a>'."\n".
   '      <a href="galerie.php?'.$Session_ID.'" '. $class2 .' >Galerie</a>'."\n".
-  '      <a href="All_Artists.php?'.$Session_ID.'" '.$class3 .' >Künstler</a>'."\n".
+  '      <a href="kunstler.php?'.$Session_ID.'" '.$class3 .' >Künstler</a>'."\n".
   '      <a href="ueber.php?'.$Session_ID.'" '.   $class4 .' >Über uns</a>'."\n".
   '      <a href="kontakt.php?'.$Session_ID.'" '. $class5 .' >Kontakt</a>'."\n".
   '    </div>'."\n".
@@ -102,11 +102,11 @@ function PrintHtmlTopnav( $path, $Session_ID )
 @funktion PrintHtmlSidebar( $user_type, $Session_ID )
 
 @brief Erzeugt die Sidebar.
-
+    
 @param  - user_type: ein String der die Art des Users repräsentiert z.B. kuenstler
       Session_ID
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlSidebar( $user_type, $Session_ID )
 {
@@ -123,7 +123,7 @@ function PrintHtmlSidebar( $user_type, $Session_ID )
         </div>
         </form>
       </div>
-      <div class="clearBoth" >&nbsp;</div>
+      <div class="clearBoth" >&nbsp;</div> 
       </li>
 
 EO_TOP;
@@ -289,19 +289,19 @@ EO_MID;
 @funktion PrintHtmlFooter( $Session_ID )
 
 @brief Erzeugt den HTML-Footer der Seite
-
+    
 @param - $Session_ID
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlFooter( $Session_ID )
 {
   echo <<<EO_FOOTER
 
     <div id="footer">
-      <p>
-        <a href="agb.php?$Session_ID">AGBs</a> &mdash;
-        <a href="impressum.php?$Session_ID">Impressum</a> &mdash;
-        <a href="dsrl.php?$Session_ID">Datenschutzrichtlinien</a> &mdash;
+      <p>     
+        <a href="agb.php?$Session_ID">AGBs</a> &mdash; 
+        <a href="impressum.php?$Session_ID">Impressum</a> &mdash; 
+        <a href="dsrl.php?$Session_ID">Datenschutzrichtlinien</a> &mdash; 
         <a href="admin.php?$Session_ID">Admin</a>
       </p>
     </div>
@@ -318,8 +318,8 @@ EO_FOOTER;
 
 @brief Erzeugt eine DIV als Fehlermeldung
 
-
-@param - $class Die CSS-Klasse des DIVs
+    
+@param - $class Die CSS-Klasse des DIVs 
          $titel Der Fehler-Titel
          $desc  Die Fehlerbeschreibung
 
@@ -341,7 +341,7 @@ EOT;
 @funktion HtmlUserAccount( $daten )
 
 @brief - Erzeugt eine Tabelle für das User Profil
-
+    
 @param - User Daten
 
 @return - Ein gültiges HTML-Div als String
@@ -357,13 +357,13 @@ EOT;
               "\n   <tbody>";
 
     // Wdh. solange Datensätze vorhanden
-
+    
     foreach ( $daten AS $key => $value )
-    {
+    {     
       $table .= "<tr> <td>". $key." </td>".
                      "<td>". $value." </td> </tr> ";
     }
-
+    
     $table .="\n </tbody>\n </table>"; // Der Tabellenfuß
 
     return $table;
@@ -375,7 +375,7 @@ EOT;
 
 @brief - Erzeugt 2 ancklikbare Karten mit den aktuellen Zahlen
          der angebotenen und verkauften Bilder
-
+    
 @param - Anzahl eingestellter Bilder, Anzahl verkaufter Bilder
 @return - Ein gültiges HTML-Div als String
 ****************************************************************************************** */
@@ -396,22 +396,22 @@ function PrintHtmlCards( $offer, $sold, $Session_ID )
 
       <div class="column">
         <a href="index.php?$Session_ID" class="card">
-          &nbsp;<br />
+          &nbsp;<br />  
           $sold<br />
           &nbsp;<br />
           Verkauft
         </a>
       </div>
-
+      
       <div class="column">
         <a href="upload.php?$Session_ID" class="card">
-          &nbsp;<br />
+          &nbsp;<br />    
           neu<br />
           &nbsp;<br />
           Anbieten<br />
         </a>
       </div>
-
+    
     </div>
 
 EO_CARDS;
@@ -422,7 +422,7 @@ EO_CARDS;
 @funktion HtmlRegForm( $Data_Reqs, $header, $description, $action, [$user_data_arr=null], [$agbs=false] )
 
 @brief - Erzeugt ein Formular für den Regestriervorgang oder Profil bearbeiten
-
+    
 @param - $Data_Reqs:    Ein Array welches die Labels für das Formular enthält
          $description:  Eine Beschreibung für das Formular als String
          $action:       Die Zielseite der Formulardaten
@@ -438,19 +438,19 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
     echo "\n    <form  action=\"".$action.SID."\" method=\"post\" enctype=\"multipart/form-data\" >\n";
   else
     echo "\n    <form action=\"".$action.SID."\" method=\"post\">\n";
-
+  
   echo "\n    <div class=\"form_container\">";
   echo "\n       <h1>".$header."</h1>";
   echo "\n       <p>".$description."</p>";
   echo "\n       <hr />";
-
+  
   // Wird ein upload button benötigt?
   if($upload)
   {
     echo "\n       <p class=\"label\"><span class=\"description\"><label ><b>Bild</b></label></span>&nbsp;</p>";
     echo "\n       <input type=\"file\" name=\"bild\" id=\"bild\" accept=\"image/*\" size=\"80\" />";
   }
-
+  
   // Eingabe Felder Erzeugen
   foreach($Data_Reqs as $data)
   {
@@ -484,27 +484,27 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
     {
       echo "\n        <input type=\"text\" name=\"reg_data_arr[".$data['index']."]\" value=\"";
     }
-
+    
     // Nur für nicht Select-Felder
     if( !isset($data['is_select']) )
     {
       // Wurden in dieses Feld bereits Daten eingegeben?
-      if(isset( $_POST['reg_data_arr'][$data['index']] ))
-      {
-        echo $_POST['reg_data_arr'][$data['index']];
+      if(isset( $_POST['reg_data_arr'][$data['index']] )) 
+      { 
+        echo $_POST['reg_data_arr'][$data['index']]; 
       }
       // Wurden dem Funktionsaufruf Daten für dieses Feld übergeben?
-      elseif(isset( $user_data_arr[$data['label']] ))
-      {
-        echo $user_data_arr[$data['label']];
+      elseif(isset( $user_data_arr[$data['label']] )) 
+      { 
+        echo $user_data_arr[$data['label']]; 
       }
     }
-
+    
     // geöffneten Tag schließen
     // Handelt es sich um ein Textarea-Feld?
     if( isset($data['textarea']) )
     {
-      echo " </textarea>\n";
+      echo " </textarea>\n"; 
     }
     // Handelt es sich um ein Select-Feld?
     elseif( isset($data['is_select']) )
@@ -512,7 +512,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
       // nichts zum schließen
     }
     else
-    {
+    { 
       echo "\" />\n";
     }
   }
@@ -520,7 +520,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
   echo "\n       <hr />";
   if( $agbs )
   {
-    echo "\n       <p>Mit der Erstellung eines Kontos erklären Sie sich mit unseren <a href=\"agb.php?".session_id()."\">AGBs </a>einverstanden.</p>";
+    echo "\n       <p>Mit der Erstellung eines Kontos erklären Sie sich mit unseren <a href=\"agb.php?".session_id()."\">AGBs </a>einverstanden.</p>"; 
   }
   echo "\n        <input type=\"hidden\" name=\"".session_name()."\" value=\"".session_id()."\" />";
   echo "\n        <div class=\"buttonrow\">";
@@ -535,18 +535,18 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
 /* ****************************************************************************************
 @funktion HtmlFormSelect( )
 
-@brief -
+@brief - 
+    
+@param - 
 
-@param -
-
-@return -
+@return - 
 ****************************************************************************************** */
 function HtmlFormSelect( )
 {
  echo "\n <select id=\"genre\" name=\"reg_data_arr[genre_id]\">";
  echo "\n   <option value=\"\" selected=\"selected\">bitte wählen</option>";
-
-  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
+    
+  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung  
   if(mysqli_connect_errno($dbconn))
   {
     DebugArr($dbconn);
@@ -565,8 +565,8 @@ function HtmlFormSelect( )
     if( MYDEBUG == FALSE)
     {
       GetErrorDiv();      //stummer Fehler
-    }
-    //header('Location: ./error.php?'.SID);
+    }          
+    //header('Location: ./error.php?'.SID); 
   }
   else
   {
