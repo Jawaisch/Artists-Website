@@ -295,9 +295,8 @@ function GetLast3Pics( $dbconn )
           @function: GetAllPics( $dbconn )
           @brief: Hole alle Bilder aus dem Ordner Small zur Darstellung in
                   der Galerie
-          @para: $dbconn - Eine Datenbankverbindung der Klasse mysqli
-          @return: Im Erfolgsfall - Ein Mehrdimensionales array
-                   Im Misserfolg - false
+          @para:
+          @return:
 ************************************************************************************
 */
 function GetAllPics( $dbconn )
@@ -1347,36 +1346,4 @@ function GetGenreInfo( $dbconn, $gen )
   return $Genre;
 }
 
-<<<<<<< HEAD
 ?>
-=======
-
-/* ************************************************************************************
-      @function UpdateImageState( $dbconn )
-
-      @brief: Weist die Bilder aus dem Einkaufswage dem Käufer zu
-
-      @para - $dbconn      Eine Datenbankverbindung der Klasse mysqli
-
-      @return -
-************************************************************************************ */
-function UpdateImageState( $dbconn )
-{
-  $SQL_String = "UPDATE  bild
-                    SET  bild.Kauf_Zeitstempel = CURRENT_TIMESTAMP(),
-                         bild.User_ID = '".$_SESSION['login']['UID']."',
-                         bild.Kauf_IP = '".$_SERVER['REMOTE_ADDR']."'
-
-                   WHERE Bild_ID IN ('".$_SESSION['cartimpl']."')";
-
-  $result_handle = $dbconn->query($SQL_String);
-
-  // Abfrage erfolgreich?
-  if($result_handle === false)
-  {
-    ErrorHandling($SQL_String, $dbconn);
-  }
-}
-
-?>
->>>>>>> 451bb299ca983f74b76fbee5f6ac185333a6e8d1
