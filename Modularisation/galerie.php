@@ -19,7 +19,6 @@
 		
   $AllImages = GetAllPics( KWS_DB_Connect( 'gast' ) );
 
-<<<<<<< HEAD
   function GalleryView( $AllImages )
   {
 	  $SID = session_id();
@@ -69,14 +68,12 @@ EO_TOP;
 
   }
 
-=======
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
 ?>
 
   <div id="content">
   
     <h2>Gallery</h2>
-		<?php PrintHtmlGallery($AllImages) ?>
+		<?php GalleryView($AllImages) ?>
     <div class="clearBoth" >&nbsp;</div>
 
   </div>
