@@ -578,6 +578,19 @@ function PrintHtmlGallery( $AllImages )
   $bartist=$ImageNotes['KName'];
   $kid=$ImageNotes['Kuenstler_ID'];
 
+  //Sollte der Titel mehr als 23 zeichen beinhalten werden für die Gallerieansicht der Titel geschnitten
+  // und Punkte angefügt
+  $lenght = 23;
+
+      if(strlen($btitle) > $lenght) {
+
+          $btitle = substr($btitle,0,$lenght)."...";
+
+          $string_ende = strrchr($btitle, " ");
+
+          $btitle = str_replace($string_ende," ...", $btitle);
+      }
+
 
 echo <<<EO_TOP
     <div class="gallery_content">
