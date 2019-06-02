@@ -1,13 +1,12 @@
 <?php
   error_reporting( E_ALL );
-  define( "MYDEBUG", true );
 
   include_once( "./includes/view.inc" );
   include_once( "./includes/php.inc" );
   include_once( "./includes/data.inc" );   
   InitSession();  // Nimmt die aktuelle Session wieder auf
   $_SESSION['referer'] = $_SERVER['PHP_SELF'];
-  // CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
+  CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
 
   $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
   
@@ -20,14 +19,11 @@
 ?>
   <div id="content">
   <?php
-    //DebugArr($_POST);
-    //DebugArr($_SESSION);
-    //echo $_SERVER['REMOTE_ADDR'];
     
     $con = mysqli_connect("localhost","kws_kunde","kws_kunde","19ss_tedk4_kws");
     $sql_abfrage = "UPDATE  bild
                     SET     bild.Kauf_Zeitstempel = CURRENT_TIMESTAMP(),
-                            bild.User_ID = 704,
+                            bild.User_ID = '".$_SESSION['login']['UID']."',
                             bild.Kauf_IP = '".$_SERVER['REMOTE_ADDR']."'
                     
                     WHERE Bild_ID IN ('".$_SESSION['cartimpl']."')";
@@ -37,17 +33,17 @@
     ?>
 
     <div class="success">
-      <br>Kauf abgeschlossen<br><br>
+      <br />Kauf abgeschlossen<br /><br />
     </div>
 
-    Bitte überweisen Sie den Betrag von <?php echo $_POST['purchase_sum'] ?>€ auf das folgende Konto:<br>
+    Bitte überweisen Sie den Betrag von <?php echo $_POST['purchase_sum'] ?>€ auf das folgende Konto:<br />
     <pre>
     Zahlungsempfänger: Art Tick GmbH, Musterstr. 5 in 10243 Musterhausen    
     Bank: MusterFinance
     IBAN: CH82 0900 0000 6035 9126 4    
     Verwendungszweck: art_nr <?php echo $_SESSION['cart'][0] ?>
     </pre>
-    <br>
+    <br />
     <?php $_SESSION['cart'] = NULL;  $_SESSION['cartimpl'] = NULL ; ?>   
 
 	<div class="clearBoth" >&nbsp;</div>

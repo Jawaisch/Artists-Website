@@ -55,7 +55,7 @@
                               <th>Bild_ID</th>
                               <th>Vorschau</th>
                               <th>Preis</th>
-                              <th>Artikel entfernen</th>           			   
+                              <th>Artikel entfernen</th>                   
                     </tr>';
                     $img_index = 1;
                     $sum = 0;
@@ -68,7 +68,7 @@
                         echo "<td>" . $dsatz["Kname"] . "</td>";
                         echo "<td>" . $dsatz["Bild_ID"] . "</td>";                       
                         //echo  '<option value="'. $i .'">'. $i .'</option>';  
-                        echo '<td><img src="art-images/small/' . $dsatz["Bild_ID"] . '.png" alt="missing image ' . $dsatz["Titel"] . '"width="90" height="60"> </td>';                		
+                        echo '<td><img src="art-images/small/' . $dsatz["Bild_ID"] . '.png" alt="missing image ' . $dsatz["Titel"] . '"width="90" height="60"> </td>';                    
                         echo  "<td>" . $dsatz["VK_Preis"] . ' €' . "</td>";
                         echo '<td>' . '<div style="">' . 
                         //'<input type="submit" name="remove_' . $dsatz["Bild_ID"] . '" value="entfernen" form_id="remove">' .
@@ -87,7 +87,7 @@
                   
                       
               '<br>' .
-              '<button type="submit" style="  	margin: 0em;
+              '<button type="submit" style="    margin: 0em;
                                                   padding: .2em .5em;
                                                   background-position: .5em center;
                                                   background-repeat: no-repeat;
@@ -102,7 +102,7 @@
       header('"Location: kaufbestaetigung.php?'.SID.'"');
     }
   ?>
-	<div class="clearBoth" >&nbsp;</div>
+  <div class="clearBoth" >&nbsp;</div>
   </div>
   <!-- end #content --> 
 

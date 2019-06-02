@@ -71,7 +71,7 @@
             }
             header( 'Location: '.$_SESSION['referer'].$str_connect.SID);
           }
-			    header( 'Location: '.$_SESSION['referer'].'?'.SID);
+                header( 'Location: '.$_SESSION['referer'].'?'.SID);
         }
         else
         {

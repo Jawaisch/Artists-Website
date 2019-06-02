@@ -18,18 +18,17 @@
     #######################################################################*/
   function DisplayAllArtists($Artist_Arr)
   {
-	  echo "<div class=\"table\">". 
-			"<table>".
-			  "<tr><th>Unsere K&uuml;nstler</th></tr>";
-			  
-	  foreach ( $Artist_Arr AS $Artists )
+    echo "<div class=\"table\">". 
+         "\n      <table>".
+         "\n        <tr><th>Unsere K&uuml;nstler</th></tr>\n";
+        
+    foreach ( $Artist_Arr AS $Artists )
       {  
-		  
-	     echo "<tr><td><a href=\"public_artist.php?".SID."&amp;kid=".$Artists['Kuenstler_ID']."\">".$Artists['KName']."</a></td></tr>\n";	 
+      
+       echo "         <tr><td><a href=\"public_artist.php?".SID."&amp;kid=".$Artists['Kuenstler_ID']."\">".$Artists['KName']."</a></td></tr>\n";   
       }
-	  
-	  echo	"</table></div>";
-	
+    
+    echo  "       </table></div>";
   }
 
 ?>
@@ -37,12 +36,12 @@
   <div id="content">
   
     <?php
-		$Artists = GetAllArtists($dbconn);
-		//DebugArr($Artists);
-		DisplayAllArtists($Artists);
-	?>
+    $Artists = GetAllArtists($dbconn);
+    DebugArr($Artists);
+    DisplayAllArtists($Artists);
+  ?>
 
-	<div class="clearBoth" >&nbsp;</div>
+  <div class="clearBoth" >&nbsp;</div>
   </div>
   <!-- end #content --> 
 

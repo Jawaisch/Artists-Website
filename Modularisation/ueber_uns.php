@@ -16,17 +16,16 @@
   /*#########################################################################
         BEGINN DES CONTENTS
     #######################################################################*/
-		
-  $AllImages = GetAllPics( KWS_DB_Connect( 'gast' ) );
-
 ?>
 
   <div id="content">
-  
-    <h2>Gallery</h2>
-		<?php PrintHtmlGallery($AllImages) ?>
-    <div class="clearBoth" >&nbsp;</div>
-
+    <h3>Über uns</h3>
+    <p>
+      Diese Website entstand im Rahmen unserer Fachschulausbildung an der Staatlichen 
+      Technikerschule in Berlin. Sie soll nachweisen, dass fundierte Kompetenzen 
+      im Umgang mit PHP, xHTML und CSS erlangt wurden. 
+    </p>
+  <div class="clearBoth" >&nbsp;</div>
   </div>
   <!-- end #content --> 
 
@@ -36,4 +35,5 @@
     #######################################################################*/
 
   PrintHtmlSidebar( $_SESSION['login']['user'], SID );
-  PrintHtmlFooter( SID);
+  PrintHtmlFooter( SID ); 
+?>
