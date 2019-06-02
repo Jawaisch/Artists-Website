@@ -891,6 +891,8 @@ function DisplayGenreInfo($GenreInfo)
      </div>
 GENREBOX;
 
+}
+
 
 /* ****************************************************************************************
 @funktion HtmlPrintPaymentRequest( )
@@ -947,5 +949,4 @@ function DisplaySoldPics($SoldPics)
   </div>
 SOLD;
   }
-}
 }
