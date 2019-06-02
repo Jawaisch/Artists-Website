@@ -18,7 +18,7 @@
 
   // Anforderungsliste
   $Data_Reqs = array(
-      'kname'       => array( 'mand' => True, 
+    'kname'   => array( 'mand' => True, 
                               'type' => 'string',
                               'label' => 'Künstlername', 
                               'index' => 'kname',
