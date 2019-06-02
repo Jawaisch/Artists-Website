@@ -260,7 +260,7 @@ function HtmlSidebarKünstler( $Session_ID )
         <ul>
           <li><a href="./upload.php?$Session_ID">Kunst verkaufen</a></li>
           <li><a href="./public_artist.php?$Session_ID&amp;kid=$kid">Meine Kunst</a></li>
-          <li><a href="#">Verkaufsübersicht</a></li>
+          <li><a href="./Verkaufsuebersicht.php?$SESS_ID&amp;kid=$kid">Verkaufsübersicht</a></li>
           <li><a href="./kuenstler_reg.php?$Session_ID">Neues Künstlerkonto</a></li>
         </ul>
       </li>
@@ -890,4 +890,62 @@ function DisplayGenreInfo($GenreInfo)
         $Ginfo
      </div>
 GENREBOX;
+
+
+/* ****************************************************************************************
+@funktion HtmlPrintPaymentRequest( )
+
+@brief - Gibt eine DIV für die Zahlungsaufforderung aus
+
+@param -
+
+@return -
+****************************************************************************************** */
+
+function DisplaySoldPics($SoldPics)
+{
+  foreach( $SoldPics AS $PicInfo )
+  {
+    $SID = session_id();
+    $bid = $PicInfo['Bild_ID'];
+    $btitle = $PicInfo['Titel'];
+    $uaddress =$PicInfo['Anrede'];
+    if($PicInfo['uTitel'] !== NULL)
+    {
+      $utitle = $PicInfo['uTitel'];
+    }
+    else
+    {
+      $utitle = "";
+    }
+    $uvname = $PicInfo['Vorname'];
+    $unname = $PicInfo['Nachname'];
+    $kaufZt = $PicInfo['Kauf_Zeitstempel'];
+
+    $lenght = 23;
+
+        if(strlen($btitle) > $lenght)
+        {
+
+            $btitle = substr($btitle,0,$lenght)."...";
+
+            $string_ende = strrchr($btitle, " ");
+
+            $btitle = str_replace($string_ende," ...", $btitle);
+        }
+
+  echo <<<SOLD
+  <div class="gallery_content">
+    <div class="image">
+      <img src="art-images/small/$bid.png" alt="$btitle" />
+    </div>
+    <div class="image_notes">
+      <h3>$btitle</h3>
+      <p><span class="description">Käufer</span> $uaddress $utitle $uvname $unname</p>
+      <p><span class="description">Kaufdatum</span> $kaufZt</p>
+    </div>
+  </div>
+SOLD;
+  }
+}
 }
