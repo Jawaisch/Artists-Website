@@ -1,6 +1,6 @@
 <?php
   error_reporting( E_ALL );
-  define( "MYDEBUG", false );
+  
 
   include_once( "./includes/view.inc" );
   include_once( "./includes/php.inc" );
@@ -20,11 +20,11 @@
 ?>
 
   <div id="content">  
-    <br>
-    <h1> Allgemeine Geschäftsbedingungen der Firma Art'Tick</h1>
-    <br><p><i><a href="http://www.agb.de">Gratis AGB</a> erstellt von agb.de</i></p> 
     <br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§1 Geltung gegenüber Unternehmern und Begriffsdefinitionen</p>
+    <h1> Allgemeine Geschäftsbedingungen der Firma Art'Tick</h1>
+    <p><i><a href="http://www.agb.de">Gratis AGB</a> erstellt von agb.de</i></p> 
+    <br />
+    <p>§1 Geltung gegenüber Unternehmern und Begriffsdefinitionen</p>
     (1) Die nachfolgenden Allgemeinen Geschäftbedingungen gelten für alle Lieferungen zwischen uns und einem Verbraucher
     in ihrer zum Zeitpunkt der Bestellung gültigen Fassung.<br />
     <br />
@@ -33,12 +33,13 @@
     <br />
 
             <br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§2 Zustandekommen eines Vertrages, Speicherung des Vertragstextes</p>
+    <p >§2 Zustandekommen eines Vertrages, Speicherung des Vertragstextes</p>
     (1) Die folgenden Regelungen über den Vertragsabschluss gelten für Bestellungen über unseren Internetshop http://www.arttick.de .<br />
     <br />
-    <b>(2) Im Falle des Vertragsschlusses kommt der Vertrag mit<br />
+    <b>(2) Im Falle des Vertragsschlusses kommt der Vertrag mit</b><br />
 
-    <div style="font-weight: bold; margin-left: 20px;" >
+   <div>
+	<b>
     <br />
     Art'Tick<br />
     Klaus Muster<br />
@@ -47,8 +48,9 @@
     Registernummer 12131415<br />
     Registergericht Amtsgericht Musterstadt<br />
     <br />
+	</b>
     </div>
-    zustande.<br /></b>
+    <b>zustande.</b><br />
     <br />
     (3) Die Präsentation der Waren in unserem Internetshop stellen kein rechtlich bindendes Vertragsangebot unsererseits dar,
     sondern sind nur eine unverbindliche Aufforderungen an den Verbraucher, Waren zu bestellen. Mit der Bestellung der gewünschten Ware gibt der Verbraucher ein für
@@ -58,7 +60,7 @@
     <br />
     Die Bestellung erfolgt in folgenden Schritten:<br />
     <br />
-    <div class="ml20">
+    <div>
             
             1) Auswahl der gewünschten Ware<br /> 
             
@@ -89,7 +91,7 @@
 
 
             <br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§3 Preise, Versandkosten, Zahlung, Fälligkeit</p>
+    <p>§3 Preise, Versandkosten, Zahlung, Fälligkeit</p>
     (1) Die angegebenen Preise enthalten die gesetzliche Umsatzsteuer und sonstige Preisbestandteile. Hinzu kommen etwaige Versandkosten.<br />
     <br />
     (2) Der Verbraucher hat die Möglichkeit der Zahlung per 
@@ -104,7 +106,7 @@
     
 
     <br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§4 Lieferung</p>
+    <p>§4 Lieferung</p>
     (1) Sofern wir dies in der Produktbeschreibung nicht deutlich anders angegeben haben, sind alle von uns angebotenen Artikel sofort versandfertig.
     Die Lieferung erfolgt hier spätesten innerhalb von 5 Werktagen.
     Dabei beginnt die Frist für die Lieferung im Falle der Zahlung per Vorkasse am Tag nach
@@ -117,16 +119,16 @@
 
 
     <br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§5 Eigentumsvorbehalt</p>
+    <p>§5 Eigentumsvorbehalt</p>
     Wir behalten uns das Eigentum an der Ware bis zur vollständigen Bezahlung des Kaufpreises vor. <br />
 
 
 
-                            <br />
+    <br />
 
     ****************************************************************************************************
     <br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§6 Widerrufsrecht des Kunden als Verbraucher:
+    <p>§6 Widerrufsrecht des Kunden als Verbraucher:
     </p>
 
     <b>
@@ -138,7 +140,7 @@
             <br />
             <br />
 
-            <p style="font-weight: bold; padding-bottom: 1px; text-align: center;">Widerrufsbelehrung</p>
+            <p>Widerrufsbelehrung</p>
             <br />
             <b>Widerrufsrecht</b><br />
             <br />
@@ -150,7 +152,7 @@
 
             <br /><br />
             Um Ihr Widerrufsrecht auszuüben, müssen Sie uns<br />
-            <div style="margin-left:20px; margin-top: 5px; margin-bottom:5px;">
+            <div>
                     Art'Tick<br />
                     Klaus Muster<br />
                     Beispielstraße 42<br />
@@ -200,11 +202,11 @@
 
 
 
-    <p style="font-weight: bold; padding-bottom: 10px;">§7 Widerrufsformular</p>
+    <p>§7 Widerrufsformular</p>
 
-    <p style="text-align: center; font-weight: bold;">Muster-Widerrufsformular</p>
+    <p>Muster-Widerrufsformular</p>
     (Wenn Sie den Vertrag widerrufen wollen, dann füllen Sie bitte dieses Formular aus und senden Sie es zurück.)<br />
-    <div style="border: 1px solid #000000;padding: 10px;">
+    <div>
     An :<br />
     Art'Tick<br />
     Klaus Muster<br />
@@ -244,7 +246,7 @@
 
 
     <br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§8 Gewährleistung
+    <p>§8 Gewährleistung
     </p>
 
     Es gelten die gesetzlichen Gewährleistungsregelungen.
@@ -252,25 +254,24 @@
 
 
     <br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§9 Vertragssprache</p>
+    <p>§9 Vertragssprache</p>
     Als Vertragssprache steht ausschließlich Deutsch zur Verfügung.<br />
 
             <br />
     ****************************************************************************************************<br />
-    <p style="font-weight: bold; padding-bottom: 10px;">§10 Kundendienst</p>
-    <b>
+    <p>§10 Kundendienst</p>
     Unser Kundendienst für Fragen, Reklamationen und Beanstandungen steht Ihnen werktags von
     9:00 Uhr bis 
     17:30 Uhr unter<br />
     <br />
-    <p style="margin-left: 20px">
+    <p>
     Telefon: 05123 45678911<br />
     Telefax: 05123 45678912<br />
     E-Mail: service@arttick.de<br />
     </p>
 
 
-    zur Verfügung.</b>
+    zur Verfügung.
     <br />
     <br />
     ****************************************************************************************************
