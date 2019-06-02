@@ -127,7 +127,6 @@ function GetUidByLogin( $dbconn , $login , $pwd )
   $OK = $prepstmt->prepare( $SQLstring );
   
   // Abfrage erfolgreich?
-  
   if($OK === false)
   {
     ErrorHandling($SQL_String, $dbconn);
@@ -139,7 +138,13 @@ function GetUidByLogin( $dbconn , $login , $pwd )
 
   //5. Diese Parameter anwenden
 
-  $prepstmt->execute();
+  $OK = $prepstmt->execute();
+
+  // Ausführung erfolgreich?
+  if($OK === false)
+  {
+    ErrorHandling($SQL_String, $dbconn);
+  }
 
   //6. Ergebnis holen/Rückgabewerte binden
   //a: Rückgabewert binden
@@ -168,11 +173,11 @@ function GetUidByLogin( $dbconn , $login , $pwd )
       @brief: Überprüft ober der anmeldende Benutzer ein Künstler ist
 
       @para - $dbconn      Eine Datenbankverbindung der Klasse mysqli
-          - $uid       Die User_ID des angemeldenden Benutzers
+			- $uid       Die User_ID des angemeldenden Benutzers
 
 
       @return -  "kuenstler" im Erfolgsfall
-             sonst "kunde" 
+					sonst "kunde" 
 ************************************************************************************ */
 function GetKindOfUser( $dbconn , $uid)
 {
@@ -199,7 +204,7 @@ function GetKindOfUser( $dbconn , $uid)
   else
   {
     $ResultArr[0] = "kuenstler";
-  $ResultArr[1] = $UserArr['KID'];
+	$ResultArr[1] = $UserArr['KID'];
   }
   return $ResultArr; 
 }
@@ -1213,6 +1218,71 @@ function UpdateImageState( $dbconn )
   {
     ErrorHandling($SQL_String, $dbconn);
   } 
-}  
+}
+
+
+/* ************************************************************************************
+      @function GetImageByName( $dbconn, $WantedName )
+
+      @brief: Gibt Bilder zurück, welche den gesuchten String im Namen enthalten
+
+      @para - $dbconn       Eine Datenbankverbindung der Klasse mysqli
+              $WantedName   Den gesuchten String
+
+      @return - Ein Array mit den Bildern
+************************************************************************************ */
+function GetImageByName( $dbconn, $WantedName )
+{
+	//1. ein Objekt der Klasse mysqli_stmt anlegen
+	$prepstmt = $dbconn->stmt_init();
+
+	//2. Abfrage mit Platzhalter für Daten vorbereiten
+		$sql_string = " SELECT bild.Bild_ID,".
+                  "        bild.Titel,".
+                  "        bild.Hoehe,".
+                  "        bild.Breite,".
+                  "        bild.VK_Preis,".
+                  "        Kuenstler.KName,".
+                  "        Kuenstler.Kuenstler_ID".
+                  " FROM bild INNER JOIN Kuenstler USING (Kuenstler_ID)".
+                  " WHERE bild.Titel LIKE ?".
+                  " ORDER BY bild.Einstell_Zeitstempel DESC;";
+
+	//3. Prepared Statement auf dem DB-Server vorbereiten
+	$OK = $prepstmt->prepare($sql_string);
+
+	if($OK===false)
+	{
+	  ErrorHandling($sql_string, $dbconn);
+	}
+
+	// nach Bildern Suchen die den String an beliebiger Stelle einthalten
+	$global_match = "%".$WantedName."%";
+
+	//4. Daten an die Parameter binden
+	$prepstmt->bind_param("s", $global_match);
+
+	//5. Diese Parameter anwenden
+	$OK = $prepstmt->execute();
+	if($OK === false)
+	{
+	  ErrorHandling($SQL_String, $dbconn);
+	}
+
+	// Ergebnis holen
+	$err_handle = $prepstmt->get_result();
+
+	//abräumen nach getaner Arbeit
+	$prepstmt->close();
+
+	// ein leeres Array initialisieren
+	$result_arr = Array(); 
+
+	while( $ds = $err_handle->fetch_assoc() )
+	{
+	  $result_arr[] = $ds;
+	}
+	return $result_arr;
+}
 
 ?>

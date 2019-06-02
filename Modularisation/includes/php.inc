@@ -138,6 +138,23 @@ dann wird auf die Anmeldeseite mit einem Fehlercode umgeleitet
               $desc ="Fehler: Bitte wählen Sie ein zulässiges Dateiformat<br />Zulässige Dateiformate: .jpg; .png; .gif";
               break;
 
+	  // SUCHE
+
+		  case 22:$class="warning";
+              $title="Keine Treffer";
+              $desc ="Wir haben kein Bild, das diese Zeichefolge enthält.";
+              break;
+              
+      case 23:$class="warning";
+              $title="Keine Eingabe";
+              $desc ="Bitte geben Sie einen gesuchten Bildnamen ein.";
+              break;      
+              
+      case 24:$class="warning";
+              $title="Keine Eingabe";
+              $desc ="Bitte ersetzen Sie den Beispieltext durch einen gesuchten Bildnamen.";
+              break;
+
       default:$class="error";
               $title="Unbekannter Fehler";
               $desc ="unbekannt";

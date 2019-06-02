@@ -17,8 +17,6 @@
           BEGINN DES CONTENTS
     #######################################################################*/
   echo '      <div id="content">'."\n";
-  
-  DebugArr($_SESSION);
 
   // Wurde ein Fehler übergeben?
   ErrorOccurred( );
