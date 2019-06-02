@@ -6,13 +6,8 @@
 /* ****************************************************************************************
 @funktion PrintHtmlHeader( )
 
-<<<<<<< HEAD
 @brief Erzeugt den HTML-Kopf der Seite.
 
-=======
-@brief - Erzeugt den HTML-Kopf der Seite.
-    
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
 @param  -
 
 @return -
@@ -44,7 +39,7 @@ EO_HEADER;
 /* ****************************************************************************************
 @funktion PrintHtmlTopnav( $path, $Session_ID )
 
-@brief - Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
+@brief Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
        aufgerufenen Seitenlink, damit dieser in roter Farbe dargestellt wird.
 
 @param  - Den Pfad und Namen des aktuellen Dokuments
@@ -90,19 +85,11 @@ function PrintHtmlTopnav( $path, $Session_ID )
 
   $output = ''.
   '    <div class="topnav" >'."\n".
-<<<<<<< HEAD
   '      <a href="index.php?'.$Session_ID.'" '.   $class1 .' >Home</a>'."\n".
   '      <a href="galerie.php?'.$Session_ID.'" '. $class2 .' >Galerie</a>'."\n".
   '      <a href="All_Artists.php?'.$Session_ID.'" '.$class3 .' >Künstler</a>'."\n".
   '      <a href="ueber.php?'.$Session_ID.'" '.   $class4 .' >Über uns</a>'."\n".
   '      <a href="kontakt.php?'.$Session_ID.'" '. $class5 .' >Kontakt</a>'."\n".
-=======
-  '      <a href="index.php?'.$Session_ID.'" '.       $class1 .' >Home</a>'."\n".
-  '      <a href="galerie.php?'.$Session_ID.'" '.     $class2 .' >Galerie</a>'."\n".
-  '      <a href="All_Artists.php?'.$Session_ID.'" '. $class3 .' >Künstler</a>'."\n".
-  '      <a href="ueber_uns.php?'.$Session_ID.'" '.   $class4 .' >Über uns</a>'."\n".
-  '      <a href="kontakt.php?'.$Session_ID.'" '.     $class5 .' >Kontakt</a>'."\n".
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
   '    </div>'."\n".
   '    <!-- end #topnav -->'."\n".
   '    <div id="main">'."\n";
@@ -114,16 +101,10 @@ function PrintHtmlTopnav( $path, $Session_ID )
 /* ****************************************************************************************
 @funktion PrintHtmlSidebar( $user_type, $Session_ID )
 
-<<<<<<< HEAD
 @brief Erzeugt die Sidebar.
 
 @param  - user_type: ein String der die Art des Users repräsentiert z.B. kuenstler
       Session_ID
-=======
-@brief - Erzeugt die Sidebar.
-    
-@param  - $user_type: ein String der die Art des Users repräsentiert z.B. kuenstler
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
 
 @return -
 ****************************************************************************************** */
@@ -187,7 +168,6 @@ EO_END;
 
 }
 
-// findet aktuell keine Verwendung könnte aber für administrative Zwecke angepasst werden
 function HtmlSidebarAdmin( $Session_ID )
 {
   echo <<<EO_MID
@@ -243,7 +223,7 @@ function HtmlSidebarKunde( $Session_ID )
           </li>
           <li><a href="./kauf.php?$Session_ID">Einkaufswagen</a></li>
           <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
-          <li><a href="./kaufuebersicht.php?$Session_ID">Kaufübersicht</a></li>
+          <li><a href="#">Kaufübersicht</a></li>
           <li><a href="./kuenstler_reg.php?$Session_ID">Künstler werden</a></li>
         </ul>
       </li>
@@ -254,7 +234,6 @@ function HtmlSidebarKünstler( $Session_ID )
 {
   $sname=session_name();
   $sid=session_id();
-  $kid=$_SESSION['login']['KID'];
   echo <<<EO_MID
       <li>
       <h2>Info</h2>
@@ -273,14 +252,14 @@ function HtmlSidebarKünstler( $Session_ID )
           </li>
           <li><a href="./kauf.php?$Session_ID">Einkaufswagen</a></li>
           <li><a href="./profil.php?$Session_ID">Mein Profil</a></li>
-          <li><a href="./kaufuebersicht.php?$Session_ID">Kaufübersicht</a></li>
+          <li><a href="#">Kaufübersicht</a></li>
         </ul>
       </li>
       <li>
         <h2>Künstler</h2>
         <ul>
           <li><a href="./upload.php?$Session_ID">Kunst verkaufen</a></li>
-          <li><a href="./public_artist.php?$Session_ID&amp;kid=$kid">Meine Kunst</a></li>
+          <li><a href="#">Meine Kunst</a></li>
           <li><a href="#">Verkaufsübersicht</a></li>
           <li><a href="./kuenstler_reg.php?$Session_ID">Neues Künstlerkonto</a></li>
         </ul>
@@ -309,13 +288,8 @@ EO_MID;
 /* ****************************************************************************************
 @funktion PrintHtmlFooter( $Session_ID )
 
-<<<<<<< HEAD
 @brief Erzeugt den HTML-Footer der Seite
 
-=======
-@brief - Erzeugt den HTML-Footer der Seite
-    
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
 @param - $Session_ID
 @return -
 ****************************************************************************************** */
@@ -342,7 +316,7 @@ EO_FOOTER;
  /* ****************************************************************************************
 @funktion HtmlErrorDiv( $class, $title, $desc )
 
-@brief - Erzeugt eine DIV als Fehlermeldung
+@brief Erzeugt eine DIV als Fehlermeldung
 
 
 @param - $class Die CSS-Klasse des DIVs
@@ -374,32 +348,23 @@ EOT;
 ****************************************************************************************** */
   function HtmlUserAccount( $daten )
   {
-    $table =  "\n     <table class =\"table\">". // Der Tabellenkopf
-              "\n     <thead>".
-              "\n       <tr>".
-              "\n         <th>Bezeichnung</th> <th>Wert</th>".
-              "\n       </tr>".
-              "\n     </thead>".
-              "\n     <tbody>";
+    $table =  "   <table class =\"table\">". // Der Tabellenkopf
+              "\n   <thead>".
+              "\n     <tr>".
+              "\n       <th>Bezeichnung</th> <th>Wert</th>".
+              "\n     </tr>".
+              "\n   </thead>".
+              "\n   <tbody>";
 
     // Wdh. solange Datensätze vorhanden
 
     foreach ( $daten AS $key => $value )
-<<<<<<< HEAD
     {
       $table .= "<tr> <td>". $key." </td>".
                      "<td>". $value." </td> </tr> ";
     }
 
     $table .="\n </tbody>\n </table>"; // Der Tabellenfuß
-=======
-    {     
-      $table .= "\n       <tr> <td>". $key."</td>".
-                " <td>". $value."</td> </tr> ";
-    }
-    
-    $table .="\n    </tbody>\n </table>\n"; // Der Tabellenfuß
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
 
     return $table;
   }
@@ -412,17 +377,16 @@ EOT;
          der angebotenen und verkauften Bilder
 
 @param - Anzahl eingestellter Bilder, Anzahl verkaufter Bilder
-@return - 
+@return - Ein gültiges HTML-Div als String
 ****************************************************************************************** */
 function PrintHtmlCards( $offer, $sold, $Session_ID )
 {
-  $kid=$_SESSION['login']['KID'];
   echo <<<EO_CARDS
 
      <div>
 
       <div class="column">
-        <a href="public_artist.php?$Session_ID&amp;kid=$kid" class="card" >
+        <a href="index.php?$Session_ID" class="card" >
           &nbsp;<br />
           $offer<br />
           &nbsp;<br />
@@ -455,24 +419,18 @@ EO_CARDS;
 
 
 /* ****************************************************************************************
-@funktion HtmlRegForm( $Data_Reqs, $header, $description, $action, [$user_data_arr=null], [$agbs=false], [$upload=false] )
+@funktion HtmlRegForm( $Data_Reqs, $header, $description, $action, [$user_data_arr=null], [$agbs=false] )
 
-<<<<<<< HEAD
 @brief - Erzeugt ein Formular für den Regestriervorgang oder Profil bearbeiten
 
 @param - $Data_Reqs:    Ein Array welches die Labels für das Formular enthält
-=======
-@brief - Erzeugt ein Formular für z.B.: den Regestriervorgang oder die Profil bearbeiten Seite
-    
-@param - $Data_Reqs:    Ein Array welches unter anderem die Labels für das Formular enthält
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
          $description:  Eine Beschreibung für das Formular als String
          $action:       Die Zielseite der Formulardaten
          $user_data_arr:Ein Arry mit Userdaten für die Seite: Profil bearbeiten
          $agbs:         Ein bool der angibt ob der AGB Hinweis ausgegeben werden muss
          $upload:       Ein bool der angibt ob ein Upload Button ausgegeben werden muss
 
-@return - 
+@return - Ein gültiges HTML-Div als String
 ****************************************************************************************** */
 function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr=null, $agbs=false, $upload=false )
 {
@@ -485,13 +443,8 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
   echo "\n       <h1>".$header."</h1>";
   echo "\n       <p>".$description."</p>";
   echo "\n       <hr />";
-<<<<<<< HEAD
 
   // Wird ein upload button benötigt?
-=======
-  
-  // Wird ein Upload-Button benötigt?
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
   if($upload)
   {
     echo "\n       <p class=\"label\"><span class=\"description\"><label ><b>Bild</b></label></span>&nbsp;</p>";
@@ -522,9 +475,9 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
       echo "\n        <textarea name=\"reg_data_arr[".$data['index']."]\" rows=\"5\" cols=\"80\" id=\"vita\">";
     }
     // Handelt es sich um ein Select-Feld?
-    elseif( isset($data['select_list']) )
+    elseif( isset($data['is_select']) )
     {
-      HtmlFormSelect( $data['select_list'](), $data['index'] );
+      HtmlFormSelect( );
     }
     // Dann ist es ein Text-Feld
     else
@@ -533,7 +486,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
     }
 
     // Nur für nicht Select-Felder
-    if( !isset($data['select_list']) )
+    if( !isset($data['is_select']) )
     {
       // Wurden in dieses Feld bereits Daten eingegeben?
       if(isset( $_POST['reg_data_arr'][$data['index']] ))
@@ -554,7 +507,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
       echo " </textarea>\n";
     }
     // Handelt es sich um ein Select-Feld?
-    elseif( isset($data['select_list']) )
+    elseif( isset($data['is_select']) )
     {
       // nichts zum schließen
     }
@@ -580,162 +533,49 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
 
 
 /* ****************************************************************************************
-@funktion HtmlFormSelect( $select_list , $name )
+@funktion HtmlFormSelect( )
 
-<<<<<<< HEAD
 @brief -
 
 @param -
-=======
-@brief - Erzeugt ein gültiges HTML-Div für eine Dropdown-Liste
-    
-@param - $select_list: Liste der Auswahlmöglichkeiten
-         $name: der Name des Auswahlfeldes
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
 
 @return -
 ****************************************************************************************** */
-function HtmlFormSelect( $select_list, $name )
+function HtmlFormSelect( )
 {
-<<<<<<< HEAD
  echo "\n <select id=\"genre\" name=\"reg_data_arr[genre_id]\">";
  echo "\n   <option value=\"\" selected=\"selected\">bitte wählen</option>";
 
   $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
   if(mysqli_connect_errno($dbconn))
-=======
- echo "\n         <select id=\"genre\" name=\"reg_data_arr[$name]\">";
- echo "\n           <option value=\"\" selected=\"selected\">bitte wählen</option>";
-    
-  foreach ( $select_list as $item )
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
   {
-    echo "\n           <option value=\"".$item['Value']."\">".$item['Name']."</option>";
+    DebugArr($dbconn);
+    DebugArr($_POST);
+    DebugArr($_SESSION);
   }
- echo "\n         </select>";
-}
-
-
-/* ****************************************************************************************
-@funktion PrintHtmlGallery( $AllImages )
-
-@brief - Erzeugt ein gültiges HTML-Div für die Bilder-Galerie
-    
-@param - Ein Array mit den auszugebenden Bilder + Informationen
-
-@return - 
-****************************************************************************************** */
-function PrintHtmlGallery( $AllImages )
-{
-  $SID = session_id();
-  foreach( $AllImages AS $ImageNotes )
+  $sql_abfrage = "SELECT  genre.Genre_ID,
+                          genre.Name
+                  FROM    genre
+                  ORDER BY genre.Name";
+  mysqli_query($dbconn, $sql_abfrage );
+  if(mysqli_error($dbconn))
   {
-  $bid = $ImageNotes['Bild_ID'];
-  $btitle =$ImageNotes['Titel'];
-  $bheight=$ImageNotes['Hoehe'];
-  $bwidth=$ImageNotes['Breite'];
-  $bprice=$ImageNotes['VK_Preis'];
-  $bartist=$ImageNotes['KName'];
-  $kid=$ImageNotes['Kuenstler_ID'];
-    
+    ErrorHandling($sql_abfrage, $dbconn);
 
-echo <<<EO_TOP
-    <div class="gallery_content">
-    <div class="image">
-      <img src="art-images/small/$bid.png" alt="$btitle" />
-    </div>
-    <div class="image_notes">
-    <h3>$btitle</h3>
-    <p><span class="description">Künstler:</span><a href="public_artist.php?kws=$SID&amp;kid=$kid">$bartist</a></p>
-    <p><span class="description">Größe:</span>$bheight mm x $bwidth mm</p>    
-    <p><span class="description">Kaufspreis:</span>$bprice €</p>
-    <p>
-    <a href="gross_bild.php?kws=$SID&amp;bid=$bid">Genauer betrachten</a>
-    </p>
-    </div>
-    </div>
-
-EO_TOP;
-    }
-
-<<<<<<< HEAD
     if( MYDEBUG == FALSE)
     {
       GetErrorDiv();      //stummer Fehler
     }
     //header('Location: ./error.php?'.SID);
-=======
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
   }
-
-
-/* ****************************************************************************************
-@funktion PrintPicPreview( $pic_id )
-
-@brief - Erzeugt ein gültiges HTML-Div für ein hochgeladenen Bild
-    
-@param - $pic_id die Bild_ID des gerade hochgeladenen Bildes
-
-@return - 
-****************************************************************************************** */
-function PrintPicPreview( $pic_id )
-{
-  $SID = session_id();
-  list($width, $height, $type, $attr) = getimagesize("art-images/small/".$pic_id.".png");
-
-  echo <<<EO_PIC
-           <div>
-             <h3>Bildvorschau</h3>
-             <a href="gross_bild.php?kws=$SID&amp;bid=$pic_id">
-              <img 
-                 src="art-images/small/$pic_id.png"
-                 $attr
-                 alt="Bildvorschau"
-                 title="Bildvorschau"
-               />
-             </a>
-           </div>
-EO_PIC;
-}
-
-
-/* ****************************************************************************************
-@funktion PrintHtmlIndex($Pics)
-
-@brief - Erzeugt ein gültiges HTML-Div für den Index
-    
-@param - $Pics ein Arry mit Bildern und Informationen zu diesen
-
-@return - 
-****************************************************************************************** */
-function PrintHtmlIndex($Pics)
-{
-  foreach ($Pics as $Pic)
+  else
   {
-    list($width, $height, $type, $attr) = getimagesize("art-images/small/".$Pic['Bild_ID'].".png");
-    $date = preg_split("* *", $Pic['Einstell_Zeitstempel']);
-
-    $output = ''.
-  '       <div class="preview">'."\n".
-  '         <h2 class="title">'.$Pic['Titel'].'</h2>'."\n".
-  '         <p class="meta">Eingestellt von <a href="public_artist.php?'.SID.'&amp;kid='.$Pic['Kuenstler_ID'].'">'.$Pic['KName'].'</a> am '.$date[0].' um '.$date[1].' </p>'."\n".
-  '         <a href="gross_bild.php?'.SID.'&amp;bid='.$Pic['Bild_ID'].'">'."\n".
-  '          <img '."\n".
-  '             src="art-images/small/'.$Pic['Bild_ID'].'.png"'."\n".
-  '             ' .$attr."\n".
-  '             alt="'.$Pic['Titel'].'"'."\n".
-  '             title="'.$Pic['Titel'].'"'."\n".
-  '           />'."\n".
-  '         </a>'."\n".
-  '         <p class="links"><a href="#top">Seitenanfang</a></p>'."\n".
-  '       </div>'."\n";
-
-  echo $output;
+    $res = mysqli_query($dbconn,$sql_abfrage);
+    while ($dsatz = mysqli_fetch_assoc($res))
+    {
+      echo "<option value=\"".$dsatz['Genre_ID']."\">".$dsatz['Name']."</option>";
+    }
   }
-<<<<<<< HEAD
   mysqli_close($dbconn);
  echo "\n         </select>";
 }
-=======
-}
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
