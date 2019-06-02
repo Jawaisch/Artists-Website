@@ -22,7 +22,8 @@
                           'type' => 'string',
                           'label' => 'Anrede', 
                           'index' => 'anrede',
-                          'fname' =>'htmlentities'),
+                          'fname' =>'htmlentities',
+                          'select_list' => 'GetAnredeEnum'),
     'titel'     => array( 'mand' => False, 
                           'type' => 'string',
                           'label' => 'Titel', 
@@ -118,7 +119,7 @@
   $userData = GetUserData( $dbconn);
   HtmlRegForm( $Data_Reqs, $header, $description, $action, GetUserData( $dbconn ) );
 
-  echo "  <p class=\"links\"><a href=\"./neues_passwort.php?".SID."\">Passwort ändern</a></p>"."\n";
+  echo "    <p class=\"links\"><a href=\"./neues_passwort.php?".SID."\">Passwort ändern</a></p>"."\n";
   
   ?>
     <div class="clearBoth" >&nbsp;</div>
