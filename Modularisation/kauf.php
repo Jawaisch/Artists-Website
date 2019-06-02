@@ -23,7 +23,7 @@
 
   }
     $_SESSION['Max_Cart'] = sizeof($_SESSION['cart']);
-    
+
   PrintHtmlHeader( );
   PrintHtmlTopnav( $_SERVER['PHP_SELF'], SID );
 
@@ -95,22 +95,27 @@
                       echo "<tr><td></td><td></td><td></td><td></td><td></td><td>Summe: $sum €</td><td></td></tr>";
                   echo "</table>";
                   mysqli_close($con);
+
+
                   echo '<input type="hidden" name="purchase_reload" value="true" form="kaufen" />'.
                        '<input type="hidden" name="$sname" value='.SID.' />'.
                        '<input type="hidden" name="purchase_sum" value='.$sum.' />'.
 
 
-              '<br>' .
-              '<button type="submit" style="    margin: 0em;
+              '<br />';
+              if( isset($_SESSION['cart']) && !empty($_SESSION['cart']) )
+              {
+              echo '<button type="submit" style="    margin: 0em;
                                                   padding: .2em .5em;
                                                   background-position: .5em center;
                                                   background-repeat: no-repeat;
                                                   float: right;">
                       jetzt kaufen
-              </button>'.
-      '</form>' .
-      '<form id="remove" action="kauf.php?'.SID.'" method="post">'.
-      '</form>';
+              </button>';
+            }
+      echo  '</form>' .
+            '<form id="remove" action="kauf.php?'.SID.'" method="post">'.
+            '</form>';
     }
     else{
       header('"Location: kaufbestaetigung.php?'.SID.'"');
