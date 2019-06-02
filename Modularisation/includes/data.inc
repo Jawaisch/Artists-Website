@@ -230,17 +230,10 @@ function GetKindOfUser( $dbconn , $uid)
 function GetAllArtists( $dbconn )
 {
   // Abfrage ohne Perpared_Statements
-<<<<<<< HEAD
   $SQL_String = "SELECT Kuenstler.KName, ".
 				"		Kuenstler.Kuenstler_ID ".
                 "FROM kuenstler ".
                 "ORDER BY KName ASC";
-=======
-  $SQL_String = "SELECT Kuenstler_ID,
-                        KName
-                 FROM   Kuenstler
-                 ORDER  BY KName";
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
 
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
@@ -283,7 +276,6 @@ function GetLast3Pics( $dbconn )
                         bild.Titel,
                         bild.Hoehe,
                         bild.Breite,
-                        bild.Kuenstler_ID,
             bild.Einstell_Zeitstempel,
                         Kuenstler.KName
                  FROM bild INNER JOIN Kuenstler USING (Kuenstler_ID)
@@ -412,22 +404,16 @@ function GetUserData( $dbconn )
 function GetMorePicInfo( $dbconn , $BID )
 {
   $SQL_String = "SELECT Kuenstler.KName,".
-                "       kuenstler.Kuenstler_ID, ".
+        "   kuenstler.Kuenstler_ID, ".
                 "       bild.Titel, ".
                 "       bild.Hoehe, ".
                 "       bild.Breite, ".
                 "       bild.VK_Preis, ".
                 "       bild.Mal_Technik, ".
                 "       bild.Kauf_Zeitstempel, ".
-<<<<<<< HEAD
                 "   bild.Resv_Zeitstempel, ".
                 "       genre.Genre_ID, ".
                 "       genre.Name ".
-=======
-                "       bild.Resv_Zeitstempel, ".
-                "       genre.Name, ".
-                "       genre.Genre_ID ".
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
                 " FROM kuenstler INNER JOIN bild USING (Kuenstler_ID) ".
                 " INNER JOIN eingeordnet USING (Bild_ID)".
                 " INNER JOIN genre USING (Genre_ID) ".
@@ -835,7 +821,7 @@ function GetArtCounts( $dbconn )
 /* ************************************************************************************
       @function GetUserBuys( $dbconn )
 
-      @brief: Gibt die gekauften Bilder des eingeloggten Users zurück
+      @brief: Gibt die gekauften Bilder zurück
 
       @para - $dbconn    Eine Datenbankverbindung der Klasse mysqli
 
@@ -844,28 +830,16 @@ function GetArtCounts( $dbconn )
 function GetUserBuys( $dbconn )
 {
   // Abfrage ohne Perpared_Statements
-<<<<<<< HEAD
   $SQL_String = " SELECT    COUNT(bild.Bild_ID) AS Anzahl,
-=======
-  $SQL_String = " SELECT    bild.Bild_ID,
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
                             bild.Titel,
-                            bild.Kauf_Zeitstempel,
-                            bild.VK_Preis,
-                            bild.Hoehe,
-                            bild.Breite,
-                            Kuenstler.KName,
-                            Kuenstler.Kuenstler_ID
-                  FROM      bild INNER JOIN Kuenstler USING (Kuenstler_ID)
-                            INNER JOIN benutzer ON bild.User_ID = benutzer.User_ID
+                            bild.Kauf_Zeitstempel AS `gekauft am`,
+                            bild.VK_Preis AS Preis,
+                            bild.Hoehe AS Höhe,
+                            bild.Breite
+                  FROM      bild JOIN benutzer using (User_ID)
                   WHERE     bild.User_ID = ".$_SESSION['login']['UID']."
-<<<<<<< HEAD
                   ORDER BY  bild.Titel";
 
-=======
-                  ORDER BY  bild.Kauf_Zeitstempel DESC";
-    
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
 
@@ -880,7 +854,7 @@ function GetUserBuys( $dbconn )
 
     while( $ds = $result_handle->fetch_assoc() )
     {
-      $user_buys_arr[] = $ds;
+      $user_buys_arr = $ds;
     }
   }
   return $user_buys_arr;
@@ -894,7 +868,7 @@ function GetUserBuys( $dbconn )
 
       @para - $dbconn    Eine Datenbankverbindung der Klasse mysqli
 
-      @return - Ein Arry mit den Profildaten
+      @return - die Daten
 ************************************************************************************ */
 function GetArtistData( $dbconn )
 {
@@ -924,93 +898,6 @@ function GetArtistData( $dbconn )
     }
   }
   return $artist_data_arr;
-}
-
-
-/* ************************************************************************************
-      @function GetAnredeEnum( $dbconn )
-
-      @brief -  Gibt alle zulässigen Werte für die ENUM-Spalte, 
-                aufbereitet für die Verwendung in einer Dropdown-Liste, zurück
-
-      @para - $dbconn: Eine Datenbankverbindung der Klasse mysqli
-
-      @return - ein Array in der Form:
-                'Value' => der an die DB übergebene Wert des Dropdown-Feldes
-                'Name'  => der angezeigte Name des Dropdown-Feldes
-************************************************************************************ */
-function GetAnredeEnum( )
-{
-  $dbconn = KWS_DB_Connect( 'bearbeiter' ); // Datenbankverbindung
-
-  // alle zulässigen Werte für die ENUM-Spalte ermitteln
-  $sql = "SHOW COLUMNS FROM benutzer LIKE 'Anrede'";
-  $result_handle = $dbconn->query($sql);
-
-  // Abfrage auf Erfolg Ueberpruefen
-  if($result_handle === false)
-  {
-    ErrorHandling($sql, $dbconn);
-  }
-  else
-  {
-    $row = $result_handle->fetch_assoc();
-    $type = $row['Type'];
-    preg_match('/enum\((.*)\)$/', $type, $matches);
-    $vals = explode(',', $matches[1]);
-    
-    // Entfernen der quotes und befüllen des mehrdimensionalen Arrays
-    $enum_values = array();
-    foreach($vals as $key => $value) 
-    {
-      $value=trim($value, "'");
-      $enum_values[] = array( 'Value' => $value,
-                              'Name'  => $value);
-    }
-  }
-  return $enum_values;
-}
-
-
-/* ************************************************************************************
-      @function GetGenreArr( )
-
-      @brief: Gibt alle Genre die in der DB eingepflegt sind, 
-              aufbereitet für die Verwendung in einer Dropdown-Liste, zurück
-
-      @para -
-
-      @return - ein Array mit den Genre in der Form:
-                'Value' => der an die DB übergebene Wert des Dropdown-Feldes
-                'Name'  => der angezeigte Name des Dropdown-Feldes
-************************************************************************************ */
-function GetGenreArr( )
-{
-  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
-  // Abfrage ohne Perpared_Statements
-  $SQL_String = "SELECT   genre.Genre_ID as Value,
-                          genre.Name
-                 FROM     genre
-                 ORDER BY genre.Name";
-    
-  // Abfrage an DB-Server senden
-  $result_handle = $dbconn->query($SQL_String);
-
-  // Abfrage auf Erfolg Ueberpruefen
-  if($result_handle === false)
-  {
-    ErrorHandling($SQL_String, $dbconn);
-  }
-  else
-  {
-    $genre_data_arr = array(); // ein leeres Array initialisieren!
-
-    while( $ds = $result_handle->fetch_assoc() )
-    {
-      $genre_data_arr[] = $ds;
-    }
-  }
-  return $genre_data_arr;
 }
 
 
