@@ -1492,4 +1492,50 @@ function GetGenreInfo( $dbconn, $gen )
 }
 
 
+/* ************************************************************************************
+      @function GetImageByName( $dbconn, $WantedName )
+
+      @brief: Gibt Bilder zurück, welche den gesuchten String im Namen enthalten
+
+      @para - $dbconn       Eine Datenbankverbindung der Klasse mysqli
+              $WantedName   Den gesuchten String
+
+      @return - Ein Array mit den Bildern
+************************************************************************************ */
+
+function GetAllSoldPics ( $dbconn, $kid)
+{
+  $SQL_String = "SELECT bild.Bild_ID,
+                        bild.User_ID,
+                        bild.Kuenstler_ID,
+                        bild.Titel,
+                        bild.Kauf_Zeitstempel,
+                        benutzer.Anrede,
+                        benutzer.Titel,
+                        benutzer.Vorname,
+                        benutzer.Nachname
+                FROM bild INNER JOIN benutzer USING (User_ID)
+                WHERE bild.Kuenstler_ID = ". $kid;
+
+  $result_handle = $dbconn->query($SQL_String);
+
+  if($result_handle === false)
+  {
+    ErrorHandling($SQL_String, $dbconn);
+  }
+  else
+  {
+    $SoldArr = array();
+
+    while($ds = $result_handle->fetch_assoc())
+    {
+      $SoldArr[] = $ds;
+    }
+
+  }
+
+  return $SoldArr;
+}
+
+
 ?>
