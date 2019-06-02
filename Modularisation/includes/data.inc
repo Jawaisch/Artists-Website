@@ -871,7 +871,7 @@ function GetArtistData( $dbconn )
                             kuenstler.BIC,
                             kuenstler.Vita
                   FROM      kuenstler
-                  WHERE     kuenstler.User_ID = ".$_SESSION['login']['UID'];
+                  WHERE     kuenstler.Kuenstler_ID = ".$_SESSION['login']['KID'];
 
   // Abfrage an DB-Server senden
   $result_handle = $dbconn->query($SQL_String);
@@ -1537,5 +1537,45 @@ function GetAllSoldPics ( $dbconn, $kid)
   return $SoldArr;
 }
 
+
+/* ************************************************************************************
+      @function GetKuenstlerArr( )
+
+      @brief: Gibt alle Künstler die zu dem aktuellen User gehören als Array zurück
+
+      @para -
+
+      @return - ein Array mit den Künstlern in der Form:
+                'Value' => Kuenstler_ID
+                'Name'  => Künstlername
+************************************************************************************ */
+function GetKuenstlerArr( )
+{
+  $dbconn = KWS_DB_Connect( $_SESSION['login']['user'] ); // Datenbankverbindung
+  // Abfrage ohne Perpared_Statements
+  $SQL_String = "SELECT Kuenstler_ID AS Value,".
+                "       Kname AS Name".
+                " FROM  kuenstler".
+                " WHERE User_ID = ".$_SESSION['login']['UID'];
+
+  // Abfrage an DB-Server senden
+  $result_handle = $dbconn->query($SQL_String);
+
+  // Abfrage auf Erfolg Ueberpruefen
+  if($result_handle === false)
+  {
+    ErrorHandling($SQL_String, $dbconn);
+  }
+  else
+  {
+    $genre_data_arr = array(); // ein leeres Array initialisieren!
+
+    while( $ds = $result_handle->fetch_assoc() )
+    {
+      $genre_data_arr[] = $ds;
+    }
+  }
+  return $genre_data_arr;
+}
 
 ?>

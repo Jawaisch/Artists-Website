@@ -258,6 +258,23 @@ function HtmlSidebarKünstler( $Session_ID )
       <li>
         <h2>Künstler</h2>
         <ul>
+			    <li>
+            <form action="./wechsel_kid.php?$Session_ID" method="post">
+              <div>
+EO_MID;
+
+      $select_list = GetKuenstlerArr( );
+      $name = "kuenstler";
+      HtmlFormSelect( $select_list, $name );
+
+echo <<<EO_MID
+                <input type="hidden" name="$sname" value="$sid" />
+                  <div class="buttonrow">
+                  <input type="submit" name="submit" value="Auswählen" />
+                </div>
+              </div>
+            </form>
+          </li>
           <li><a href="./upload.php?$Session_ID">Kunst verkaufen</a></li>
           <li><a href="./public_artist.php?$Session_ID&amp;kid=$kid">Meine Kunst</a></li>
           <li><a href="./Verkaufsuebersicht.php?$Session_ID&amp;kid=$kid">Verkaufsübersicht</a></li>
@@ -538,7 +555,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
 
 @brief - Erzeugt ein gültiges HTML-Div für eine Dropdown-Liste
 
-@param - $select_list: Liste der Auswahlmöglichkeiten
+@param - $select_list: Liste der Auswahlmöglichkeiten als Arry
          $name: der Name des Auswahlfeldes
 
 @return -

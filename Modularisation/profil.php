@@ -3,7 +3,7 @@
 
   include_once( "./includes/view.inc" );
   include_once( "./includes/php.inc" );
-  include_once( "./includes/data.inc" );   
+  include_once( "./includes/data.inc" );
   InitSession();  // Nimmt die aktuelle Session wieder auf
   $_SESSION['referer'] = $_SERVER['PHP_SELF'];
   CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
@@ -21,6 +21,7 @@
   <div id="content">
   
     <?php
+
       // Wurde ein Fehler übergeben?
       ErrorOccurred( );
 
