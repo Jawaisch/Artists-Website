@@ -1511,7 +1511,7 @@ function GetAllSoldPics ( $dbconn, $kid)
                         bild.Titel,
                         bild.Kauf_Zeitstempel,
                         benutzer.Anrede,
-                        benutzer.Titel,
+                        benutzer.Titel AS uTitel,
                         benutzer.Vorname,
                         benutzer.Nachname
                 FROM bild INNER JOIN benutzer USING (User_ID)
