@@ -32,20 +32,6 @@
 		$bartist=$ImageNotes['KName'];
 		$kid=$ImageNotes['Kuenstler_ID'];
 		
-		// Sollte der Titel mehr als 23 Chars umfassen wird dieser gekürzt und '...' angehängt
-		$lenght = 23;
-
-	    if(strlen($btitle) > $lenght) {
-
-	        $btitle = substr($btitle,0,$lenght)."...";
-
-	        $string_ende = strrchr($btitle, " ");
-
-	        $btitle = str_replace($string_ende," ...", $btitle);
-	    }
-
-	    
-		
 
 echo <<<EO_TOP
 	  <div class="gallery_content">
@@ -54,7 +40,7 @@ echo <<<EO_TOP
 		</div>
 		<div class="image_notes">
 		<h3>$btitle</h3>
-		<p><span class="description">Künstler:</span><a href="public_artist.php?kws=$SID&amp;kid=$kid">$bartist</a></p>
+		<p><span class="description">Künstler:</span><a href="kuenstler.php?kws=$SID&amp;artist=$bartist">$bartist</a></p>
 		<p><span class="description">Größe:</span>$bheight mm x $bwidth mm</p>		
 		<p><span class="description">Kaufspreis:</span>$bprice €</p>
 		<p>
