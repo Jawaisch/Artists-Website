@@ -19,47 +19,12 @@
 		
   $AllImages = GetAllPics( KWS_DB_Connect( 'gast' ) );
 
-  function GalleryView( $AllImages )
-  {
-	  $SID = session_id();
-	  foreach( $AllImages AS $ImageNotes )
-	  {
-		$bid = $ImageNotes['Bild_ID'];
-		$btitle =$ImageNotes['Titel'];
-		$bheight=$ImageNotes['Hoehe'];
-		$bwidth=$ImageNotes['Breite'];
-		$bprice=$ImageNotes['VK_Preis'];
-		$bartist=$ImageNotes['KName'];
-		$kid=$ImageNotes['Kuenstler_ID'];
-		
-
-echo <<<EO_TOP
-	  <div class="gallery_content">
-		<div class="image">
-			<img src="art-images/small/$bid.png" alt="$btitle" />
-		</div>
-		<div class="image_notes">
-		<h3>$btitle</h3>
-		<p><span class="description">Künstler:</span><a href="kuenstler.php?kws=$SID&amp;artist=$bartist">$bartist</a></p>
-		<p><span class="description">Größe:</span>$bheight mm x $bwidth mm</p>		
-		<p><span class="description">Kaufspreis:</span>$bprice €</p>
-		<p>
-		<a href="gross_bild.php?kws=$SID&amp;bid=$bid">Genauer betrachten</a>
-		</p>
-		</div>
-	  </div>
-
-EO_TOP;
-	  }
-
-  }
-
 ?>
 
   <div id="content">
   
     <h2>Gallery</h2>
-		<?php GalleryView($AllImages) ?>
+		<?php PrintHtmlGallery($AllImages) ?>
     <div class="clearBoth" >&nbsp;</div>
 
   </div>
