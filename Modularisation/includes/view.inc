@@ -7,10 +7,10 @@
 @funktion PrintHtmlHeader( )
 
 @brief - Erzeugt den HTML-Kopf der Seite.
-
+    
 @param  -
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlHeader( )
 {
@@ -39,13 +39,13 @@ EO_HEADER;
 /* ****************************************************************************************
 @funktion PrintHtmlTopnav( $path, $Session_ID )
 
-@brief - Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
-       aufgerufenen Seitenlink, damit dieser in roter Farbe dargestellt wird.
-
+@brief -  Erzeugt die Haupt-Navigations-Leiste und setzt die class="active" in die aktuell
+          aufgerufenen Seitenlink, damit dieser in roter Farbe dargestellt wird.
+    
 @param  - Den Pfad und Namen des aktuellen Dokuments
-      Session_ID
+          Session_ID
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlTopnav( $path, $Session_ID )
 {
@@ -102,27 +102,26 @@ function PrintHtmlTopnav( $path, $Session_ID )
 @funktion PrintHtmlSidebar( $user_type, $Session_ID )
 
 @brief - Erzeugt die Sidebar.
-
+    
 @param  - $user_type: ein String der die Art des Users repräsentiert z.B. kuenstler
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlSidebar( $user_type, $Session_ID )
 {
-  //print_r($user_type);
   echo <<<EO_TOP
     <div id="sidebar">
     <ul>
       <li>
       <div id="search" >
-        <form method="get" action="">
+        <form method="post" action="./suche.php?$Session_ID">
         <div>
-          <input type="text" name="s" id="search-text" value="Bildname" />
-          <input type="submit" id="search-submit" value="Suchen" />
+          <input type="text" name="input_arr[wanted]" id="search-text" value="Bildname" />
+          <input type="submit" name="submit" id="search-submit" value="Suchen" />
         </div>
         </form>
       </div>
-      <div class="clearBoth" >&nbsp;</div>
+      <div class="clearBoth" >&nbsp;</div> 
       </li>
 
 EO_TOP;
@@ -290,19 +289,19 @@ EO_MID;
 @funktion PrintHtmlFooter( $Session_ID )
 
 @brief - Erzeugt den HTML-Footer der Seite
-
+    
 @param - $Session_ID
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlFooter( $Session_ID )
 {
   echo <<<EO_FOOTER
 
     <div id="footer">
-      <p>
-        <a href="agb.php?$Session_ID">AGBs</a> &mdash;
-        <a href="impressum.php?$Session_ID">Impressum</a> &mdash;
-        <a href="dsrl.php?$Session_ID">Datenschutzrichtlinien</a> &mdash;
+      <p>     
+        <a href="agb.php?$Session_ID">AGBs</a> &mdash; 
+        <a href="impressum.php?$Session_ID">Impressum</a> &mdash; 
+        <a href="dsrl.php?$Session_ID">Datenschutzrichtlinien</a> &mdash; 
         <a href="admin.php?$Session_ID">Admin</a>
       </p>
     </div>
@@ -319,8 +318,8 @@ EO_FOOTER;
 
 @brief - Erzeugt eine DIV als Fehlermeldung
 
-
-@param - $class Die CSS-Klasse des DIVs
+    
+@param - $class Die CSS-Klasse des DIVs 
          $titel Der Fehler-Titel
          $desc  Die Fehlerbeschreibung
 
@@ -342,7 +341,7 @@ EOT;
 @funktion HtmlUserAccount( $daten )
 
 @brief - Erzeugt eine Tabelle für das User Profil
-
+    
 @param - User Daten
 
 @return - Ein gültiges HTML-Div als String
@@ -358,13 +357,13 @@ EOT;
               "\n     <tbody>";
 
     // Wdh. solange Datensätze vorhanden
-
+    
     foreach ( $daten AS $key => $value )
-    {
+    {     
       $table .= "\n       <tr> <td>". $key."</td>".
                 " <td>". $value."</td> </tr> ";
     }
-
+    
     $table .="\n    </tbody>\n </table>\n"; // Der Tabellenfuß
 
     return $table;
@@ -376,9 +375,9 @@ EOT;
 
 @brief - Erzeugt 2 ancklikbare Karten mit den aktuellen Zahlen
          der angebotenen und verkauften Bilder
-
+    
 @param - Anzahl eingestellter Bilder, Anzahl verkaufter Bilder
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlCards( $offer, $sold, $Session_ID )
 {
@@ -398,22 +397,22 @@ function PrintHtmlCards( $offer, $sold, $Session_ID )
 
       <div class="column">
         <a href="index.php?$Session_ID" class="card">
-          &nbsp;<br />
+          &nbsp;<br />  
           $sold<br />
           &nbsp;<br />
           Verkauft
         </a>
       </div>
-
+      
       <div class="column">
         <a href="upload.php?$Session_ID" class="card">
-          &nbsp;<br />
+          &nbsp;<br />    
           neu<br />
           &nbsp;<br />
           Anbieten<br />
         </a>
       </div>
-
+    
     </div>
 
 EO_CARDS;
@@ -424,7 +423,7 @@ EO_CARDS;
 @funktion HtmlRegForm( $Data_Reqs, $header, $description, $action, [$user_data_arr=null], [$agbs=false], [$upload=false] )
 
 @brief - Erzeugt ein Formular für z.B.: den Regestriervorgang oder die Profil bearbeiten Seite
-
+    
 @param - $Data_Reqs:    Ein Array welches unter anderem die Labels für das Formular enthält
          $description:  Eine Beschreibung für das Formular als String
          $action:       Die Zielseite der Formulardaten
@@ -432,7 +431,7 @@ EO_CARDS;
          $agbs:         Ein bool der angibt ob der AGB Hinweis ausgegeben werden muss
          $upload:       Ein bool der angibt ob ein Upload Button ausgegeben werden muss
 
-@return -
+@return - 
 ****************************************************************************************** */
 function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr=null, $agbs=false, $upload=false )
 {
@@ -440,19 +439,19 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
     echo "\n    <form  action=\"".$action.SID."\" method=\"post\" enctype=\"multipart/form-data\" >\n";
   else
     echo "\n    <form action=\"".$action.SID."\" method=\"post\">\n";
-
+  
   echo "\n    <div class=\"form_container\">";
   echo "\n       <h1>".$header."</h1>";
   echo "\n       <p>".$description."</p>";
   echo "\n       <hr />";
-
+  
   // Wird ein Upload-Button benötigt?
   if($upload)
   {
     echo "\n       <p class=\"label\"><span class=\"description\"><label ><b>Bild</b></label></span>&nbsp;</p>";
     echo "\n       <input type=\"file\" name=\"bild\" id=\"bild\" accept=\"image/*\" size=\"80\" />";
   }
-
+  
   // Eingabe Felder Erzeugen
   foreach($Data_Reqs as $data)
   {
@@ -486,27 +485,27 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
     {
       echo "\n        <input type=\"text\" name=\"reg_data_arr[".$data['index']."]\" value=\"";
     }
-
+    
     // Nur für nicht Select-Felder
     if( !isset($data['select_list']) )
     {
       // Wurden in dieses Feld bereits Daten eingegeben?
-      if(isset( $_POST['reg_data_arr'][$data['index']] ))
-      {
-        echo $_POST['reg_data_arr'][$data['index']];
+      if(isset( $_POST['reg_data_arr'][$data['index']] )) 
+      { // dann diese Daten übernehmen
+        echo $_POST['reg_data_arr'][$data['index']]; 
       }
       // Wurden dem Funktionsaufruf Daten für dieses Feld übergeben?
-      elseif(isset( $user_data_arr[$data['label']] ))
-      {
-        echo $user_data_arr[$data['label']];
+      elseif(isset( $user_data_arr[$data['label']] )) 
+      { // dann diese Daten übernehmen
+        echo $user_data_arr[$data['label']]; 
       }
     }
-
+    
     // geöffneten Tag schließen
     // Handelt es sich um ein Textarea-Feld?
     if( isset($data['textarea']) )
     {
-      echo " </textarea>\n";
+      echo " </textarea>\n"; 
     }
     // Handelt es sich um ein Select-Feld?
     elseif( isset($data['select_list']) )
@@ -514,7 +513,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
       // nichts zum schließen
     }
     else
-    {
+    { 
       echo "\" />\n";
     }
   }
@@ -522,7 +521,7 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
   echo "\n       <hr />";
   if( $agbs )
   {
-    echo "\n       <p>Mit der Erstellung eines Kontos erklären Sie sich mit unseren <a href=\"agb.php?".session_id()."\">AGBs </a>einverstanden.</p>";
+    echo "\n       <p>Mit der Erstellung eines Kontos erklären Sie sich mit unseren <a href=\"agb.php?".session_id()."\">AGBs </a>einverstanden.</p>"; 
   }
   echo "\n        <input type=\"hidden\" name=\"".session_name()."\" value=\"".session_id()."\" />";
   echo "\n        <div class=\"buttonrow\">";
@@ -538,17 +537,17 @@ function HtmlRegForm( $Data_Reqs, $header, $description, $action, $user_data_arr
 @funktion HtmlFormSelect( $select_list , $name )
 
 @brief - Erzeugt ein gültiges HTML-Div für eine Dropdown-Liste
-
+    
 @param - $select_list: Liste der Auswahlmöglichkeiten
          $name: der Name des Auswahlfeldes
 
-@return -
+@return - 
 ****************************************************************************************** */
 function HtmlFormSelect( $select_list, $name )
 {
  echo "\n         <select id=\"genre\" name=\"reg_data_arr[$name]\">";
  echo "\n           <option value=\"\" selected=\"selected\">bitte wählen</option>";
-
+    
   foreach ( $select_list as $item )
   {
     echo "\n           <option value=\"".$item['Value']."\">".$item['Name']."</option>";
@@ -561,10 +560,10 @@ function HtmlFormSelect( $select_list, $name )
 @funktion PrintHtmlGallery( $AllImages )
 
 @brief - Erzeugt ein gültiges HTML-Div für die Bilder-Galerie
-
+    
 @param - Ein Array mit den auszugebenden Bilder + Informationen
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlGallery( $AllImages )
 {
@@ -578,7 +577,7 @@ function PrintHtmlGallery( $AllImages )
   $bprice=$ImageNotes['VK_Preis'];
   $bartist=$ImageNotes['KName'];
   $kid=$ImageNotes['Kuenstler_ID'];
-
+    
 
 echo <<<EO_TOP
     <div class="gallery_content">
@@ -588,7 +587,7 @@ echo <<<EO_TOP
     <div class="image_notes">
     <h3>$btitle</h3>
     <p><span class="description">Künstler:</span><a href="public_artist.php?kws=$SID&amp;kid=$kid">$bartist</a></p>
-    <p><span class="description">Größe:</span>$bheight mm x $bwidth mm</p>
+    <p><span class="description">Größe:</span>$bheight mm x $bwidth mm</p>    
     <p><span class="description">Kaufspreis:</span>$bprice €</p>
     <p>
     <a href="gross_bild.php?kws=$SID&amp;bid=$bid">Genauer betrachten</a>
@@ -606,10 +605,10 @@ EO_TOP;
 @funktion PrintPicPreview( $pic_id )
 
 @brief - Erzeugt ein gültiges HTML-Div für ein hochgeladenen Bild
-
+    
 @param - $pic_id die Bild_ID des gerade hochgeladenen Bildes
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintPicPreview( $pic_id )
 {
@@ -620,7 +619,7 @@ function PrintPicPreview( $pic_id )
            <div>
              <h3>Bildvorschau</h3>
              <a href="gross_bild.php?kws=$SID&amp;bid=$pic_id">
-              <img
+              <img 
                  src="art-images/small/$pic_id.png"
                  $attr
                  alt="Bildvorschau"
@@ -636,10 +635,10 @@ EO_PIC;
 @funktion PrintHtmlIndex($Pics)
 
 @brief - Erzeugt ein gültiges HTML-Div für den Index
-
+    
 @param - $Pics ein Arry mit Bildern und Informationen zu diesen
 
-@return -
+@return - 
 ****************************************************************************************** */
 function PrintHtmlIndex($Pics)
 {
@@ -666,137 +665,39 @@ function PrintHtmlIndex($Pics)
   echo $output;
   }
 }
-function DisplayAllArtists($Artist_Arr)
+
+
+ /* ****************************************************************************************
+@funktion HtmlPrintPaymentRequest( )
+
+@brief - Gibt eine DIV für die Zahlungsaufforderung aus
+
+@param - 
+
+@return -
+****************************************************************************************** */
+function HtmlPrintPaymentRequest( )
 {
-  echo "<div class=\"table\">".
-    "<table>".
-      "<tr><th>Unsere K&uuml;nstler</th></tr>";
+  $sum = $_POST['purchase_sum'];
+  $art_nr = $_SESSION['cart'][0];
 
-  foreach ( $Artist_Arr AS $Artists )
-    {
-
-     echo "<tr><td><a href=\"public_artist.php?".SID."&amp;kid=".$Artists['Kuenstler_ID']."\">".$Artists['KName']."</a></td></tr>\n";
-    }
-
-  echo	"</table></div>";
-
-}
-
-function DisplayPublicData($PublicData,$PublicPics)
-{
-  $SID = session_id();
-  $Kname = $PublicData[0]['Kname'];
-  $Kvita = $PublicData[0]['Vita'];
-  $LastPic = $PublicPics[0]['Bild_ID'];
-
-  echo <<<PUBLIC_CONTENT
-      <div class="PublicArtistInfo">
-        <div class="PublicProfilPic">
-          <img src="art-images/small/$LastPic.png" alt="Profilbild" />
-        </div>
-        <div class="PublicArtistVita">
-          <h3>&Ouml;ffentliches K&uuml;nstler-Profil von $Kname</h3>
-          <p>$Kvita</p>
-        </div>
-      </div>
-PUBLIC_CONTENT;
-
-
-  if(!empty($PublicPics))
-  {
-    foreach( $PublicPics AS $PicInfo )
-    {
-      $bid = $PicInfo['Bild_ID'];
-      $btitle = $PicInfo['Titel'];
-
-    echo <<<ARTISTPICS
-        <div class="gallery_content">
-          <div class="image">
-            <img src="art-images/small/$bid.png" alt="$btitle"/>
-          </div>
-          <div class="image_notes">
-            <h4>$btitle</h4>
-            <p><a href="gross_bild.php?kws=$SID&amp;bid=$bid">Genauer betrachten</a>
-            </p>
-          </div>
-        </div>
-ARTISTPICS;
-    }
-  }
-}
-
-function PrintSinglePic( $SingleInfo, $BID )
-{
- $bid      = $BID;
- $kid      = $SingleInfo['Kuenstler_ID'];
- $btitle   = $SingleInfo['Titel'];
- $bartist  = $SingleInfo['KName'];
- $bheight  = $SingleInfo['Hoehe'];
- $bwidth   = $SingleInfo['Breite'];
- $bprice   = $SingleInfo['VK_Preis'];
- $bpaint   = $SingleInfo['Mal_Technik'];
- $bgenre   = $SingleInfo['Name'];
- $genid    = $SingleInfo['Genre_ID'];
-
- if($SingleInfo['Kauf_Zeitstempel'] === NULL) // Überprüft ob das Bild bereits verkauft wurde
-   $bsold = "Verfügbar";
- else
-   $bsold = "Bereits verkauft";
-
- $SID = session_id();
- $SIN = session_name();
- $Self = $_SERVER['PHP_SELF'];
-
-echo <<<EO_SinglePic
- <div class="single_content">
-   <div class="big_image">
-     <img src="art-images/big/$bid.png" alt="$btitle"/>
-   </div>
-
-   <div class="big_image_notes">
-     <h2>$btitle</h2>
-     <p><span class="description">Künstler:</span><a href="public_artist.php?kws=$SID&amp;kid=$kid">$bartist</a></p>
-     <p><span class="description">Höhe:</span>$bheight mm</p>
-     <p><span class="description">Breite:</span>$bwidth mm</p>
-     <p><span class="description">Verkaufspreis:</span>$bprice&euro;</p>
-     <p><span class="description">Maltechnik:</span>$bpaint</p>
-     <p><span class="description">Genre:</span><a href="./genre.php?kws=$SID&amp;gen=$genid">$bgenre</a></p>
-     <p><span class="description">Verfügbarkeit:</span>$bsold</p>
-   </div>
-
-EO_SinglePic;
-   if( $SingleInfo['Kauf_Zeitstempel'] === NULL && $SingleInfo['Resv_Zeitstempel'] === NULL && (empty($_SESSION['Max_Cart']) || $_SESSION['Max_Cart'] <= 2) &&  (isset($_SESSION['login']['success']) && $_SESSION['login']['success'] === true   ))
-   {
-     echo <<<EO_Cart_Form
-         <form action="gross_bild.php?kws=$SID&amp;bid=$bid" method="post">
-           <div>
-             <button name="warenkorb" type="submit" value="Submit">In den Warenkorb</button>
-           </div>
-         </form>
-       </div>
-EO_Cart_Form;
-   }
-   else
-     echo "</div>";
-}
-
-function DisplayGenreInfo($GenreInfo)
-{
-  $Gname = $GenreInfo[0]['Name'];
-
-  // Überprüfen ob bereits eine HTML-Formatierung im String vorliegt
-  if ( preg_match('<p>',$GenreInfo[0]['Beschreibung'])  === false )
-  {
-    $Ginfo = "<p>".$GenreInfo[0]['Beschreibung']."</p>";
-  }
-  else
-  {
-    $Ginfo = $GenreInfo[0]['Beschreibung'];
-  }
-  echo <<<GENREBOX
-     <div class="Genre_Info">
-       <h3>$Gname</h3>
-        $Ginfo
-     </div>
-GENREBOX;
+  $HtmlStr=<<<EOT
+  <div id="content">
+    <div class="success">
+      <div class="title">Kauf abgeschlossen</div>
+    </div>
+    <p>
+      Bitte überweisen Sie den Betrag von $sum € auf das folgende Konto:<br />
+      <pre>
+        Zahlungsempfänger: Art Tick GmbH, Musterstr. 5 in 10243 Musterhausen    
+        Bank: MusterFinance
+        IBAN: CH82 0900 0000 6035 9126 4
+        Verwendungszweck: art_nr $art_nr
+      </pre>
+      <br />   
+    </p>
+    <div class="clearBoth" >&nbsp;</div>
+  </div> 
+EOT;
+  echo $HtmlStr;
 }
