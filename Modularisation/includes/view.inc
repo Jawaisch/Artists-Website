@@ -260,7 +260,7 @@ function HtmlSidebarKünstler( $Session_ID )
         <ul>
           <li><a href="./upload.php?$Session_ID">Kunst verkaufen</a></li>
           <li><a href="./public_artist.php?$Session_ID&amp;kid=$kid">Meine Kunst</a></li>
-          <li><a href="./Verkaufsuebersicht.php?$SESS_ID&amp;kid=$kid">Verkaufsübersicht</a></li>
+          <li><a href="./Verkaufsuebersicht.php?$Session_ID&amp;kid=$kid">Verkaufsübersicht</a></li>
           <li><a href="./kuenstler_reg.php?$Session_ID">Neues Künstlerkonto</a></li>
         </ul>
       </li>
