@@ -71,10 +71,6 @@
             }
             header( 'Location: '.$_SESSION['referer'].$str_connect.SID);
           }
-<<<<<<< HEAD
-=======
-                header( 'Location: '.$_SESSION['referer'].'?'.SID);
->>>>>>> 6de479dc6f84677ac9a1e21b082ea01471a6bac5
         }
         else
         {
