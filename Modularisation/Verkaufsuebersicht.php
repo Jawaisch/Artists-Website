@@ -6,7 +6,6 @@
   include_once( "./includes/data.inc" );
   include_once( "./includes/inputCheck.inc" );
   InitSession();  // Nimmt die aktuelle Session wieder auf
-  DebugArr($_SESSION);
   $_SESSION['referer'] = $_SERVER['PHP_SELF'];
   CheckLogin();   // Überprüft auf eine erfolgreiche Anmeldung. Nur auf Seiten die nicht von Gästen gesehen werden dürfen!
   if( $_SESSION['login']['user'] === "kunde")
