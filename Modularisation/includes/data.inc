@@ -1187,4 +1187,32 @@ function image_upload()
   }  
 }
 
+
+/* ************************************************************************************
+      @function UpdateImageState( $dbconn )
+
+      @brief: Weist die Bilder aus dem Einkaufswage dem Käufer zu
+
+      @para - $dbconn      Eine Datenbankverbindung der Klasse mysqli
+
+      @return - 
+************************************************************************************ */
+function UpdateImageState( $dbconn )
+{
+  $SQL_String = "UPDATE  bild
+                    SET  bild.Kauf_Zeitstempel = CURRENT_TIMESTAMP(),
+                         bild.User_ID = '".$_SESSION['login']['UID']."',
+                         bild.Kauf_IP = '".$_SERVER['REMOTE_ADDR']."'
+                    
+                   WHERE Bild_ID IN ('".$_SESSION['cartimpl']."')";
+  
+  $result_handle = $dbconn->query($SQL_String);
+
+  // Abfrage erfolgreich? 
+  if($result_handle === false)
+  {
+    ErrorHandling($SQL_String, $dbconn);
+  } 
+}  
+
 ?>
