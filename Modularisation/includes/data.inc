@@ -1027,11 +1027,12 @@ function GetGenreArr( )
   /* ************************************************************************************
       @function image_upload( )
 
-      @brief:
+      @brief: wird in upload.php verwendet. Lädt ein Bild hoch und fügt einen Datensatz hinzu
 
       @para -
 
-      @return -
+      @return 0 = Bild wurde erfolgreich hochgeladen
+              1 = es ist ein Fehler aufgetreten. Fehlercodes werden über die Session weitergegeben
 ************************************************************************************ */
 function image_upload()
 {
@@ -1287,14 +1288,15 @@ function GetImageByName( $dbconn, $WantedName )
 
 
 /* ************************************************************************************
-      @function GetImageByName( $dbconn, $WantedName )
+      @function GetPublicArtistData($dbconn, $kid)
 
-      @brief: Gibt Bilder zurück, welche den gesuchten String im Namen enthalten
+      @brief: Gibt öffentliche Informationen über einen Künstler aus
 
       @para - $dbconn       Eine Datenbankverbindung der Klasse mysqli
-              $WantedName   Den gesuchten String
+              $kid			Die Künstler_ID
 
-      @return - Ein Array mit den Bildern
+      @return - Im Erfolgsfall - Ein Mehrdimensionales Array
+				Im Misserfolg - False
 ************************************************************************************ */
 function GetPublicArtistData($dbconn, $kid)
 {
@@ -1344,14 +1346,15 @@ function GetPublicArtistData($dbconn, $kid)
 
 
 /* ************************************************************************************
-      @function GetImageByName( $dbconn, $WantedName )
+      @function GetAllArtistPics( $dbconn, $kid )
 
-      @brief: Gibt Bilder zurück, welche den gesuchten String im Namen enthalten
+      @brief: Gibt Bilder zurück, die ein Künstler gemalt hat
 
       @para - $dbconn       Eine Datenbankverbindung der Klasse mysqli
-              $WantedName   Den gesuchten String
+              $kid			Die Künstler_ID
 
-      @return - Ein Array mit den Bildern
+      @return - Im Erfolgsfall - Ein Mehrdimensionales Array
+				Im Misserfolg - False
 ************************************************************************************ */
 
 function GetAllArtistPics( $dbconn, $kid )
@@ -1401,14 +1404,14 @@ function GetAllArtistPics( $dbconn, $kid )
 
 
 /* ************************************************************************************
-      @function GetImageByName( $dbconn, $WantedName )
+      @function PicReserve( $dbconn,$bid ))
 
-      @brief: Gibt Bilder zurück, welche den gesuchten String im Namen enthalten
+      @brief: Reserviert ein Bild für den warenkorb
 
       @para - $dbconn       Eine Datenbankverbindung der Klasse mysqli
-              $WantedName   Den gesuchten String
+              $bid			Die Bild_ID des zu Reservierend Bildes
 
-      @return - Ein Array mit den Bildern
+      @return -
 ************************************************************************************ */
 
 function PicReserve( $dbconn,$bid )

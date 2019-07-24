@@ -39,14 +39,11 @@
     if(!empty($_POST['remove']))
       unset($_SESSION['cart'][array_search($_POST['remove'], $_SESSION['cart'])]);
     echo
-      '<br>' .
-      '<h1> Ihr Einkaufswagen</h1>' .
-      '<br>' .
+      '<div>' .
+      '<h1>Ihr Einkaufswagen</h1>'.
+      '</div>'.
       '<form id="kaufen" action="kaufbestaetigung.php?'.SID.'" method="post" >';
 
-                  DebugArr($_POST);
-                  DebugArr($_SESSION);
-                  echo '<br>';
 
                   $_SESSION['cartimpl'] = implode("','",$_SESSION['cart']);
                   $con = mysqli_connect("localhost","kws_kunde","kws_kunde","19ss_tedk4_kws");
@@ -59,7 +56,7 @@
                                   FROM bild LEFT OUTER JOIN kuenstler USING (Kuenstler_ID)
                                   WHERE Bild_ID IN ('".$_SESSION['cartimpl']."')";
                   $res = mysqli_query($con,$sql_abfrage);
-                  //echo "<b>".$sql_abfrage."</b>";
+                  //echo "<b />".$sql_abfrage."</b>";
 
                   echo '<table  class ="table">';
                   echo '<tr>
@@ -96,13 +93,12 @@
                   echo "</table>";
                   mysqli_close($con);
 
+						$S_ID = SID;
+                  echo '<p><input type="hidden" name="purchase_reload" value="true"  />'.
+                       '<input type="hidden" name="$sname" value="$S_ID" />'.
+                       '<input type="hidden" name="purchase_sum" value="$sum" /></p>';
 
-                  echo '<input type="hidden" name="purchase_reload" value="true" form="kaufen" />'.
-                       '<input type="hidden" name="$sname" value='.SID.' />'.
-                       '<input type="hidden" name="purchase_sum" value='.$sum.' />'.
 
-
-              '<br />';
               if( isset($_SESSION['cart']) && !empty($_SESSION['cart']) )
               {
               echo '<button type="submit" style="    margin: 0em;

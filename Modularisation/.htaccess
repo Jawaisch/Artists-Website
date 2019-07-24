@@ -3,12 +3,12 @@ AddDefaultCharset UTF-8
 Options -Indexes
 
 <Files ~ "\.inc$">  
-Order Allow,Deny
-Deny from All
+	Order Allow,Deny
+	Deny from All
 </Files>
 
-ErrorDocument 400 /KWS_RPQ/error.php
-ErrorDocument 401 /KWS_RPQ/error.php
-ErrorDocument 403 /KWS_RPQ/error.php
-ErrorDocument 404 /KWS_RPQ/error.php
-ErrorDocument 500 /KWS_RPQ/error.php
+ErrorDocument 400 /Kuenstlerwebseite/error.php
+ErrorDocument 401 /Kuenstlerwebseite/error.php
+ErrorDocument 403 /Kuenstlerwebseite/error.php
+ErrorDocument 404 /Kuenstlerwebseite/error.php
+ErrorDocument 500 /Kuenstlerwebseite/error.php
